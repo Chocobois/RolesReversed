@@ -8,6 +8,14 @@ const images: Asset[] = [
 	image('titlescreen/background', 'title_background'),
 	image('titlescreen/skybackground', 'title_skybackground'),
 
+	// Background images, static
+	image('background/outside-room', 'room_outside',),
+	image('background/overworld-room', 'room_overworld',),
+	image('background/princess-room', 'room_princess',),
+	image('background/shop-room', 'room_shop',),
+	image('background/sleep-room', 'room_sleep',),
+	image('background/town-room', 'room_town',),
+	
 	image('placeholder/background1', 'background1'),
 	image('placeholder/background2', 'background2'),
 	image('placeholder/background3', 'background3'),
