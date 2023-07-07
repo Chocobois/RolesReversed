@@ -23,6 +23,7 @@ export class GameScene extends BaseScene {
 	private overworldRoom: OverworldRoom;
 
 	private uiOverlay: UIOverlay;
+	private debugText: Phaser.GameObjects.Text;
 
 	public money: number;
 
@@ -43,6 +44,8 @@ export class GameScene extends BaseScene {
 		this.uiOverlay = new UIOverlay(this);
 		this.uiOverlay.on('changeRoom', this.setRoom, this);
 
+		this.debugText = this.createText(0, 0, 50, 'black');
+
 		this.setRoom(State.Princess);
 
 		this.money = 0;
@@ -57,6 +60,8 @@ export class GameScene extends BaseScene {
 		this.overworldRoom.update(time, delta);
 
 		this.uiOverlay.update(time, delta);
+
+		this.debugText.setText(this.princessRoom.getDebugText());
 	}
 
 	setRoom(state: State) {
