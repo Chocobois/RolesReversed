@@ -59,9 +59,9 @@ export class PreloadScene extends BaseScene {
 
 	create() {
 		console.log("PreloadScene create");
-		// this.fade(true, 100, 0x000000);
-		// this.addEvent(100, () => {
-		this.scene.start("TitleScene");
-		// });
+		this.fade(true, 100, 0x000000);
+		this.addEvent(100, () => {
+			this.scene.start("GameScene");
+		});
 	}
 }
