@@ -1,3 +1,7 @@
 {
-    "git.pullTags": false
+	"git.pullTags": false,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"editor.formatOnSaveMode": "modifications",
+	"editor.insertSpaces": false
 }
