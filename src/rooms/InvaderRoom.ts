@@ -10,7 +10,7 @@ export class InvaderRoom extends Phaser.GameObjects.Container {
 		this.scene = scene;
 		this.scene.add.existing(this);
 
-        this.background = scene.add.image(scene.CX, scene.CY, "placeholder_scene_invader");
+        this.background = scene.add.image(scene.CX, scene.CY, 'room_outside');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
 	}
