@@ -24,6 +24,8 @@ export class GameScene extends BaseScene {
 
 	private uiOverlay: UIOverlay;
 
+	public money: number;
+
 	constructor() {
 		super({ key: 'GameScene' });
 	}
@@ -42,6 +44,8 @@ export class GameScene extends BaseScene {
 		this.uiOverlay.on('changeRoom', this.setRoom, this);
 
 		this.setRoom(State.Princess);
+
+		this.money = 0;
 	}
 
 	update(time: number, delta: number) {
