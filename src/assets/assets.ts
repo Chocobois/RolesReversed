@@ -36,6 +36,8 @@ const images: Asset[] = [
 	image('sprites/princess-laying3', 'princess_laying_3',),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop',),
+	//kobold
+	image('sprites/shop','shopkeep',),
 
 	image('placeholder/background1', 'background1'),
 	image('placeholder/background2', 'background2'),

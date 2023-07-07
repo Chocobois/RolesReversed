@@ -25,6 +25,8 @@ export class GameScene extends BaseScene {
 	private uiOverlay: UIOverlay;
 	private debugText: Phaser.GameObjects.Text;
 
+	public money: number;
+
 	constructor() {
 		super({ key: 'GameScene' });
 	}
@@ -45,6 +47,8 @@ export class GameScene extends BaseScene {
 		this.debugText = this.createText(0, 0, 50, 'black');
 
 		this.setRoom(State.Princess);
+
+		this.money = 0;
 	}
 
 	update(time: number, delta: number) {
