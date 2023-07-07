@@ -43,3 +43,14 @@ jobs:
           files: |
             ./dist/chocobois-jam-template-release.zip
             ./dist/game-web.zip
+
+      - name: Upload to Itch
+        uses: Ayowel/butler-to-itch@v1.0.0
+        with:
+          butler_key: ${{ secrets.BUTLER_CREDENTIALS }}
+          itch_user: golen
+          itch_game: himegotchi
+          files: |
+            ./dist/game-web.zip
+          auto_channel: true
+          butler_version: "latest"
