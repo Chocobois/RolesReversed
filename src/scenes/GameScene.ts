@@ -1,21 +1,20 @@
-import { BaseScene } from "./BaseScene";
-import State from "@/components/State";
-import { Music } from "@/components/Music";
+import { BaseScene } from './BaseScene';
+import State from '@/components/State';
+import { Music } from '@/components/Music';
 
-import { PrincessRoom } from "@/rooms/PrincessRoom";
-import { InvaderRoom } from "@/rooms/InvaderRoom";
-import { TreasureRoom } from "@/rooms/TreasureRoom";
-import { ShopRoom } from "@/rooms/ShopRoom";
-import { TownRoom } from "@/rooms/TownRoom";
-import { OverworldRoom } from "@/rooms/OverworldRoom";
+import { PrincessRoom } from '@/rooms/PrincessRoom';
+import { InvaderRoom } from '@/rooms/InvaderRoom';
+import { TreasureRoom } from '@/rooms/TreasureRoom';
+import { ShopRoom } from '@/rooms/ShopRoom';
+import { TownRoom } from '@/rooms/TownRoom';
+import { OverworldRoom } from '@/rooms/OverworldRoom';
 
-import { UIOverlay } from "@/components/UIOverlay";
-
+import { UIOverlay } from '@/components/UIOverlay';
 
 export class GameScene extends BaseScene {
 	public background: Phaser.GameObjects.Image;
 
-    public state: State;
+	public state: State;
 	private princessRoom: PrincessRoom;
 	private invaderRoom: InvaderRoom;
 	private treasureRoom: TreasureRoom;
@@ -25,9 +24,8 @@ export class GameScene extends BaseScene {
 
 	private uiOverlay: UIOverlay;
 
-
 	constructor() {
-		super({ key: "GameScene" });
+		super({ key: 'GameScene' });
 	}
 
 	create(): void {
@@ -41,9 +39,9 @@ export class GameScene extends BaseScene {
 		this.overworldRoom = new OverworldRoom(this);
 
 		this.uiOverlay = new UIOverlay(this);
-		this.uiOverlay.on("changeRoom", this.setState, this);
+		this.uiOverlay.on('changeRoom', this.setRoom, this);
 
-		this.setState(State.Princess);
+		this.setRoom(State.Princess);
 	}
 
 	update(time: number, delta: number) {
@@ -57,8 +55,9 @@ export class GameScene extends BaseScene {
 		this.uiOverlay.update(time, delta);
 	}
 
-	setState(state: State) {
+	setRoom(state: State) {
 		this.state = state;
+		this.uiOverlay.setRoom(state);
 
 		this.princessRoom.setVisible(state == State.Princess);
 		this.invaderRoom.setVisible(state == State.Invader);

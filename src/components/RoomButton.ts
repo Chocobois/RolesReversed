@@ -7,13 +7,13 @@ export class RoomButton extends Button {
 
 	private size: number;
 
-	constructor(scene: GameScene, x: number, y: number) {
+	constructor(scene: GameScene, x: number, y: number, key: string) {
 		super(scene, x, y);
 		this.scene.add.existing(this);
 
 		this.size = 0.15 * this.scene.H;
 
-		this.image = this.scene.add.image(0, 0, "placeholder_ui_next");
+		this.image = this.scene.add.image(0, 0, key);
 		this.image.setScale(this.size / this.image.width);
 		this.add(this.image);
 
