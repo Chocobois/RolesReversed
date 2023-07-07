@@ -16,7 +16,7 @@ export class GameScene extends BaseScene {
         console.log("GameScene create");
 		this.fade(false, 200, 0x000000);
 
-		this.background = this.add.image(this.CX, 0.9*this.CY, "title_background");
+		this.background = this.add.image(this.CX, this.CY, "placeholder_scene_princess");
 		this.containToScreen(this.background);
 	}
 
