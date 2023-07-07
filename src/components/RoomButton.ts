@@ -24,7 +24,7 @@ export class RoomButton extends Button {
 		this.border.setScale(this.size / this.border.width);
 		this.add(this.border);
 
-		this.bindInteractive(this.image, true);
+		this.bindInteractive(this.image, false);
 		// const inputPadding = 40 / this.image.scaleX;
 		// this.image.input.hitArea.setTo(-inputPadding, -inputPadding, this.image.width+2*inputPadding, this.image.height+2*inputPadding);
 	}
