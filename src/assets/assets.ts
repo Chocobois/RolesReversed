@@ -22,6 +22,9 @@ const images: Asset[] = [
 	image('ui/princess', 'button_princess',),
 	image('ui/sleep', 'button_sleep',),
 
+	// Sprites
+	image('sprites/princess', 'princess_default',),
+
 	image('placeholder/background1', 'background1'),
 	image('placeholder/background2', 'background2'),
 	image('placeholder/background3', 'background3'),
