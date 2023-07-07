@@ -21,7 +21,7 @@ const audios: Audio[] = [
 	sound('tree/rustle', 't_rustle', 0.5),
 ];
 
-await loadFont('DynaPuff-Medium', 'Game Font');
+// await loadFont('DynaPuff-Medium', 'Game Font');
 
 export {
 	images,

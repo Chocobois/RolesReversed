@@ -8,10 +8,12 @@ import BendWaves2 from "@/pipelines/BendWavesPostFX2";
 
 export class PreloadScene extends BaseScene {
 	constructor() {
+		console.log("PreloadScene constructor");
 		super({key: "PreloadScene"});
 	}
 
 	init() {
+		console.log("PreloadScene init");
 		// Load pipelines
 		let renderer = (this.renderer as Phaser.Renderer.WebGL.WebGLRenderer);
 		if (renderer.pipelines) {
@@ -23,6 +25,7 @@ export class PreloadScene extends BaseScene {
 	}
 
 	preload() {
+		console.log("PreloadScene preload");
 		this.cameras.main.setBackgroundColor(0x000000);
 
 		// Loading bar
@@ -55,9 +58,10 @@ export class PreloadScene extends BaseScene {
 	}
 
 	create() {
-		this.fade(true, 100, 0x000000);
-		this.addEvent(100, () => {
-			this.scene.start("TitleScene");
-		});
+		console.log("PreloadScene create");
+		// this.fade(true, 100, 0x000000);
+		// this.addEvent(100, () => {
+		this.scene.start("TitleScene");
+		// });
 	}
 }

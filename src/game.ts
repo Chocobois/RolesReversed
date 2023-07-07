@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { PreloadScene } from "@/scenes/PreloadScene";
 import { TitleScene } from "@/scenes/TitleScene";
+import { GameScene } from "@/scenes/GameScene";
 import OutlinePipelinePlugin from 'phaser3-rex-plugins/plugins/outlinepipeline-plugin.js';
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -12,15 +13,16 @@ const config: Phaser.Types.Core.GameConfig = {
 	},
 	scene: [
 		PreloadScene,
-		TitleScene
+		TitleScene,
+		GameScene,
 	],
 
 	plugins: {
-		global: [{
-			key: 'rexOutlinePipeline',
-			plugin: OutlinePipelinePlugin,
-			start: true
-		}]
+		// global: [{
+		// 	key: 'rexOutlinePipeline',
+		// 	plugin: OutlinePipelinePlugin,
+		// 	start: true
+		// }]
 	}
 };
 
