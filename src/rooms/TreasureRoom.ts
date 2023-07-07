@@ -10,7 +10,7 @@ export class TreasureRoom extends Phaser.GameObjects.Container {
 		this.scene = scene;
 		this.scene.add.existing(this);
 
-        this.background = scene.add.image(scene.CX, scene.CY, "placeholder_scene_sleep");
+        this.background = scene.add.image(scene.CX, scene.CY, 'room_sleep');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
 	}

@@ -10,7 +10,7 @@ export class TownRoom extends Phaser.GameObjects.Container {
 		this.scene = scene;
 		this.scene.add.existing(this);
 
-        this.background = scene.add.image(scene.CX, scene.CY, "background6");
+        this.background = scene.add.image(scene.CX, scene.CY, 'room_town');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
 	}

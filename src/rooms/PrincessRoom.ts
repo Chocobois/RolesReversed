@@ -10,7 +10,7 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 		this.scene = scene;
 		this.scene.add.existing(this);
 
-        this.background = scene.add.image(scene.CX, scene.CY, "placeholder_scene_princess");
+        this.background = scene.add.image(scene.CX, scene.CY, 'room_princess');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
 	}

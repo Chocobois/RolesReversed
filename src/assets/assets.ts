@@ -21,9 +21,21 @@ const images: Asset[] = [
 	image('ui/overworld', 'button_overworld',),
 	image('ui/princess', 'button_princess',),
 	image('ui/sleep', 'button_sleep',),
+	image('ui/home', 'button_home',),
+	image('ui/shop', 'button_shop',),
+	image('ui/town', 'button_town',),
+	image('ui/ring', 'button_ring_off',),
+	image('ui/ring2', 'button_ring_on',),
 
 	// Sprites
 	image('sprites/princess', 'princess_default',),
+	image('sprites/princess-plead', 'princess_plead',),
+	image('sprites/princess-stare', 'princess_stare',),
+	image('sprites/princess-laying', 'princess_laying',),
+	image('sprites/princess-laying2', 'princess_laying_2',),
+	image('sprites/princess-laying3', 'princess_laying_3',),
+	//dragon
+	image('sprites/dragon-shop', 'dragon_shop',),
 
 	image('placeholder/background1', 'background1'),
 	image('placeholder/background2', 'background2'),
