@@ -29,8 +29,11 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 
 		this.princessButton = new Button(scene, scene.CX, scene.CY);
 		this.add(this.princessButton);
+
 		this.princessImage = scene.add.image(0, 0, 'princess_default');
 		this.princessButton.add(this.princessImage);
+		this.princessButton.bindInteractive(this.princessImage, false);
+		this.princessButton.on("click", this.onPrincessClick, this);
 
 		this.princessState = PrincessState.Idle;
 
@@ -43,7 +46,7 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 	}
 
 	update(time: number, delta: number) {
-		this.princessButton.update(time, delta);
+		this.princessButton.setScale(1.0 - 0.1 * this.princessButton.holdSmooth);
 	}
 
 	setVisible(isShown: boolean): this {
@@ -109,6 +112,7 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 		switch (this.princessState) {
 			case PrincessState.Idle:
 				let texture1 = Phaser.Math.RND.pick(['princess_default', 'princess_plead', 'princess_stare']);
+				this.princessButton.setPosition(this.scene.CX, this.scene.CY);
 				this.princessImage.setTexture(texture1);
 				break;
 			case PrincessState.Sleeping:
@@ -127,6 +131,10 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 			default:
 				break;
 		}
+	}
+
+	onPrincessClick() {
+		this.setPrincessState(PrincessState.Idle);
 	}
 
 	/* Debug */
