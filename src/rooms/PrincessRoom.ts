@@ -35,14 +35,14 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 		this.princessButton.bindInteractive(this.princessImage, false);
 		this.princessButton.on("click", this.onPrincessClick, this);
 
-		this.princessState = PrincessState.Idle;
-
 		this.timer = this.scene.time.addEvent({
 			delay: 3000,
 			callback: this.movementOpportunity,
 			callbackScope: this,
 			paused: true,
 		});
+
+		this.setPrincessState(PrincessState.Idle);
 	}
 
 	update(time: number, delta: number) {
@@ -118,11 +118,11 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 			case PrincessState.Sleeping:
 				let texture2 = Phaser.Math.RND.pick(['princess_laying', 'princess_laying_2', 'princess_laying_3']);
 				this.princessImage.setTexture(texture2);
-				this.princessButton.setPosition(0.75 * this.scene.W, 0.65 * this.scene.H);
+				this.princessButton.setPosition(0.77 * this.scene.W, 0.47 * this.scene.H);
 				break;
 			case PrincessState.Escaping:
-				this.princessImage.setTexture('princess_laying_3');
-				this.princessButton.setPosition(0.7 * this.scene.W, 0.3 * this.scene.H);
+				this.princessImage.setTexture('princess_escape_1');
+				this.princessButton.setPosition(0.64 * this.scene.W, 0.26 * this.scene.H);
 				break;
 			case PrincessState.Fled:
 				this.princessButton.setVisible(false);
