@@ -51,6 +51,7 @@ export class GameScene extends BaseScene {
 		this.shopRoom = new ShopRoom(this);
 		this.townRoom = new TownRoom(this);
 		this.overworldRoom = new OverworldRoom(this);
+		this.overworldRoom.on('changeRoom', this.setRoom, this);
 
 		/* UI */
 

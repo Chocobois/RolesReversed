@@ -76,9 +76,9 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		});
 		this.homeButtons.add(this.treasureButton);
 
-		this.overworldButton = new RoomButton(scene, x4, 0, 'button_overworld', State.Shop);
+		this.overworldButton = new RoomButton(scene, x4, 0, 'button_overworld', State.Overworld);
 		this.overworldButton.on('click', () => {
-			this.emit('changeRoom', State.Shop);
+			this.emit('changeRoom', State.Overworld);
 		});
 		this.homeButtons.add(this.overworldButton);
 
@@ -127,8 +127,10 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	}
 
 	setRoom(state: State) {
-		this.homeButtons.setVisible(state == State.Princess || state == State.Hero || state == State.Treasure);
-		this.overworldButtons.setVisible(state == State.Shop || state == State.Town);
+		this.homeButtons.setVisible(true);
+		this.overworldButtons.setVisible(false);
+		// this.homeButtons.setVisible(state == State.Princess || state == State.Hero || state == State.Treasure || state == State.Overworld);
+		// this.overworldButtons.setVisible(state == State.Shop || state == State.Town);
 
 		this.princessButton.setRoom(state);
 		this.heroButton.setRoom(state);
