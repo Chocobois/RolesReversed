@@ -27,6 +27,15 @@ export class GameScene extends BaseScene {
 
 	public money: number;
 
+	// Music
+	public musicPrincess: Music;
+	public musicInvader: Music;
+	public musicTreasure: Music;
+	public musicShop: Music;
+	public musicTown: Music;
+	public musicOverworld: Music;
+	public musicVolume: number;
+
 	constructor() {
 		super({ key: 'GameScene' });
 	}
@@ -49,6 +58,23 @@ export class GameScene extends BaseScene {
 		this.setRoom(State.Princess);
 
 		this.money = 0;
+
+		this.musicPrincess = new Music(this, 'm_princess', { volume: 0 });
+		this.musicInvader = new Music(this, 'm_invader', { volume: 0 });
+		this.musicTreasure = new Music(this, 'm_treasure', { volume: 0 });
+		this.musicShop = new Music(this, 'm_shop', { volume: 0 });
+		this.musicTown = new Music(this, 'm_town', { volume: 0 });
+		this.musicOverworld = new Music(this, 'm_overworld', { volume: 0 });
+
+		this.uiOverlay.on('muteMusic', this.setMusicMuted, this);
+		this.uiOverlay.on('muteSound', this.setSoundMuted, this);
+
+		this.musicPrincess.play();
+		this.musicInvader.play();
+		this.musicTreasure.play();
+		this.musicShop.play();
+		this.musicTown.play();
+		this.musicOverworld.play();
 	}
 
 	update(time: number, delta: number) {
@@ -74,5 +100,18 @@ export class GameScene extends BaseScene {
 		this.shopRoom.setVisible(state == State.Shop);
 		this.townRoom.setVisible(state == State.Town);
 		this.overworldRoom.setVisible(state == State.Overworld);
+	}
+
+	setMusicMuted(muted: boolean) {
+		this.musicPrincess.mute = muted;
+		this.musicInvader.mute = muted;
+		this.musicTreasure.mute = muted;
+		this.musicShop.mute = muted;
+		this.musicTown.mute = muted;
+		this.musicOverworld.mute = muted;
+	}
+
+	setSoundMuted(muted: boolean) {
+		this.sound.mute = muted;
 	}
 }

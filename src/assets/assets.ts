@@ -9,23 +9,23 @@ const images: Asset[] = [
 	image('titlescreen/skybackground', 'title_skybackground'),
 
 	// Background images, static
-	image('background/outside-room', 'room_outside',),
-	image('background/overworld-room', 'room_overworld',),
-	image('background/princess-room', 'room_princess',),
-	image('background/shop-room', 'room_shop',),
-	image('background/sleep-room', 'room_sleep',),
-	image('background/town-room', 'room_town',),
-	
+	image('background/outside-room', 'room_outside'),
+	image('background/overworld-room', 'room_overworld'),
+	image('background/princess-room', 'room_princess'),
+	image('background/shop-room', 'room_shop'),
+	image('background/sleep-room', 'room_sleep'),
+	image('background/town-room', 'room_town'),
+
 	// UI
-	image('ui/outside', 'button_outside',),
-	image('ui/overworld', 'button_overworld',),
-	image('ui/princess', 'button_princess',),
-	image('ui/sleep', 'button_sleep',),
-	image('ui/home', 'button_home',),
-	image('ui/shop', 'button_shop',),
-	image('ui/town', 'button_town',),
-	image('ui/ring', 'button_ring_off',),
-	image('ui/ring2', 'button_ring_on',),
+	image('ui/outside', 'button_outside'),
+	image('ui/overworld', 'button_overworld'),
+	image('ui/princess', 'button_princess'),
+	image('ui/sleep', 'button_sleep'),
+	image('ui/home', 'button_home'),
+	image('ui/shop', 'button_shop'),
+	image('ui/town', 'button_town'),
+	image('ui/ring', 'button_ring_off'),
+	image('ui/ring2', 'button_ring_on'),
 
 	// Sprites
 	image('sprites/princess', 'princess_default',),
@@ -40,9 +40,7 @@ const images: Asset[] = [
 	//hero
 	image('sprites/hero-normal', 'hero_normal',),
 	//dragon
-	image('sprites/dragon-shop', 'dragon_shop',),
-	//kobold
-	image('sprites/shop','shopkeep',),
+	image('sprites/dragon-shop', 'dragon_shop'),
 
 	image('placeholder/background1', 'background1'),
 	image('placeholder/background2', 'background2'),
@@ -63,16 +61,10 @@ const images: Asset[] = [
 ];
 
 /* Spritesheets */
-const spritesheets: SpriteSheet[] = [
-
-];
+const spritesheets: SpriteSheet[] = [spritesheet('ui/audio', 'audio', 300, 300), spritesheet('ui/music', 'music', 300, 300)];
 
 /* Audios */
-const audios: Audio[] = [
-	music('title', 'm_main_menu'),
-	music('first', 'm_first'),
-	sound('tree/rustle', 't_rustle', 0.5),
-];
+const audios: Audio[] = [music('title', 'm_main_menu'), music('first', 'm_first'), music('princess', 'm_princess'), music('invader', 'm_invader'), music('treasure', 'm_treasure'), music('shop', 'm_shop'), music('town', 'm_town'), music('overworld', 'm_overworld'), sound('tree/rustle', 't_rustle', 0.5)];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');
 

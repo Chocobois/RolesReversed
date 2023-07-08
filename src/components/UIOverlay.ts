@@ -1,11 +1,15 @@
 import { GameScene } from '@/scenes/GameScene';
 import { RoomButton } from '@/components/RoomButton';
 import State from './State';
+import { MiniButton } from './MiniButton';
 
 export class UIOverlay extends Phaser.GameObjects.Container {
 	public scene: GameScene;
 
 	// public background: Phaser.GameObjects.Image;
+
+	private muteMusicButton: MiniButton;
+	private muteSoundButton: MiniButton;
 
 	private homeButtons: Phaser.GameObjects.Container;
 	private princessButton: RoomButton;
@@ -36,6 +40,17 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.add(this.homeButtons);
 		this.overworldButtons = scene.add.container(scene.CX, 0.9 * scene.H);
 		this.add(this.overworldButtons);
+
+		/* Volume buttons */
+		const buttonSize = 35 * scene.SCALE;
+		this.muteMusicButton = new MiniButton(scene, scene.W - 3.5 * buttonSize, 1.5 * buttonSize, 'music').on('click', () => {
+			this.muteMusicButton.toggle();
+			this.emit('muteMusic', !this.muteMusicButton.active);
+		});
+		this.muteSoundButton = new MiniButton(scene, scene.W - buttonSize, 1.5 * buttonSize, 'audio').on('click', () => {
+			this.muteSoundButton.toggle();
+			this.emit('muteSound', !this.muteSoundButton.active);
+		});
 
 		/* Castle buttons */
 
