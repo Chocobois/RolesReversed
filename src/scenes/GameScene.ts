@@ -11,6 +11,7 @@ import { OverworldRoom } from '@/rooms/OverworldRoom';
 import { GameOverRoom } from '@/rooms/GameOverRoom';
 
 import { UIOverlay } from '@/components/UIOverlay';
+import { DialogueOverlay } from '@/components/DialogueOverlay';
 
 export class GameScene extends BaseScene {
 	public background: Phaser.GameObjects.Image;
@@ -27,6 +28,7 @@ export class GameScene extends BaseScene {
 	private gameOverRoom: GameOverRoom;
 
 	private uiOverlay: UIOverlay;
+	private dialogueOverlay: DialogueOverlay;
 	private debugText: Phaser.GameObjects.Text;
 
 	// Music
@@ -37,9 +39,9 @@ export class GameScene extends BaseScene {
 	public musicTown: Music;
 	public musicOverworld: Music;
 	public musicVolume: number;
-	
+
 	//placeholder for now
-	public difficulty: number
+	public difficulty: number;
 
 	constructor() {
 		super({ key: 'GameScene' });
@@ -63,6 +65,9 @@ export class GameScene extends BaseScene {
 
 		this.uiOverlay = new UIOverlay(this);
 		this.uiOverlay.on('changeRoom', this.setRoom, this);
+
+		this.dialogueOverlay = new DialogueOverlay(this);
+		this.dialogueOverlay.on('finishDialogue', () => {}, this);
 
 		this.debugText = this.createText(0, 0, 40, 'white');
 		this.debugText.setStroke('black', 10);
@@ -112,6 +117,8 @@ export class GameScene extends BaseScene {
 		this.uiOverlay.update(time, delta);
 		this.uiOverlay.setMoney(this.money);
 
+		this.dialogueOverlay.update(time, delta);
+
 		let debugText = '';
 		debugText += this.princessRoom.getDebugText() + '\n';
 		debugText += this.heroRoom.getDebugText() + '\n';
@@ -131,9 +138,9 @@ export class GameScene extends BaseScene {
 		this.gameOverRoom.setVisible(state == State.GAMEOVER);
 	}
 
-	endGame()
-	{
-		this.setRoom(State.GAMEOVER)
+	endGame() {
+		this.setRoom(State.GAMEOVER);
+		this.sound.play('GAME_OVER_SOUND');
 		this.uiOverlay.setVisible(false);
 	}
 

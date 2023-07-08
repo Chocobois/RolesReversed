@@ -46,6 +46,11 @@ const images: Asset[] = [
 	//overworld
 	image('sprites/overworld-shop', 'overworld_shop'),
 	image('sprites/overworld-town', 'overworld_town'),
+	//dialogue
+	image('sprites/dialogue-dragon', 'dialogue_dragon'),
+	image('sprites/dialogue-hero', 'dialogue_hero'),
+	image('sprites/dialogue-princess', 'dialogue_princess'),
+	image('sprites/dialogue-shopkeeper', 'dialogue_shopkeeper'),
 
 	image('placeholder/background1', 'background1'),
 	image('placeholder/background2', 'background2'),
@@ -63,6 +68,8 @@ const images: Asset[] = [
 	image('placeholder/placeholder_ui_prev', 'placeholder_ui_prev'),
 	image('placeholder/placeholder_ui_warning1', 'placeholder_ui_warning1'),
 	image('placeholder/placeholder_ui_warning2', 'placeholder_ui_warning2'),
+
+	image('placeholder/placeholder_sleazy', 'hero_sleazy'),
 ];
 
 /* Spritesheets */ // prettier-ignore
@@ -85,8 +92,10 @@ const audios: Audio[] = [
 	music('overworld', 'm_overworld'),
 
 	// Sounds
-	sound('tree/rustle', 't_rustle', 0.5),
-	sound('placeholder/gameover_sound', 'GAME_OVER_SOUND', 0.5),
+	sound('tree/rustle', 't_rustle', 0.1),
+	sound('placeholder/gameover_sound', 'GAME_OVER_SOUND', 0.1),
+	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.1),
+	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
 ];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');

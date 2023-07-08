@@ -61,7 +61,6 @@ export class PrincessRoom extends Room {
 		} else {
 			if (this.timer.paused) {
 				this.timer.paused = false;
-				this.setTimer(3000);
 			}
 		}
 
@@ -105,9 +104,8 @@ export class PrincessRoom extends Room {
 			case PrincessState.Escaping:
 				this.setPrincessState(PrincessState.Fled);
 				this.scene.endGame();
-				this.scene.sound.play("GAME_OVER_SOUND");
+				this.scene.sound.play('GAME_OVER_SOUND');
 				break;
-
 		}
 	}
 
@@ -154,6 +152,7 @@ export class PrincessRoom extends Room {
 	onPrincessClick() {
 		if (this.princessState == PrincessState.Escaping) {
 			this.setPrincessState(PrincessState.Idle);
+			this.scene.sound.play('CAPTURE_SOUND', { volume: 0.1 });
 			this.princessImage.setTexture('princess_plead');
 			this.timer.paused = true;
 		}
