@@ -5,6 +5,7 @@ enum State {
     Shop = 4,
     Town = 5,
     Overworld = 6,
+    GAMEOVER = 999,
 };
 
 export default State;

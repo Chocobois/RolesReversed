@@ -1,5 +1,7 @@
 import { Button } from '@/components/Button';
 import { GameScene } from '../scenes/GameScene';
+import State from '@/components/State';
+import { GameOverRoom } from './GameOverRoom';
 
 enum PrincessState {
 	Idle = 1,
@@ -85,7 +87,7 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 
 		switch (this.princessState) {
 			case PrincessState.Idle:
-				if (chance(0.1)) {
+				if (chance(0.5)) {
 					this.setPrincessState(PrincessState.Escaping);
 					this.setTimer(10000);
 					break;
@@ -107,6 +109,10 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 
 			case PrincessState.Escaping:
 				this.setPrincessState(PrincessState.Fled);
+				this.scene.setRoom(State.GAMEOVER);
+				this.scene.sound.play("GAME_OVER_SOUND");
+				break;
+
 		}
 	}
 

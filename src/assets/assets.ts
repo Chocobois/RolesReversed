@@ -79,6 +79,7 @@ const audios: Audio[] = [
 
 	// Sounds
 	sound('tree/rustle', 't_rustle', 0.5),
+	sound('placeholder/gameover_sound', 'GAME_OVER_SOUND', 0.5),
 ];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');
