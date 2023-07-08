@@ -2,6 +2,7 @@ import { GameScene } from '@/scenes/GameScene';
 import { RoomButton } from '@/components/RoomButton';
 import State from './State';
 import { MiniButton } from './MiniButton';
+import { EnergyMeter } from './EnergyMeter';
 
 export class UIOverlay extends Phaser.GameObjects.Container {
 	public scene: GameScene;
@@ -10,6 +11,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 	private muteMusicButton: MiniButton;
 	private muteSoundButton: MiniButton;
+	private pauseButton: MiniButton;
 
 	public homeButtons: Phaser.GameObjects.Container;
 	public princessButton: RoomButton;
@@ -23,7 +25,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	public townButton: RoomButton;
 	public otherButton: RoomButton;
 
-	private moneyText: Phaser.GameObjects.Text;
+	private energyMeter: EnergyMeter;
 
 	constructor(scene: GameScene) {
 		super(scene, 0, 0);
@@ -47,13 +49,24 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		/* Volume buttons */
 		const buttonSize = 35 * scene.SCALE;
-		this.muteMusicButton = new MiniButton(scene, scene.W - 3.5 * buttonSize, 1.5 * buttonSize, 'music').on('click', () => {
+		this.muteMusicButton = new MiniButton(scene, scene.W - 7 * buttonSize, 1.5 * buttonSize, 'music').on('click', () => {
 			this.muteMusicButton.toggle();
 			this.emit('muteMusic', !this.muteMusicButton.active);
 		});
-		this.muteSoundButton = new MiniButton(scene, scene.W - buttonSize, 1.5 * buttonSize, 'audio').on('click', () => {
+		this.muteSoundButton = new MiniButton(scene, scene.W - 4.2 * buttonSize, 1.5 * buttonSize, 'audio').on('click', () => {
 			this.muteSoundButton.toggle();
 			this.emit('muteSound', !this.muteSoundButton.active);
+		});
+
+		/* Pause button */
+		this.pauseButton = new MiniButton(scene, scene.W - 1.5 * buttonSize, 1.5 * buttonSize, 'pause').on('click', () => {
+			this.pauseButton.toggle();
+			this.scene.scene.pause('GameScene');
+			this.scene.scene.launch('PausedScene');
+		});
+
+		this.scene.events.on('resume', () => {
+			this.pauseButton.toggle();
 		});
 
 		/* Castle buttons */
@@ -108,11 +121,10 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		});
 		this.overworldButtons.add(this.castleButton);
 
-		/* Gold */
+		/* Energy */
 
-		this.moneyText = scene.createText(scene.W - 30, y, 60, 'gold');
-		this.moneyText.setOrigin(1.0, 0.5);
-		this.moneyText.setStroke('black', 16);
+		this.energyMeter = new EnergyMeter(scene, this.treasureButton.x, this.treasureButton.y - this.treasureButton.size / 2);
+		this.homeButtons.add(this.energyMeter);
 	}
 
 	update(time: number, delta: number) {
@@ -124,6 +136,8 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.shopButton.update(time, delta);
 		this.townButton.update(time, delta);
 		this.otherButton.update(time, delta);
+
+		this.energyMeter.update(time, delta);
 	}
 
 	setRoom(state: State) {
@@ -140,9 +154,5 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.shopButton.setRoom(state);
 		this.townButton.setRoom(state);
 		this.otherButton.setRoom(state);
-	}
-
-	setMoney(money: number) {
-		this.moneyText.setText(`Gold: ${money.toString()}`);
 	}
 }

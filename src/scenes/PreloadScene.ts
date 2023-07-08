@@ -1,10 +1,9 @@
-import { BaseScene } from "./BaseScene";
-import { images, spritesheets, audios } from "@/assets/assets";
-import { GrayScalePostFilter } from "@/pipelines/GrayScalePostFilter";
-import { BlurPostFilter } from "@/pipelines/BlurPostFilter";
-import BendWaves from "@/pipelines/BendWavesPostFX";
-import BendWaves2 from "@/pipelines/BendWavesPostFX2";
-
+import { BaseScene } from './BaseScene';
+import { images, spritesheets, audios } from '@/assets/assets';
+import { GrayScalePostFilter } from '@/pipelines/GrayScalePostFilter';
+import { BlurPostFilter } from '@/pipelines/BlurPostFilter';
+import BendWaves from '@/pipelines/BendWavesPostFX';
+import BendWaves2 from '@/pipelines/BendWavesPostFX2';
 
 export class PreloadScene extends BaseScene {
 	constructor() {
@@ -50,7 +49,8 @@ export class PreloadScene extends BaseScene {
 		}
 
 		for (let audio of audios) {
-			this.load.audio(audio.key, audio.path);
+			console.log(audio);
+			this.load.audio(audio.key, audio.path, { volume: audio.volume });
 		}
 	}
 

@@ -16,7 +16,7 @@ export class RoomButton extends Button {
 	// private text: Phaser.GameObjects.Text;
 
 	private room: State;
-	private size: number;
+	public size: number;
 	private notificationState: Notification;
 	private label: string | undefined;
 	private gScene: GameScene;
@@ -80,7 +80,11 @@ export class RoomButton extends Button {
 	}
 
 	onOut(pointer: Phaser.Input.Pointer, event: Phaser.Types.Input.EventData) {
-		if (this.tooltip) this.tooltip.destroy();
+		if (this.tooltip.active) {
+			this.tooltip.fade(150, 1, 0, () => {
+				this.tooltip.destroy();
+			});
+		}
 
 		// Code inherited from Button.ts:
 		this.hover = false;
@@ -88,14 +92,13 @@ export class RoomButton extends Button {
 	}
 
 	onOver(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
-		if (this.label) this.spawnTooltip()
+		if (this.label) this.spawnTooltip();
 
 		// Code inherited from Button.ts:
 		this.hover = true;
 	}
 
 	onUp(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
-		if (this.tooltip) this.tooltip.destroy();
 		if (this.label) this.spawnTooltip(TooltipStyle.Light);
 
 		// Code inherited from Button.ts:
@@ -106,8 +109,11 @@ export class RoomButton extends Button {
 	}
 
 	spawnTooltip(styleOverride?: TooltipStyle) {
-		const style = styleOverride ? styleOverride : (this.gScene.state == this.room ? TooltipStyle.Light : TooltipStyle.Dark);
+		const replacing = this.tooltip?.active;
+		if (replacing) this.tooltip.destroy();
+		const style = styleOverride ? styleOverride : this.gScene.state == this.room ? TooltipStyle.Light : TooltipStyle.Dark;
 		const { x: dx, y: dy } = this.parentContainer ?? { x: 0, y: 0 };
 		this.tooltip = new Tooltip(this.scene, dx + this.x, dy + this.y + 76, `${this.label}`, 36, style);
+		if (!replacing) this.tooltip.fade(70);
 	}
 }

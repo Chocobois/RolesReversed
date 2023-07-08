@@ -39,8 +39,14 @@ const images: Asset[] = [
 	image('sprites/princess-escape1', 'princess_escape_1'),
 	image('sprites/princess-escape2', 'princess_escape_2'),
 	image('sprites/princess-grab', 'princess_grab'),
+
+	//shop
+	image('sprites/shop', 'shop'),
 	//hero
 	image('sprites/hero-normal', 'hero_normal'),
+	image('sprites/hero-sk8r', 'hero_skater'),
+	image('sprites/hero-charming', 'hero_charming'),
+	image('sprites/hero-kobold', 'hero_kobold'),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop'),
 	//overworld
@@ -72,8 +78,12 @@ const images: Asset[] = [
 	image('placeholder/placeholder_sleazy', 'hero_sleazy'),
 ];
 
-/* Spritesheets */
-const spritesheets: SpriteSheet[] = [spritesheet('ui/audio', 'audio', 300, 300), spritesheet('ui/music', 'music', 300, 300)];
+/* Spritesheets */ // prettier-ignore
+const spritesheets: SpriteSheet[] = [
+	spritesheet('ui/audio', 'audio', 300, 300),
+	spritesheet('ui/music', 'music', 300, 300),
+	spritesheet('ui/pause', 'pause', 300, 300),
+];
 
 /* Audios */
 const audios: Audio[] = [
@@ -88,10 +98,10 @@ const audios: Audio[] = [
 	music('overworld', 'm_overworld'),
 
 	// Sounds
-	sound('tree/rustle', 't_rustle', 0.5),
-	sound('placeholder/gameover_sound', 'GAME_OVER_SOUND', 0.5),
-	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.5),
-	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.5),
+	sound('tree/rustle', 't_rustle', 0.1),
+	sound('placeholder/gameover_sound', 'GAME_OVER_SOUND', 0.1),
+	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.1),
+	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
 ];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');

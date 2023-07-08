@@ -214,7 +214,7 @@ export class HeroRoom extends Room {
 			this.timer.paused = true;
 			this.queueFlag = queueState.IDLE;
 		}
-		this.scene.sound.play('HIT_SOUND');
+		this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
 		this.cooldown = 3000;
 		//this.currentHero = null;
 	}
