@@ -39,6 +39,9 @@ const images: Asset[] = [
 	image('sprites/princess-escape1', 'princess_escape_1'),
 	image('sprites/princess-escape2', 'princess_escape_2'),
 	image('sprites/princess-grab', 'princess_grab'),
+
+	//shop
+	image('sprites/shop', 'shop'),
 	//hero
 	image('sprites/hero-normal', 'hero_normal'),
 	image('sprites/hero-sk8r', 'hero_skater'),
