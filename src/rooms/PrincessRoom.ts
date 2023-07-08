@@ -43,7 +43,7 @@ export class PrincessRoom extends Room {
 			paused: true,
 		});
 
-		this.setPrincessState(PrincessState.Sleeping);
+		this.setPrincessState(PrincessState.Idle);
 	}
 
 	update(time: number, delta: number) {
@@ -139,6 +139,9 @@ export class PrincessRoom extends Room {
 
 		if (this.roomButton) {
 			switch (this.princessState) {
+				case PrincessState.Sleeping:
+					this.roomButton.setNotification(Notification.Sleeping);
+					break;
 				case PrincessState.Escaping:
 					this.roomButton.setNotification(Notification.Danger);
 					break;
