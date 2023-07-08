@@ -132,10 +132,11 @@ export class ShopRoom extends Room {
 		this.ownerButton = new Button(this.scene, jx, jy);
 		this.add(this.ownerButton);
 
-		// Owner
+		// Desk bg
 		this.deskBgImage = this.scene.add.image(scene.CX + 575, scene.CY, 'shop_bg');
 		this.add(this.deskBgImage);
 
+		// Owner
 		this.ownerImage = this.scene.add.image(scene.CX + 500, scene.CY, 'shop_kobold');
 		this.ownerImage.setScale(jh / this.ownerImage.height);
 		this.ownerButton.add(this.ownerImage);
@@ -155,11 +156,13 @@ export class ShopRoom extends Room {
 			});
 		});
 
+		// Owner tail
 		this.ownerTailImage = this.scene.add.image(scene.CX + 500, scene.CY, 'shop_tail');
 		this.ownerTailImage.setOrigin(0.5);
 		this.ownerTailImage.setScale(jh / this.ownerTailImage.height);
 		this.add(this.ownerTailImage);
 
+		// Desk front
 		this.deskImage = this.scene.add.image(scene.CX + 575, scene.CY, 'shop_desk');
 		this.add(this.deskImage);
 
