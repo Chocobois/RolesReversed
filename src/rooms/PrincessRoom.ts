@@ -152,7 +152,7 @@ export class PrincessRoom extends Room {
 	onPrincessClick() {
 		if (this.princessState == PrincessState.Escaping) {
 			this.setPrincessState(PrincessState.Idle);
-			this.scene.sound.play('CAPTURE_SOUND');
+			this.scene.sound.play('CAPTURE_SOUND', { volume: 0.1 });
 			this.princessImage.setTexture('princess_plead');
 			this.timer.paused = true;
 		}
