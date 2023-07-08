@@ -57,16 +57,18 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 
 		let color = COLOR_GOLD;
 		let anim = 0.5 + 0.5 * Math.sin(time / 100);
-		this.roomButton.setNotification(Notification.Calm);
 
 		// Healing energy
 		if (this.scene.state == State.Treasure) {
 			color = interpolateColor(COLOR_GOLD, COLOR_HEALING, anim);
+			this.roomButton.setNotification(Notification.Calm);
 		}
 		// Critical energy level
 		else if (this.scene.energy < 30) {
 			color = interpolateColor(COLOR_GOLD, COLOR_DANGER, anim);
 			this.roomButton.setNotification(Notification.Danger);
+		} else {
+			this.roomButton.setNotification(Notification.Calm);
 		}
 		this.foreground.setColor(color);
 	}

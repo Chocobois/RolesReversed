@@ -8,6 +8,7 @@ export enum Notification {
 	Sleeping,
 	Question,
 	Danger,
+	Dead,
 }
 
 export class RoomButton extends Button {
@@ -38,7 +39,6 @@ export class RoomButton extends Button {
 		this.add(this.border);
 
 		this.notification = this.scene.add.image(70, -70, 'button_notification_danger');
-		this.notification.setScale(this.size / this.notification.width);
 		this.add(this.notification);
 
 		this.label = label;
@@ -56,13 +56,15 @@ export class RoomButton extends Button {
 		const buttonSquish = -0.01;
 		this.setScale((1.0 + buttonSquish * Math.sin(time / 200)) * holdX, (1.0 + buttonSquish * Math.sin(-time / 200)) * holdY);
 
+		this.notification.setOrigin(0.5);
+
 		if (this.notificationState == Notification.Sleeping) {
 			const squish = 0.05;
 			this.notification.setOrigin(0.5, 0.5 + squish * Math.sin(time / 200));
 		}
 		if (this.notificationState == Notification.Danger) {
 			const squish = 0.3;
-			this.notification.setScale(1.0 - squish + squish * Math.abs(Math.sin(time / 200)), 1.0 - squish + squish * Math.abs(Math.sin(time / 200)));
+			this.notification.setScale(0.7 + squish * Math.abs(Math.sin(time / 200)), 1.0 - squish + squish * Math.abs(Math.sin(time / 200)));
 		}
 	}
 
@@ -71,7 +73,12 @@ export class RoomButton extends Button {
 	}
 
 	setNotification(value: Notification) {
+		if (this.notificationState == value) {
+			return;
+		}
+
 		this.notificationState = value;
+		this.notification.setVisible(true);
 
 		switch (value) {
 			case Notification.Calm:
@@ -79,21 +86,23 @@ export class RoomButton extends Button {
 				break;
 
 			case Notification.Sleeping:
-				this.notification.setVisible(true);
 				this.notification.setTexture('button_notification_sleeping');
-				this.notification.setScale((0.8 * this.size) / this.notification.width);
+				this.notification.setScale(0.7);
 				break;
 
 			case Notification.Question:
-				this.notification.setVisible(true);
 				this.notification.setTexture('button_notification_question');
-				this.notification.setScale(this.size / this.notification.width);
+				this.notification.setScale(0.85);
 				break;
 
 			case Notification.Danger:
-				this.notification.setVisible(true);
 				this.notification.setTexture('button_notification_danger');
-				this.notification.setScale(this.size / this.notification.width);
+				this.notification.setScale(0.7);
+				break;
+
+			case Notification.Dead:
+				this.notification.setTexture('button_notification_dead');
+				this.notification.setScale(0.85);
 				break;
 		}
 	}

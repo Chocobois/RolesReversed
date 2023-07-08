@@ -49,7 +49,6 @@ export class PreloadScene extends BaseScene {
 		}
 
 		for (let audio of audios) {
-			console.log(audio);
 			this.load.audio(audio.key, audio.path, { volume: audio.volume });
 		}
 	}
