@@ -44,6 +44,10 @@ const images: Asset[] = [
 	image('sprites/princess-escape2', 'princess_escape_2'),
 	image('sprites/princess-grab', 'princess_grab'),
 	image('sprites/princess-read', 'princess_read'),
+	image('sprites/princess-play', 'princess_play'),
+	image('sprites/princess-eat-empty', 'princess_eat_empty'),
+	image('sprites/princess-eat-burger', 'princess_eat_burger'),
+	image('sprites/princess-eat-cake', 'princess_eat_cake'),
 
 	//items
 	image('sprites/item-book', 'item_book'),
