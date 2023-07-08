@@ -15,4 +15,9 @@ export class TreasureRoom extends Room {
 	}
 
 	update(time: number, delta: number) {}
+
+	/* Debug */
+	getDebugText() {
+		return `Energy: ${this.scene.energy.toFixed(0)} / ${this.scene.maxEnergy}`;
+	}
 }

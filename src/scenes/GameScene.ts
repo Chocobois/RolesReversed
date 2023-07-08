@@ -131,6 +131,7 @@ export class GameScene extends BaseScene {
 		let debugText = '';
 		debugText += this.princessRoom.getDebugText() + '\n';
 		debugText += this.heroRoom.getDebugText() + '\n';
+		debugText += this.treasureRoom.getDebugText() + '\n';
 		this.debugText.setText(debugText);
 	}
 

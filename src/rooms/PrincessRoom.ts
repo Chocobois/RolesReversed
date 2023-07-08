@@ -4,10 +4,11 @@ import { Button } from '@/components/Button';
 import { Notification } from '@/components/RoomButton';
 
 enum PrincessState {
-	Idle = 1,
-	Sleeping = 2,
-	Escaping = 3,
-	Fled = 4,
+	Idle,
+	Sleeping,
+	Escaping,
+	Fled,
+	Dead,
 }
 
 export class PrincessRoom extends Room {
@@ -43,13 +44,13 @@ export class PrincessRoom extends Room {
 			paused: true,
 		});
 
-		this.setPrincessState(PrincessState.Sleeping);
+		this.setPrincessState(PrincessState.Idle);
 	}
 
 	update(time: number, delta: number) {
 		const princessHoldX = 1.0 + 0.15 * this.princessButton.holdSmooth;
 		const princessHoldY = 1.0 - 0.1 * this.princessButton.holdSmooth;
-		const princessSquish = 0.02;
+		const princessSquish = this.princessState != PrincessState.Dead ? 0.02 : 0;
 		this.princessButton.setScale((1.0 + princessSquish * Math.sin(time / 200)) * princessHoldX, (1.0 + princessSquish * Math.sin(-time / 200)) * princessHoldY);
 	}
 
@@ -84,7 +85,7 @@ export class PrincessRoom extends Room {
 
 		switch (this.princessState) {
 			case PrincessState.Idle:
-				if (chance(0.2*(1+this.scene.difficulty))) {
+				if (chance(0.2 * (1 + this.scene.difficulty))) {
 					this.setPrincessState(PrincessState.Escaping);
 				} else if (chance(0.5)) {
 					this.setPrincessState(PrincessState.Sleeping);
@@ -133,14 +134,24 @@ export class PrincessRoom extends Room {
 				this.princessButton.setVisible(false);
 				this.princessImage.setVisible(false);
 				break;
+			case PrincessState.Dead:
+				this.princessImage.setTexture('princess_laying');
+				this.princessButton.setPosition(930, 800);
+				break;
 			default:
 				break;
 		}
 
 		if (this.roomButton) {
 			switch (this.princessState) {
+				case PrincessState.Sleeping:
+					this.roomButton.setNotification(Notification.Sleeping);
+					break;
 				case PrincessState.Escaping:
 					this.roomButton.setNotification(Notification.Danger);
+					break;
+				case PrincessState.Dead:
+					this.roomButton.setNotification(Notification.Dead);
 					break;
 				default:
 					this.roomButton.setNotification(Notification.Calm);
@@ -169,6 +180,8 @@ export class PrincessRoom extends Room {
 					return 'Escaping';
 				case PrincessState.Fled:
 					return 'Fled';
+				case PrincessState.Dead:
+					return 'Dead';
 				default:
 					return 'Unknown';
 			}
