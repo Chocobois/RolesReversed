@@ -39,12 +39,6 @@ export default defineConfig({
 			outFileName: 'game-web.zip',
 		}),
 		zip({
-			inDir: `./dist/${name}.app`,
-			outDir: './dist',
-			pathPrefix: `${name}.app`,
-			outFileName: 'game-mac.zip',
-		}),
-		zip({
 			inDir: `./dist/${name}`,
 			outDir: './dist',
 			pathPrefix: `${name}`,
