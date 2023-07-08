@@ -4,6 +4,8 @@ import { execSync } from 'child_process';
 import { mkdirSync, writeFileSync, copyFileSync, renameSync } from 'fs';
 
 const BuildMacApp = () => {
+	console.log(`Building Mac dmg...`);
+
 	const count = execSync('git rev-list --count HEAD').toString().trim();
 	const short = execSync('git rev-parse --short HEAD').toString().trim();
 	const version = `v${count}.${short}`;
@@ -57,6 +59,7 @@ const BuildMacApp = () => {
 
 	try {
 		execSync(`mkisofs -J -R -o ./dist/game-mac.dmg -mac-name -V "${title}" -apple -v -dir-mode 777 -file-mode 777 "./dist/mac/"`);
+		console.log(`Done!`);
 	} catch (err) {
 		console.log(`Failed to build dmg`);
 	}
@@ -64,7 +67,7 @@ const BuildMacApp = () => {
 
 export default function buildMacApp() {
 	return {
-		name: 'Build Mac bundle',
+		name: 'build-mac-bundle',
 		closeBundle: BuildMacApp,
 	} as PluginOption;
 }

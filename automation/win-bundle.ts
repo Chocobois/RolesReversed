@@ -17,7 +17,7 @@ const BuildMacApp = () => {
 
 export default function buildWinApp() {
 	return {
-		name: 'Build Windows bundle',
+		name: 'build-windows-bundle',
 		closeBundle: BuildMacApp,
 	} as PluginOption;
 }
