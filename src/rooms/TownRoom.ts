@@ -159,6 +159,7 @@ export class TownRoom extends Room {
 				this.stretchRate[index] = 10;
 				this.scene.addEnergy(this.defaultBuildingHP[index] * 25);
 				this.buildingCooldown[index] = this.defaultBuildingHP[index] * 6000;
+				this.scene.sound.play('DEMO_SOUND');
 			}
 		}
 	}
