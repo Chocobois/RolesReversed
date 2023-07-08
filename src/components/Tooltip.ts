@@ -42,4 +42,13 @@ export class Tooltip extends Phaser.GameObjects.Container {
 		this.tooltipText.destroy();
 		this.tooltipBackground.destroy();
 	}
+
+	fade(duration: number, from: number = 0, to: number = 1, onComplete?: Phaser.Types.Tweens.TweenOnCompleteCallback) {
+		this.scene.tweens.add({
+			targets: [this.tooltipBackground, this.tooltipText],
+			alpha: { from, to },
+			duration,
+			onComplete,
+		});
+	}
 }
