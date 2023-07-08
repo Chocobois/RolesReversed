@@ -53,6 +53,8 @@ export class ShopRoom extends Room {
 
 	private items: ShopItem[];
 
+	public hideShopkeeper: boolean;
+
 	constructor(scene: GameScene) {
 		super(scene);
 		this.scene = scene;
@@ -107,6 +109,8 @@ export class ShopRoom extends Room {
 			// });
 		});
 
+		this.hideShopkeeper = false;
+
 		// Dragon
 		// this.dragonSprite = this.scene.add.image(0, 0, 'dragon_shop');
 		// this.dragonSprite.setOrigin(0);
@@ -149,6 +153,9 @@ export class ShopRoom extends Room {
 		this.ownerTailImage.setScale(1.0 - jbunSquish * Math.sin(time / 200), 1.0 - jbunSquish * Math.sin(-time / 200));
 
 		this.items.forEach((item) => item.update(time, delta));
+
+		this.ownerImage.visible = !this.hideShopkeeper;
+		this.ownerTailImage.visible = !this.hideShopkeeper;
 	}
 
 	selectItem(itemData: ItemData | null) {

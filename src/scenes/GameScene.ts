@@ -24,7 +24,7 @@ export class GameScene extends BaseScene {
 	private princessRoom: PrincessRoom;
 	private heroRoom: HeroRoom;
 	private treasureRoom: TreasureRoom;
-	private shopRoom: ShopRoom;
+	public shopRoom: ShopRoom;
 	private townRoom: TownRoom;
 	private overworldRoom: OverworldRoom;
 	private gameOverRoom: GameOverRoom;

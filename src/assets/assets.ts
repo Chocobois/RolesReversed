@@ -12,6 +12,7 @@ const images: Asset[] = [
 	image('background/outside-room', 'room_outside'),
 	image('background/overworld-room', 'room_overworld'),
 	image('background/princess-room', 'room_princess'),
+	image('background/princess-room-escaped', 'room_princess-escaped'),
 	image('background/shop-room', 'room_shop'),
 	image('background/sleep-room', 'room_sleep'),
 	image('background/town-room', 'room_town'),
@@ -69,6 +70,9 @@ const images: Asset[] = [
 	image('sprites/hero-kobold', 'hero_kobold'),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop'),
+	image('sprites/dragon-sleep', 'dragon_sleep'),
+	image('sprites/dragon-sleep-low', 'dragon_sleep_low'),
+	image('sprites/dragon-sleep-high', 'dragon_sleep_high'),
 	//overworld
 	image('sprites/overworld-shop', 'overworld_shop'),
 	image('sprites/overworld-town', 'overworld_town'),
@@ -87,6 +91,9 @@ const images: Asset[] = [
 	image('placeholder/placeholder_ui_warning2', 'placeholder_ui_warning2'),
 
 	image('placeholder/placeholder_sleazy', 'hero_sleazy'),
+	image('placeholder/placeholder_building_1', 'BLDG_1'),
+	image('placeholder/placeholder_building_2', 'BLDG_2'),
+	image('placeholder/placeholder_building_3', 'BLDG_3'),
 ];
 
 /* Spritesheets */ // prettier-ignore
