@@ -6,7 +6,8 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import getGitVersion from './automation/git-version';
 import buildMacApp from './automation/mac-bundle';
 import buildWinApp from './automation/win-bundle';
-import { name } from './game.json';
+import { title } from './game.json';
+import WriteNeuConfig from './automation/write-neu-config';
 
 const CheckerConfig = {
 	terminal: true,
@@ -28,6 +29,7 @@ export default defineConfig({
 			apply: 'build',
 			closeBundle() {
 				console.log('Building standalone app');
+				WriteNeuConfig();
 				execSync('neu build --release');
 			},
 		},
@@ -39,9 +41,9 @@ export default defineConfig({
 			outFileName: 'game-web.zip',
 		}),
 		zip({
-			inDir: `./dist/${name}`,
+			inDir: `./dist/${title}`,
 			outDir: './dist',
-			pathPrefix: `${name}`,
+			pathPrefix: `${title}`,
 			outFileName: 'game-win.zip',
 		}),
 	],
