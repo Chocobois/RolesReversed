@@ -24,7 +24,7 @@ export class InvaderRoom extends Phaser.GameObjects.Container {
 		this.add(this.background);
 		scene.fitToScreen(this.background);
 
-		this.heroImage = scene.add.image(0, 0, 'princess_default');
+		this.heroImage = scene.add.image(0.2 * scene.W, 0.75 * scene.H, 'hero_normal');
 		this.add(this.heroImage);
 
 		this.timer = this.scene.time.addEvent({
@@ -34,7 +34,7 @@ export class InvaderRoom extends Phaser.GameObjects.Container {
 			paused: true,
 		});
 
-		this.setHeroState(HeroState.Absent);
+		this.setHeroState(HeroState.Present);
 	}
 
 	update(time: number, delta: number) {}
@@ -97,7 +97,7 @@ export class InvaderRoom extends Phaser.GameObjects.Container {
 				break;
 			case HeroState.Present:
 				this.heroImage.setVisible(true);
-				this.heroImage.setTexture('princess_idle');
+				this.heroImage.setTexture('hero_normal');
 				break;
 			default:
 				break;
