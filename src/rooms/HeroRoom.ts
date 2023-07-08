@@ -6,7 +6,7 @@ enum HeroState {
 	Present = 2,
 }
 
-export class InvaderRoom extends Phaser.GameObjects.Container {
+export class HeroRoom extends Phaser.GameObjects.Container {
 	public scene: GameScene;
 
 	public background: Phaser.GameObjects.Image;
