@@ -22,7 +22,7 @@ export class Hero extends Phaser.GameObjects.Container {
 
 	//how long hero waits between states
 	public patience: number;
-	public enemySprite: string;
+	public heroSprite: string;
 	public myState: HeroState;
 
 	constructor(scene: BaseScene, x: number, y: number, sprite: string, heroType: number) {
@@ -30,7 +30,7 @@ export class Hero extends Phaser.GameObjects.Container {
 		this.scene = scene;
 		scene.add.existing(this);
 
-		this.enemySprite = sprite;
+		this.heroSprite = sprite;
 		this.myState = HeroState.QUEUED;
 		switch(heroType) {
 			case 0:
@@ -57,13 +57,14 @@ export class Hero extends Phaser.GameObjects.Container {
 				this.dialogue = DIALOGUE_2;
 				this.patience = 3000;
 				break;
-			case 2:
+			case 3:
 				this.bribeAmount = 5000;
 				this.courage = 2;
 				this.isHorny = true;
 				this.reputation = 1;
 				this.dialogue = DIALOGUE_3;
 				this.patience = 2000;
+				this.heroSprite = 'hero_sleazy';
 				break;				
 			default:
 				this.bribeAmount = 5000;
