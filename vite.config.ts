@@ -4,6 +4,9 @@ import { execSync } from 'child_process';
 import checker from 'vite-plugin-checker'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import getGitVersion from './automation/git-version';
+import buildMacApp from './automation/mac-bundle';
+import buildWinApp from './automation/win-bundle';
+import { name } from './game.json';
 
 const CheckerConfig = {
 	terminal: true,
@@ -28,10 +31,24 @@ export default defineConfig({
 				execSync('neu build --release');
 			},
 		},
+		buildMacApp(),
+		buildWinApp(),
 		zip({
 			inDir: './dist/unpacked',
 			outDir: './dist',
 			outFileName: 'game-web.zip',
+		}),
+		zip({
+			inDir: `./dist/${name}.app`,
+			outDir: './dist',
+			pathPrefix: `${name}.app`,
+			outFileName: 'game-mac.zip',
+		}),
+		zip({
+			inDir: `./dist/${name}`,
+			outDir: './dist',
+			pathPrefix: `${name}`,
+			outFileName: 'game-win.zip',
 		}),
 	],
 	build: {
