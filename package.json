@@ -12,6 +12,7 @@
 	"devDependencies": {
 		"@neutralinojs/neu": "^9.6.0",
 		"rimraf": "^5.0.1",
+		"terser": "^5.18.2",
 		"typescript": "^5.1.6",
 		"vite": "^4.4.2",
 		"vite-plugin-checker": "^0.6.1",
