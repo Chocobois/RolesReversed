@@ -48,7 +48,7 @@ export class PrincessRoom extends Room {
 
 		this.timer = this.scene.time.addEvent({
 			delay: 3000,
-			// callback: this.movementOpportunity,
+			callback: this.movementOpportunity,
 			callbackScope: this,
 			paused: true,
 		});
@@ -146,7 +146,7 @@ export class PrincessRoom extends Room {
 	setTimer(delay: number) {
 		this.timer.reset({
 			delay,
-			// callback: this.movementOpportunity,
+			callback: this.movementOpportunity,
 			callbackScope: this,
 		});
 	}
@@ -159,21 +159,15 @@ export class PrincessRoom extends Room {
 
 		switch (this.princessState) {
 			case PrincessState.Idle:
-				if (chance(0.1 * (1 + this.scene.difficulty))) {
+				if (chance(0.02 * (1 + this.scene.difficulty))) {
 					this.setPrincessState(PrincessState.Escaping);
-				} else if (chance(0.2)) {
-					this.setPrincessState(PrincessState.Sleeping);
 				} else {
 					this.setPrincessState(PrincessState.Idle); // Resets timer and image
 				}
 				break;
 
 			case PrincessState.Sleeping:
-				if (chance(0.2)) {
-					this.setPrincessState(PrincessState.Idle);
-				} else {
-					this.setPrincessState(PrincessState.Sleeping); // Resets timer and image
-				}
+				this.setPrincessState(PrincessState.Sleeping); // Resets timer and image
 				break;
 
 			case PrincessState.Escaping:
@@ -190,17 +184,16 @@ export class PrincessRoom extends Room {
 			case PrincessState.Idle:
 				this.princessButton.setPosition(960, 800);
 				this.princessImage.setTexture(Phaser.Math.RND.pick(['princess_default', 'princess_stare']));
-				this.setTimer(3000);
+				this.setTimer(5000);
 				break;
 			case PrincessState.Begging:
 				this.princessButton.setPosition(960, 800);
 				this.princessImage.setTexture('princess_plead');
-				this.setTimer(3000);
 				break;
 			case PrincessState.Sleeping:
 				this.princessImage.setTexture(Phaser.Math.RND.pick(['princess_laying', 'princess_laying_2', 'princess_laying_3']));
 				this.princessButton.setPosition(1500, 730);
-				this.setTimer(3000);
+				this.setTimer(5000);
 				break;
 			case PrincessState.Escaping:
 				this.princessImage.setTexture('princess_escape_1');
