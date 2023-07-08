@@ -10,7 +10,10 @@ export enum DialogueKey {
 enum Colors {
 	Dragon = '#770000',
 	Princess = '#FF009D',
-	Shopkeeper = '#946c35',
+	Shopkeeper = '#946C35',
+
+	Green = '#15803d',
+	Red = '#b91c1c',
 }
 
 enum Voices {
@@ -35,8 +38,14 @@ export interface Message {
 	right?: boolean;
 	text: string;
 	color: Colors;
-	speed?: number;
 	voice?: Voices;
+	choice?: Choice[];
+}
+
+export interface Choice {
+	text: string;
+	color: Colors;
+	messages: Message[];
 }
 
 export interface Conversation {
@@ -117,6 +126,40 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 				text: "Yaas queen, that's right. Buy it.",
 				color: Colors.Shopkeeper,
 				voice: Voices.Shopkeeper,
+				choice: [
+					{
+						text: 'Refuse',
+						color: Colors.Red,
+						messages: [
+							{
+								left: true,
+								text: "I... I can't. Not my gold.",
+								color: Colors.Dragon,
+							},
+							{
+								right: true,
+								text: 'Go home and rest.',
+								color: Colors.Shopkeeper,
+							},
+						],
+					},
+					{
+						text: 'Buy it',
+						color: Colors.Green,
+						messages: [
+							{
+								left: true,
+								text: 'Ok fine, take my precious gold.',
+								color: Colors.Dragon,
+							},
+							{
+								right: true,
+								text: 'Thank you~',
+								color: Colors.Shopkeeper,
+							},
+						],
+					},
+				],
 			},
 		],
 	},
