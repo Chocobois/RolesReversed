@@ -133,7 +133,7 @@ export class HeroRoom extends Room {
 					}
 				}
 			}
-			this.cooldown = 1000 + 2000 / (1 + this.scene.difficulty);
+			this.cooldown = 15000 + 2000 / (1 + this.scene.difficulty);
 		}
 	}
 
@@ -159,7 +159,6 @@ export class HeroRoom extends Room {
 				//set the hero to do actions
 				this.queueFlag = queueState.ACTIVE;
 				this.heroList[0].myState = HeroState.SPEAKING;
-				this.cooldown = 1000 + 2000 / (1 + this.scene.difficulty);
 				this.roomButton.setNotification(Notification.Danger);
 				this.setManualTimer(1000 + 6000 / (1 + this.scene.difficulty));
 				if (this.visible == true) {
@@ -220,7 +219,7 @@ export class HeroRoom extends Room {
 			//short cooldown before next hero
 			this.queueFlag = queueState.CLEARING;
 			this.heroList[0].myState = HeroState.QUEUED;
-			this.setManualTimer(750 + 750 / (1 + this.scene.difficulty));
+			this.setManualTimer(12000 + 750 / (1 + this.scene.difficulty));
 			this.pausefx = false;
 		} else {
 			//hacky fix for now
@@ -230,7 +229,7 @@ export class HeroRoom extends Room {
 		}
 		this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
 		this.scene.difficulty += this.heroList[0].reputation;
-		this.cooldown = 1000 + 2000 / (1 + this.scene.difficulty);
+		this.cooldown = 15000 + 2000 / (1 + this.scene.difficulty);
 		//this.currentHero = null;
 	}
 
