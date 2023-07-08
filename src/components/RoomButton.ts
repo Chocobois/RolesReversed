@@ -5,7 +5,8 @@ import State from './State';
 export class RoomButton extends Button {
 	private image: Phaser.GameObjects.Image;
 	private border: Phaser.GameObjects.Image;
-	private text: Phaser.GameObjects.Text;
+	private notification: Phaser.GameObjects.Image;
+	// private text: Phaser.GameObjects.Text;
 
 	private room: State;
 	private size: number;
@@ -14,7 +15,7 @@ export class RoomButton extends Button {
 		super(scene, x, y);
 		this.room = room;
 
-		this.size = 0.15 * this.scene.H;
+		this.size = 0.17 * this.scene.H;
 
 		this.image = this.scene.add.image(0, 0, key);
 		this.image.setScale(this.size / this.image.width);
@@ -24,6 +25,10 @@ export class RoomButton extends Button {
 		this.border.setScale(this.size / this.border.width);
 		this.add(this.border);
 
+		this.notification = this.scene.add.image(70, -70, 'button_notification');
+		this.notification.setScale(this.size / this.notification.width);
+		this.add(this.notification);
+
 		this.bindInteractive(this.image, false);
 		// const inputPadding = 40 / this.image.scaleX;
 		// this.image.input.hitArea.setTo(-inputPadding, -inputPadding, this.image.width+2*inputPadding, this.image.height+2*inputPadding);
@@ -31,6 +36,9 @@ export class RoomButton extends Button {
 
 	update(time: number, delta: number) {
 		this.setScale(1.0 - 0.1 * this.holdSmooth);
+
+		const squish = 0.3;
+		this.notification.setScale(1.0 - squish + squish * Math.abs(Math.sin(time / 200)), 1.0 - squish + squish * Math.abs(Math.sin(-time / 200)));
 	}
 
 	setRoom(room: State) {
