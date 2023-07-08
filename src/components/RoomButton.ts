@@ -42,7 +42,10 @@ export class RoomButton extends Button {
 	}
 
 	update(time: number, delta: number) {
-		this.setScale(1.0 - 0.1 * this.holdSmooth);
+		const holdX = 1.0 + 0.15 * this.holdSmooth;
+		const holdY = 1.0 - 0.1 * this.holdSmooth;
+		const buttonSquish = -0.01;
+		this.setScale((1.0 + buttonSquish * Math.sin(time / 200)) * holdX, (1.0 + buttonSquish * Math.sin(-time / 200)) * holdY);
 
 		if (this.notificationState == Notification.Danger) {
 			const squish = 0.3;
