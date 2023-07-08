@@ -123,8 +123,9 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		/* Energy */
 
-		this.energyMeter = new EnergyMeter(scene, this.treasureButton.x, this.treasureButton.y - this.treasureButton.size / 2);
-		this.homeButtons.add(this.energyMeter);
+		this.energyMeter = new EnergyMeter(scene, this.treasureButton);
+		this.treasureButton.add(this.energyMeter);
+		this.treasureButton.moveDown(this.energyMeter);
 	}
 
 	update(time: number, delta: number) {
