@@ -15,6 +15,7 @@ const images: Asset[] = [
 	image('background/shop-room', 'room_shop'),
 	image('background/sleep-room', 'room_sleep'),
 	image('background/town-room', 'room_town'),
+	image('placeholder/gameover', 'game_over'),
 
 	// UI
 	image('ui/outside', 'button_outside'),
