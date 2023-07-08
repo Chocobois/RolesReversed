@@ -1,6 +1,7 @@
-import { ShopItem } from '@/components/ShopItem';
 import { GameScene } from '../scenes/GameScene';
+import { Room } from './Room';
 import { Button } from '@/components/Button';
+import { ShopItem } from '@/components/ShopItem';
 
 export enum ItemType {
 	Plush,
@@ -48,9 +49,7 @@ const OWNER: ItemData = {
 	sideEffect: null,
 };
 
-export class ShopRoom extends Phaser.GameObjects.Container {
-	public scene: GameScene;
-
+export class ShopRoom extends Room {
 	public background: Phaser.GameObjects.Image;
 	private ownerButton: Button;
 	private ownerImage: Phaser.GameObjects.Image;
@@ -67,7 +66,7 @@ export class ShopRoom extends Phaser.GameObjects.Container {
 	private itemsForSale: ItemData[];
 
 	constructor(scene: GameScene) {
-		super(scene, 0, 0);
+		super(scene);
 		this.scene = scene;
 		this.scene.add.existing(this);
 

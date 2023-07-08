@@ -1,20 +1,18 @@
 import { GameScene } from "../scenes/GameScene";
+import { Room } from './Room';
 
-export class OverworldRoom extends Phaser.GameObjects.Container {
-	public scene: GameScene;
-
+export class OverworldRoom extends Room {
 	public background: Phaser.GameObjects.Image;
 
 	constructor(scene: GameScene) {
-		super(scene, 0, 0);
+		super(scene);
 		this.scene = scene;
 		this.scene.add.existing(this);
 
-        this.background = scene.add.image(scene.CX, scene.CY, "background5");
+		this.background = scene.add.image(scene.CX, scene.CY, 'background5');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
 	}
 
-	update(time: number, delta: number) {
-	}
+	update(time: number, delta: number) {}
 }

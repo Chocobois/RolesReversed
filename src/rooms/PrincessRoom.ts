@@ -1,5 +1,7 @@
-import { Button } from '@/components/Button';
 import { GameScene } from '../scenes/GameScene';
+import { Room } from './Room';
+import { Button } from '@/components/Button';
+import { Notification } from '@/components/RoomButton';
 
 enum PrincessState {
 	Idle = 1,
@@ -8,9 +10,7 @@ enum PrincessState {
 	Fled = 4,
 }
 
-export class PrincessRoom extends Phaser.GameObjects.Container {
-	public scene: GameScene;
-
+export class PrincessRoom extends Room {
 	public background: Phaser.GameObjects.Image;
 	public princessButton: Button;
 	public princessImage: Phaser.GameObjects.Image;
@@ -19,7 +19,7 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 	private timer: Phaser.Time.TimerEvent;
 
 	constructor(scene: GameScene) {
-		super(scene, 0, 0);
+		super(scene);
 		this.scene = scene;
 		this.scene.add.existing(this);
 
@@ -134,6 +134,16 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 				break;
 			default:
 				break;
+		}
+
+		if (this.roomButton) {
+			switch (this.princessState) {
+				case PrincessState.Escaping:
+					this.roomButton.setNotification(Notification.Danger);
+					break;
+				default:
+					this.roomButton.setNotification(Notification.Calm);
+			}
 		}
 	}
 

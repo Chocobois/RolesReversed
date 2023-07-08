@@ -60,6 +60,13 @@ export class GameScene extends BaseScene {
 		this.debugText = this.createText(0, 0, 40, 'white');
 		this.debugText.setStroke('black', 10);
 
+		this.princessRoom.setRoomButton(this.uiOverlay.princessButton);
+		this.heroRoom.setRoomButton(this.uiOverlay.heroButton);
+		this.treasureRoom.setRoomButton(this.uiOverlay.treasureButton);
+		this.shopRoom.setRoomButton(this.uiOverlay.shopButton);
+		this.townRoom.setRoomButton(this.uiOverlay.townButton);
+		this.overworldRoom.setRoomButton(this.uiOverlay.overworldButton);
+
 		/* Music */
 
 		this.musicPrincess = new Music(this, 'm_princess', { volume: 0 });
@@ -107,7 +114,7 @@ export class GameScene extends BaseScene {
 		this.uiOverlay.setRoom(state);
 
 		this.princessRoom.setVisible(state == State.Princess);
-		this.heroRoom.setVisible(state == State.Invader);
+		this.heroRoom.setVisible(state == State.Hero);
 		this.treasureRoom.setVisible(state == State.Treasure);
 		this.shopRoom.setVisible(state == State.Shop);
 		this.townRoom.setVisible(state == State.Town);
