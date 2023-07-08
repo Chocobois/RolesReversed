@@ -52,7 +52,10 @@ const OWNER: ItemData = {
 export class ShopRoom extends Room {
 	public background: Phaser.GameObjects.Image;
 	private ownerButton: Button;
+	private deskBgImage: Phaser.GameObjects.Image;
+	private deskImage: Phaser.GameObjects.Image;
 	private ownerImage: Phaser.GameObjects.Image;
+	private ownerTailImage: Phaser.GameObjects.Image;
 	private dragonSprite: Phaser.GameObjects.Image;
 	private buyImage: Phaser.GameObjects.Image;
 	private buyButton: Button;
@@ -73,6 +76,13 @@ export class ShopRoom extends Room {
 		this.background = scene.add.image(scene.CX, scene.CY, 'room_shop');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
+		this.background.setInteractive().on(
+			'pointerdown',
+			() => {
+				this.selectItem(null);
+			},
+			this
+		);
 
 		this.itemsForSale = [
 			{
@@ -116,28 +126,19 @@ export class ShopRoom extends Room {
 		const W = this.scene.W;
 		const H = this.scene.H;
 
-		// Background
-		this.background = this.scene.add.image(0, 0, 'placeholder_scene_shop');
-		this.background.setOrigin(0);
-		this.scene.fitToScreen(this.background);
-		this.add(this.background);
-		this.background.setInteractive().on(
-			'pointerdown',
-			() => {
-				this.selectItem(null);
-			},
-			this
-		);
-
 		const jx = 0.61 * W;
 		const jy = 0.67 * H;
 		const jh = 0.88 * H;
 		this.ownerButton = new Button(this.scene, jx, jy);
 		this.add(this.ownerButton);
 
+		// Desk bg
+		this.deskBgImage = this.scene.add.image(scene.CX + 575, scene.CY, 'shop_bg');
+		this.add(this.deskBgImage);
+
 		// Owner
-		this.ownerImage = this.scene.add.image(0, 0, 'shop');
-		this.ownerImage.setOrigin(0.05, 0.67);
+		this.ownerImage = this.scene.add.image(scene.CX + 500, scene.CY, 'shop_kobold');
+		this.ownerImage.setScale(jh / this.ownerImage.height);
 		this.ownerButton.add(this.ownerImage);
 
 		this.ownerButton.bindInteractive(this.ownerImage);
@@ -154,6 +155,16 @@ export class ShopRoom extends Room {
 				rate: 1 + 0.07 * Math.sin(this.scene.time.now / 800),
 			});
 		});
+
+		// Owner tail
+		this.ownerTailImage = this.scene.add.image(scene.CX + 500, scene.CY, 'shop_tail');
+		this.ownerTailImage.setOrigin(0.5);
+		this.ownerTailImage.setScale(jh / this.ownerTailImage.height);
+		this.add(this.ownerTailImage);
+
+		// Desk front
+		this.deskImage = this.scene.add.image(scene.CX + 575, scene.CY, 'shop_desk');
+		this.add(this.deskImage);
 
 		// Dragon
 		this.dragonSprite = this.scene.add.image(0, 0, 'dragon_shop');
@@ -178,7 +189,7 @@ export class ShopRoom extends Room {
 		this.buyButton = new Button(this.scene, 0.89 * W, 0.81 * H);
 		this.add(this.buyButton);
 
-		this.buyImage = this.scene.add.image(0, 0, 'shop_buy_button');
+		this.buyImage = this.scene.add.image(0, 0, 'button_shop_buy');
 		this.buyImage.setOrigin(0.5);
 		this.buyImage.setScale((0.17 * H) / this.buyImage.height);
 		this.buyButton.add(this.buyImage);
@@ -219,7 +230,13 @@ export class ShopRoom extends Room {
 			}
 		}
 	}
-	update(time: number, delta: number) {}
+	update(time: number, delta: number) {
+		const jbunHoldX = 1.0 + 0.2 * this.ownerButton.holdSmooth;
+		const jbunHoldY = 1.0 - 0.1 * this.ownerButton.holdSmooth;
+		const jbunSquish = 0.03;
+		this.ownerButton.setScale((1.0 + jbunSquish * Math.sin(time / 200)) * jbunHoldX, (1.0 + jbunSquish * Math.sin(-time / 200)) * jbunHoldY);
+		this.ownerTailImage.setScale((1.0 + jbunSquish * Math.sin(time / 200)) * jbunHoldX, (1.0 + jbunSquish * Math.sin(-time / 200)) * jbunHoldY);
+	}
 
 	selectItem(itemData: ItemData | null, justPurchased: boolean = false) {
 		this.selectedItem = itemData;

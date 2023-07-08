@@ -29,6 +29,8 @@ export class HeroRoom extends Room {
 	//cooldown between adding heroes to queue
 	//separate so that we can spawn heroes while there are already heroes
 	private cooldown: number;
+	private clock: number;
+	private pausefx: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -38,7 +40,6 @@ export class HeroRoom extends Room {
 		this.background = scene.add.image(scene.CX, scene.CY, 'room_outside');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
-
 
 		//lumie note: keeping this since it's convenient and i'm very lazy and bad
 		//this only holds the image for the current hero, the actual hero and states gets rotated out in the queue
@@ -61,7 +62,8 @@ export class HeroRoom extends Room {
 		this.queueFlag = queueState.IDLE;
 		this.heroList = [];
 		this.cooldown = 3000;
-
+		this.clock = 9999999999999999;
+		this.pausefx = true;
 	}
 
 	update(time: number, delta: number) {
@@ -69,9 +71,14 @@ export class HeroRoom extends Room {
 		const heroHoldY = 1.0 - 0.1 * this.heroButton.holdSmooth;
 		const heroSquish = 0.02;
 		if (this.cooldown > 0) {
-			if(this.queueFlag == queueState.IDLE || this.queueFlag == queueState.WAITING) {
+			if (this.queueFlag == queueState.IDLE || this.queueFlag == queueState.WAITING) {
 				this.cooldown -= delta;
 			}
+		}
+		if (this.clock >= 0 && !this.pausefx) {
+			this.clock -= delta;
+		} else if (this.clock <= 0) {
+			this.movementOpportunity();
 		}
 		this.checkHeroSpawn();
 		this.heroButton.setScale((1.0 + heroSquish * Math.sin(time / 200)) * heroHoldX, (1.0 + heroSquish * Math.sin(-time / 200)) * heroHoldY);
@@ -79,20 +86,24 @@ export class HeroRoom extends Room {
 
 	setVisible(isShown: boolean): this {
 		if (isShown) {
-			if (this.timer) {
-				if (this.queueFlag == queueState.ACTIVE) {			
-					this.timer.paused = true;
+			if (this.clock >= 0) {
+				if (this.queueFlag == queueState.ACTIVE) {
+					this.pausefx = true;
 				}
 			}
 		} else {
-			if (this.timer.paused) {
-				this.timer.paused = false;
+			if (this.pausefx) {
+				this.pausefx = false;
 				// this.setTimer(3000);
 			}
 		}
 
 		super.setVisible(isShown);
 		return this;
+	}
+
+	setManualTimer(time: number) {
+		this.clock = time;
 	}
 
 	setTimer(delay: number) {
@@ -110,22 +121,19 @@ export class HeroRoom extends Room {
 			return Math.random() < odds;
 		}
 		//if idling state and no cooldown try to push a hero to the queue
-		if(this.cooldown <= 0) {
-			if((this.queueFlag == queueState.IDLE || this.queueFlag == queueState.WAITING)) {
-				if(chance(0.8)){ 
-					this.heroList.push(new Hero(this.scene, 0.2 * this.scene.W, 0.93 * this.scene.H, 'hero_normal', Math.floor(Math.random()*4)));
+		if (this.cooldown <= 0) {
+			if (this.queueFlag == queueState.IDLE || this.queueFlag == queueState.WAITING) {
+				if (chance(0.8)) {
+					this.heroList.push(new Hero(this.scene, 0.2 * this.scene.W, 0.93 * this.scene.H, 'hero_normal', Math.floor(Math.random() * 4)));
 					this.queueFlag = queueState.WAITING;
 
 					//activate immediately if this is the FRONT hero in the queue
-					if(this.heroList.length == 1)
-					{
+					if (this.heroList.length == 1) {
 						this.activateHero();
 					}
-
 				}
-
 			}
-			this.cooldown = (1000 + (2000/(1 + this.scene.difficulty)));
+			this.cooldown = 1000 + 2000 / (1 + this.scene.difficulty);
 		}
 	}
 
@@ -133,7 +141,8 @@ export class HeroRoom extends Room {
 		this.heroImage.setTexture(this.heroList[0].heroSprite);
 		this.heroButton.setVisible(true);
 		this.heroList[0].myState = HeroState.IDLE;
-		this.setTimer(1000+(6000/(1+this.scene.difficulty)));
+		this.setManualTimer(1000 + 6000 / (1 + this.scene.difficulty));
+		this.pausefx = false;
 	}
 
 	movementOpportunity() {
@@ -144,30 +153,28 @@ export class HeroRoom extends Room {
 			case queueState.CLEARING:
 				this.activateHero();
 				this.queueFlag = queueState.WAITING;
+
 			case queueState.WAITING:
 				//this scene has an active hero so we don't push to the queue
 				//set the hero to do actions
 				this.queueFlag = queueState.ACTIVE;
 				this.heroList[0].myState = HeroState.SPEAKING;
-				this.cooldown = (1000 + (2000/(1 + this.scene.difficulty)));
+				this.cooldown = 1000 + 2000 / (1 + this.scene.difficulty);
 				this.roomButton.setNotification(Notification.Danger);
-				this.setTimer(1000+(6000/(1+this.scene.difficulty)));
-				if(this.visible == true)
-				{
-					this.timer.paused = true;
+				this.setManualTimer(1000 + 6000 / (1 + this.scene.difficulty));
+				if (this.visible == true) {
+					this.pausefx = true;
 				}
 				return;
 			case queueState.ACTIVE:
-				if(this.heroList[0].myState == HeroState.SPEAKING)
-				{
+				if (this.heroList[0].myState == HeroState.SPEAKING) {
 					this.heroList[0].myState = HeroState.SELECTED;
-					this.setTimer(1000+(6000/(1+this.scene.difficulty)));
+					this.setManualTimer(1000 + 6000 / (1 + this.scene.difficulty));
 					return;
 				} else if (this.heroList[0].myState == HeroState.SELECTED) {
 					this.scene.endGame();
 				}
 				return;
-
 		}
 	}
 
@@ -212,16 +219,18 @@ export class HeroRoom extends Room {
 		if (this.heroList.length > 0) {
 			//short cooldown before next hero
 			this.queueFlag = queueState.CLEARING;
-			this.setTimer(1000 + 500 / (1 + this.scene.difficulty));
+			this.heroList[0].myState = HeroState.QUEUED;
+			this.setManualTimer(750 + 750 / (1 + this.scene.difficulty));
+			this.pausefx = false;
 		} else {
 			//hacky fix for now
-			this.setTimer(999999999);
-			this.timer.paused = true;
+			this.setManualTimer(999999999);
+			this.pausefx = true;
 			this.queueFlag = queueState.IDLE;
 		}
 		this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
 		this.scene.difficulty += this.heroList[0].reputation;
-		this.cooldown = (1000 + (2000/(1 + this.scene.difficulty)));
+		this.cooldown = 1000 + 2000 / (1 + this.scene.difficulty);
 		//this.currentHero = null;
 	}
 
@@ -251,8 +260,8 @@ export class HeroRoom extends Room {
 		let qstate = 'Queue State: ' + this.queueFlag + ', ';
 		let cd = 'Spawning cooldown: ' + Math.ceil(this.cooldown / 1000) + 's ,';
 
-		let remaining = Math.ceil(this.timer.getRemaining() / 1000) + 's';
-		let paused = this.timer.paused ? ' paused' : '';
+		let remaining = Math.ceil(this.clock / 1000) + 's';
+		let paused = this.pausefx ? ' paused' : '';
 		return `Hero: ${cd} ${qstate} ${queue} ${getStateText()}(${remaining}${paused})`;
 	}
 }
