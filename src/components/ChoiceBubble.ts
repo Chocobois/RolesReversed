@@ -51,8 +51,9 @@ export class ChoiceBubble extends Button {
 
 	update(time: number, delta: number) {
 		this.y += (this.smoothY - this.y) / 10;
-		let squish = this.enabled ? 0.02 : 0;
-		this.setScale(1.0 - 0.1 * this.holdSmooth + squish * Math.sin(time / 100));
+		let bounce = this.enabled ? 0.02 : 0;
+		let squish = this.enabled ? 0.1 : 0;
+		this.setScale(1.0 - squish * this.holdSmooth + bounce * Math.sin(time / 100));
 	}
 
 	highlight() {

@@ -22,7 +22,8 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 	private currentConversation: Conversation;
 	private currentMessage: Message;
 	private hasActiveChoice: boolean;
-	private callback: (success: boolean) => void;
+	private callback: (flags: { [key: string]: any }) => void;
+	private flags: { [key: string]: any };
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -63,10 +64,11 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 		});
 	}
 
-	startDialogue(key: DialogueKey, callback: (success: boolean) => void) {
+	startDialogue(key: DialogueKey, callback: (flags: { [key: string]: any }) => void) {
 		this.setVisible(true);
 
 		this.callback = callback;
+		this.flags = {};
 		this.currentConversation = structuredClone(getDialogue(key)); // Deep copy
 
 		this.leftSprite.setTexture(this.currentConversation.spriteLeft);
@@ -90,7 +92,7 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 			}
 		} else {
 			if (this.scene?.shopRoom?.hideShopkeeper == true) this.scene.shopRoom.hideShopkeeper = false;
-			this.callback(true);
+			this.callback(this.flags);
 			this.hide();
 		}
 	}
@@ -98,6 +100,10 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 	addSpeechBubble(message: Message) {
 		// Spawn new speech bubble
 		let newBubble = new DialogueBubble(this.scene, this.bubbleSpawnX, this.bubbleSpawnY, this.bubbleWidth, message);
+
+		if (message.flags) {
+			Object.assign(this.flags, message.flags);
+		}
 
 		// Move all previous bubbles upwards
 		this.bubbles.forEach((bubble) => {
