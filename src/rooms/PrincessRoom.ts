@@ -5,14 +5,14 @@ import { Notification } from '@/components/RoomButton';
 import { ItemType, ItemData, shopItems } from './ShopRoom';
 
 enum PrincessState {
-	Idle,
-	Begging,
-	Sleeping,
-	Eating,
-	Playing,
-	Escaping,
-	Fled,
-	Dead,
+	Idle = 'Idle',
+	Begging = 'Begging',
+	Sleeping = 'Sleeping',
+	Eating = 'Eating',
+	Playing = 'Playing',
+	Escaping = 'Escaping',
+	Fled = 'Fled',
+	Dead = 'Dead',
 }
 
 export class PrincessRoom extends Room {
@@ -322,27 +322,9 @@ export class PrincessRoom extends Room {
 
 	/* Debug */
 	getDebugText() {
-		const getStateText = () => {
-			switch (this.princessState) {
-				case PrincessState.Idle:
-					return 'Idle';
-				case PrincessState.Begging:
-					return 'Begging';
-				case PrincessState.Sleeping:
-					return 'Sleeping';
-				case PrincessState.Escaping:
-					return 'Escaping';
-				case PrincessState.Fled:
-					return 'Fled';
-				case PrincessState.Dead:
-					return 'Dead';
-				default:
-					return 'Unknown';
-			}
-		};
-
+		let state = PrincessState[this.princessState];
 		let remaining = Math.ceil(this.timer.getRemaining() / 1000) + 's';
 		let paused = this.timer.paused ? ' paused' : '';
-		return `Princess: ${getStateText()} (${remaining}${paused}) Energy: ${this.energy.toFixed()} Happiness: ${this.happiness.toFixed()} Hunger: ${this.hunger.toFixed()} Patience: ${this.patience.toFixed()}`;
+		return `Princess: ${state} (${remaining}${paused}) Energy: ${this.energy.toFixed()} Happiness: ${this.happiness.toFixed()} Hunger: ${this.hunger.toFixed()} Patience: ${this.patience.toFixed()}`;
 	}
 }
