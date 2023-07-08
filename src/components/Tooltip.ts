@@ -32,7 +32,7 @@ export class Tooltip extends Phaser.GameObjects.Container {
 		this.tooltipText = this.scene.createText(x, y, textSize, customStyle ? textColor : styles[style].text, text);
 
 		const { width, height } = this.tooltipText.getBounds();
-		this.tooltipBackground.setWidth(width + textSize * 0.6);
+		this.tooltipBackground.setWidth(width + textSize * 1.2);
 		this.tooltipBackground.setHeight(height + textSize * 0.2);
 		this.tooltipText.setOrigin(0.5, 0.5);
 		this.tooltipText.setPosition(this.tooltipBackground.x, this.tooltipBackground.y);
