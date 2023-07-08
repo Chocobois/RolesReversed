@@ -104,7 +104,6 @@ export class PrincessRoom extends Room {
 			case PrincessState.Escaping:
 				this.setPrincessState(PrincessState.Fled);
 				this.scene.endGame();
-				this.scene.sound.play('GAME_OVER_SOUND');
 				break;
 		}
 	}
