@@ -1,53 +1,22 @@
+import { FacebookInstantGamesLeaderboard } from 'phaser';
 import { GameScene } from '../scenes/GameScene';
 import { Room } from './Room';
 import { Button } from '@/components/Button';
 import { ShopItem } from '@/components/ShopItem';
+import { DialogueKey } from '@/components/Conversations';
 
 export enum ItemType {
-	Plush,
 	Book,
-	Blanket,
+	Toy,
+	Burger,
 	Cake,
-	SoldOut,
-	ShopOwner,
-	NOTYPE,
 }
 
 export interface ItemData {
 	type: ItemType;
 	image: string;
-	title: string;
-	description: string;
-	iteration: number;
-	maxIteration: number;
-	price: number;
-	value: number;
-	sideEffect: (() => void) | null;
+	name: string;
 }
-
-const SOLD_OUT_ITEM: ItemData = {
-	type: ItemType.SoldOut,
-	image: 'shop_sold_out',
-	title: 'Out of stock',
-	description: "I give up. That's it.",
-	iteration: 1,
-	maxIteration: 1,
-	value: 9999,
-	price: 0,
-	sideEffect: null,
-};
-
-const OWNER: ItemData = {
-	type: ItemType.ShopOwner,
-	image: 'shop_sold_out',
-	title: 'Shop owner',
-	description: "H-hey, I'm not for sale!",
-	iteration: 1,
-	maxIteration: 1,
-	value: 9999,
-	price: 0,
-	sideEffect: null,
-};
 
 export class ShopRoom extends Room {
 	public background: Phaser.GameObjects.Image;
@@ -58,13 +27,8 @@ export class ShopRoom extends Room {
 	private ownerTailImage: Phaser.GameObjects.Image;
 	private dragonSprite: Phaser.GameObjects.Image;
 	private buyImage: Phaser.GameObjects.Image;
-	private buyButton: Button;
-
-	private selectedItemTitle: Phaser.GameObjects.Text;
-	private selectedItemDescription: Phaser.GameObjects.Text;
 
 	private items: ShopItem[];
-	private selectedItem: ItemData | null;
 
 	private itemsForSale: ItemData[];
 
@@ -86,79 +50,41 @@ export class ShopRoom extends Room {
 
 		this.itemsForSale = [
 			{
-				type: ItemType.Cake,
-				image: 'cake',
-				title: 'Cake',
-				description: 'Increase your root energy a little.',
-				price: 150,
-				iteration: 1,
-				maxIteration: 6,
-				value: 150,
-				sideEffect: () => {},
+				type: ItemType.Burger,
+				image: 'item_burger',
+				name: 'Burger',
 			},
 			{
 				type: ItemType.Book,
-				image: 'sapling',
-				title: 'Magic Storage',
-				description: 'Increase your root energy a little.',
-				price: 150,
-				iteration: 1,
-				maxIteration: 6,
-				value: 150,
-				sideEffect: () => {},
+				image: 'item_book',
+				name: 'Book',
 			},
 			{
-				type: ItemType.Plush,
-				image: 'sapling',
-				title: 'Magic Storage',
-				description: 'Increase your root energy a little.',
-				price: 150,
-				iteration: 1,
-				maxIteration: 6,
-				value: 150,
-				sideEffect: () => {},
+				type: ItemType.Toy,
+				image: 'item_toy',
+				name: 'Toy',
 			},
-			SOLD_OUT_ITEM,
-			SOLD_OUT_ITEM,
-			SOLD_OUT_ITEM,
+			{
+				type: ItemType.Cake,
+				image: 'item_cake',
+				name: 'Cake',
+			},
 		];
 
 		const W = this.scene.W;
 		const H = this.scene.H;
 
-		const jx = 0.61 * W;
-		const jy = 0.67 * H;
+		const jx = 1555;
+		const jy = 840;
 		const jh = 0.88 * H;
-		this.ownerButton = new Button(this.scene, jx, jy);
-		this.add(this.ownerButton);
 
 		// Desk bg
 		this.deskBgImage = this.scene.add.image(scene.CX + 575, scene.CY, 'shop_bg');
 		this.add(this.deskBgImage);
 
-		// Owner
-		this.ownerImage = this.scene.add.image(scene.CX + 500, scene.CY, 'shop_kobold');
-		this.ownerImage.setScale(jh / this.ownerImage.height);
-		this.ownerButton.add(this.ownerImage);
-
-		this.ownerButton.bindInteractive(this.ownerImage);
-		this.ownerImage.input?.hitArea.setTo(0, 0, this.ownerImage.width, (this.ownerImage.height * 2) / 3);
-		this.ownerButton.on('down', () => {
-			this.scene.sound.play('s_squish1', {
-				rate: 1 + 0.07 * Math.sin(this.scene.time.now / 800),
-			});
-		});
-		this.ownerButton.on('click', () => {
-			this.selectItem(OWNER);
-			this.ownerImage.setFrame(2);
-			this.scene.sound.play('s_squish2', {
-				rate: 1 + 0.07 * Math.sin(this.scene.time.now / 800),
-			});
-		});
-
 		// Owner tail
-		this.ownerTailImage = this.scene.add.image(scene.CX + 500, scene.CY, 'shop_tail');
-		this.ownerTailImage.setOrigin(0.5);
+		this.ownerTailImage = this.scene.add.image(jx, jy, 'shop_tail');
+		this.ownerTailImage.setOrigin(0.5, 0.8);
 		this.ownerTailImage.setScale(jh / this.ownerTailImage.height);
 		this.add(this.ownerTailImage);
 
@@ -166,62 +92,49 @@ export class ShopRoom extends Room {
 		this.deskImage = this.scene.add.image(scene.CX + 575, scene.CY, 'shop_desk');
 		this.add(this.deskImage);
 
+		// Owner
+		this.ownerButton = new Button(this.scene, jx, jy);
+		this.add(this.ownerButton);
+
+		this.ownerImage = this.scene.add.image(0, 0, 'shop_kobold');
+		this.ownerImage.setOrigin(0.5, 0.8);
+		this.ownerImage.setScale(jh / this.ownerImage.height);
+		this.ownerButton.add(this.ownerImage);
+
+		this.ownerButton.bindInteractive(this.ownerImage);
+		this.ownerImage.input?.hitArea.setTo(0, 0, this.ownerImage.width, (this.ownerImage.height * 2) / 3);
+		this.ownerButton.on('down', () => {
+			// this.scene.sound.play('s_squish1', {
+			// 	rate: 1 + 0.07 * Math.sin(this.scene.time.now / 800),
+			// });
+		});
+
 		// Dragon
-		this.dragonSprite = this.scene.add.image(0, 0, 'dragon_shop');
-		this.dragonSprite.setOrigin(0);
-		this.add(this.dragonSprite);
-
-		// Selected item
-		const sx = 0.43 * W;
-		const sy = 0.81 * H;
-
-		this.selectedItemTitle = this.scene.createText(sx, sy, 62 * this.scene.SCALE, '#000', 'Something');
-		this.selectedItemTitle.setOrigin(0, 1.08);
-		this.add(this.selectedItemTitle);
-
-		this.selectedItemDescription = this.scene.createText(sx, sy, 52 * this.scene.SCALE, '#000', 'Culpa ut quis ullamco nisi aliqua id est occaecat proident aliqua in.');
-		this.selectedItemDescription.setWordWrapWidth(3.6 * W);
-		this.selectedItemDescription.setLineSpacing(0);
-		this.selectedItemDescription.setOrigin(0, -0.08);
-		this.add(this.selectedItemDescription);
-
-		// Buy button
-		this.buyButton = new Button(this.scene, 0.89 * W, 0.81 * H);
-		this.add(this.buyButton);
-
-		this.buyImage = this.scene.add.image(0, 0, 'button_shop_buy');
-		this.buyImage.setOrigin(0.5);
-		this.buyImage.setScale((0.17 * H) / this.buyImage.height);
-		this.buyButton.add(this.buyImage);
-
-		let buyText = this.scene.createText(0, 0, 100 * this.scene.SCALE, '#000', 'Buy');
-		buyText.setOrigin(0.5);
-		this.buyButton.add(buyText);
-
-		this.buyButton.bindInteractive(this.buyImage);
-		this.buyButton.on('click', this.buyItem, this);
+		// this.dragonSprite = this.scene.add.image(0, 0, 'dragon_shop');
+		// this.dragonSprite.setOrigin(0);
+		// this.add(this.dragonSprite);
 
 		// Items
 		this.items = [];
-		this.selectedItem = null;
 
-		const itemLeft = 160 * this.scene.SCALE;
-		const itemTop = 195 * this.scene.SCALE;
-		const itemWidth = 320 * this.scene.SCALE;
-		const itemHeight = 306 * this.scene.SCALE;
-		const itemSize = 280 * this.scene.SCALE;
+		const itemLeft = 340;
+		const itemTop = 320;
+		const itemWidth = 360;
+		const itemHeight = 320;
+		const itemSize = 400;
 
-		for (let j = 0; j < 3; j++) {
+		for (let j = 0; j < 2; j++) {
 			for (let i = 0; i < 2; i++) {
-				const x = itemLeft + i * itemWidth;
+				const x = itemLeft + i * itemWidth + (j * itemWidth) / 2;
 				const y = itemTop + j * itemHeight;
 
 				let item = new ShopItem(this.scene, x, y, itemSize);
+				item.setItem(this.itemsForSale[j * 2 + i]);
 				item.on(
 					'click',
 					() => {
 						this.selectItem(item.itemData);
-						this.scene.sound.play('s_click');
+						// this.scene.sound.play('s_click');
 					},
 					this
 				);
@@ -231,65 +144,37 @@ export class ShopRoom extends Room {
 		}
 	}
 	update(time: number, delta: number) {
-		const jbunHoldX = 1.0 + 0.2 * this.ownerButton.holdSmooth;
-		const jbunHoldY = 1.0 - 0.1 * this.ownerButton.holdSmooth;
-		const jbunSquish = 0.03;
+		const jbunHoldX = 1.0 + 0.15 * this.ownerButton.holdSmooth;
+		const jbunHoldY = 1.0 - 0.075 * this.ownerButton.holdSmooth;
+		const jbunSquish = 0.02;
 		this.ownerButton.setScale((1.0 + jbunSquish * Math.sin(time / 200)) * jbunHoldX, (1.0 + jbunSquish * Math.sin(-time / 200)) * jbunHoldY);
-		this.ownerTailImage.setScale((1.0 + jbunSquish * Math.sin(time / 200)) * jbunHoldX, (1.0 + jbunSquish * Math.sin(-time / 200)) * jbunHoldY);
+		this.ownerTailImage.setScale(1.0 - jbunSquish * Math.sin(time / 200), 1.0 - jbunSquish * Math.sin(-time / 200));
+
+		this.items.forEach((item) => item.update(time, delta));
 	}
 
-	selectItem(itemData: ItemData | null, justPurchased: boolean = false) {
-		this.selectedItem = itemData;
-
-		this.buyButton.enabled = false;
-		this.buyButton.setAlpha(0.5);
-		if (this.buyImage.input) this.buyImage.input.cursor = 'not-allowed';
-		this.ownerImage.setFrame(0);
-
+	selectItem(itemData: ItemData | null) {
+		console.log('BUY', itemData);
 		if (itemData) {
-			const cost = itemData.price;
-
-			this.selectedItemTitle.setText(itemData.title[itemData.iteration - 1]);
-			this.selectedItemDescription.setText(itemData.description[itemData.iteration - 1]);
-
-			if (cost > 0) {
-				this.ownerImage.setFrame(1);
-
-				if (this.scene.energy >= cost) {
-					this.buyButton.enabled = true;
-					this.buyButton.setAlpha(1.0);
-					if (this.buyImage.input) this.buyImage.input.cursor = 'pointer';
-				}
-			}
-		} else {
-			if (justPurchased) {
-				this.selectedItemTitle.setText('Whatever');
-				this.selectedItemDescription.setText('Thanks for buying it!');
-			} else {
-				this.selectedItemTitle.setText('None selected');
-				this.selectedItemDescription.setText("What are ya buying? What are ya selling? I don't know!");
-			}
+			this.scene.startDialogue(DialogueKey.ShopPurchase);
 		}
 	}
 
 	buyItem() {
-		if (!this.buyButton.enabled) {
-			return;
-		}
-
-		if (this.selectedItem) {
-			const cost = this.selectedItem.price;
-
-			if (this.scene.energy >= cost) {
-				this.scene.energy -= cost;
-				this.scene.sound.play('s_buy');
-
-				this.emit('buy', this.selectedItem);
-				const sideEffect = this.selectedItem.sideEffect;
-				if (sideEffect) {
-					sideEffect();
-				}
-			}
-		}
+		// if (!this.buyButton.enabled) {
+		// 	return;
+		// }
+		// if (this.selectedItem) {
+		// 	const cost = this.selectedItem.price;
+		// 	if (this.scene.energy >= cost) {
+		// 		this.scene.energy -= cost;
+		// 		// this.scene.sound.play('s_buy');
+		// 		this.emit('buy', this.selectedItem);
+		// 		const sideEffect = this.selectedItem.sideEffect;
+		// 		if (sideEffect) {
+		// 			sideEffect();
+		// 		}
+		// 	}
+		// }
 	}
 }

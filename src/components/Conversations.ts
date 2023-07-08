@@ -4,6 +4,13 @@ export enum DialogueKey {
 	HeroIntroduction,
 	HeroBrave,
 	ShopIntroduction,
+	ShopPurchase,
+}
+
+enum Colors {
+	Dragon = '#770000',
+	Princess = '#FF009D',
+	Shopkeeper = '#946c35',
 }
 
 export interface Message {
@@ -28,22 +35,22 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 			{
 				left: true,
 				text: 'Omg hiii dragon-kun~ <3',
-				color: '#FF009D',
+				color: Colors.Princess,
 			},
 			{
 				right: true,
 				text: 'What the fuck...',
-				color: '#770000',
+				color: Colors.Dragon,
 			},
 			{
 				left: true,
 				text: "uwu please capture me I've been a NAUGHTY girl! yeah that's right this is a pretty long message.",
-				color: '#FF009D',
+				color: Colors.Princess,
 			},
 			{
 				right: true,
 				text: 'Ok fine come on in gurrrl',
-				color: '#770000',
+				color: Colors.Dragon,
 			},
 		],
 	},
@@ -66,6 +73,32 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 		spriteLeft: 'dialogue_dragon',
 		spriteRight: 'dialogue_shopkeeper',
 		messages: [],
+	},
+	[DialogueKey.ShopPurchase]: {
+		spriteLeft: 'dialogue_dragon_right',
+		spriteRight: 'dialogue_shopkeeper',
+		messages: [
+			{
+				right: true,
+				text: 'You wish to buy this?',
+				color: Colors.Shopkeeper,
+			},
+			{
+				left: true,
+				text: 'I HATE spending my precious gold.',
+				color: Colors.Dragon,
+			},
+			{
+				left: true,
+				text: 'But if I must... The princess demands it.',
+				color: Colors.Dragon,
+			},
+			{
+				right: true,
+				text: "Yaas queen, that's right. Buy it.",
+				color: Colors.Shopkeeper,
+			},
+		],
 	},
 };
 

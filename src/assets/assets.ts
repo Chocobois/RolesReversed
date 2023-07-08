@@ -68,6 +68,7 @@ const images: Asset[] = [
 	image('sprites/overworld-town', 'overworld_town'),
 	//dialogue
 	image('sprites/dialogue-dragon', 'dialogue_dragon'),
+	image('sprites/dialogue-dragon-right', 'dialogue_dragon_right'),
 	image('sprites/dialogue-hero', 'dialogue_hero'),
 	image('sprites/dialogue-princess', 'dialogue_princess'),
 	image('sprites/dialogue-shopkeeper', 'dialogue_shopkeeper'),

@@ -51,64 +51,62 @@ export class TitleScene extends BaseScene {
 	}
 
 	create(): void {
-		console.log("TitleScene create");
+		console.log('TitleScene create');
 		// this.fade(false, 200, 0x000000);
 
-		this.skybackground = this.add.image(this.CX, this.CY, "title_skybackground");
+		this.skybackground = this.add.image(this.CX, this.CY, 'title_skybackground');
 		this.containToScreen(this.skybackground);
-		this.background = this.add.image(this.CX, 0.9*this.CY, "title_background");
+		this.background = this.add.image(this.CX, 0.9 * this.CY, 'title_background');
 		this.containToScreen(this.background);
-		this.foreground = this.add.image(this.CX, this.CY, "title_foreground");
+		this.foreground = this.add.image(this.CX, this.CY, 'title_foreground');
 		this.containToScreen(this.foreground);
 
 		this.background.setVisible(false);
 		this.background.setAlpha(0);
-		this.background.y += 4*1000*this.SCALE;
-		this.foreground.y += 4*250*this.SCALE;
+		this.background.y += 4 * 1000;
+		this.foreground.y += 4 * 250;
 
-
-		// this.title = this.createText(0.25*this.W, 0.7*this.H, 160*this.SCALE, "#000", "Game Title");
+		// this.title = this.createText(0.25*this.W, 0.7*this.H, 160, "#000", "Game Title");
 		// this.title.setOrigin(0.5);
-		// this.title.setStroke("#FFF", 40*8*this.SCALE);
-		// this.title.setPadding(2*40*8*this.SCALE);
+		// this.title.setStroke("#FFF", 40*8);
+		// this.title.setPadding(2*40*8);
 		// this.title.setVisible(false);
 		// this.title.setAlpha(0);
 
-		// this.subtitle = this.createText(0.25*this.W, 0.87*this.H, 120*this.SCALE, "#000", "Tap to start");
+		// this.subtitle = this.createText(0.25*this.W, 0.87*this.H, 120, "#000", "Tap to start");
 		// this.subtitle.setOrigin(0.5);
-		// this.subtitle.setStroke("#FFF", 40*3*this.SCALE);
-		// this.subtitle.setPadding(2*40*2*this.SCALE);
+		// this.subtitle.setStroke("#FFF", 40*3);
+		// this.subtitle.setPadding(2*40*2);
 		// this.subtitle.setVisible(false);
 		// this.subtitle.setAlpha(0);
 
-		// this.tap = this.createText(this.CX, this.CY, 4*35*this.SCALE, "#000", "Tap to focus");
+		// this.tap = this.createText(this.CX, this.CY, 4*35, "#000", "Tap to focus");
 		// this.tap.setOrigin(0.5);
 		// this.tap.setAlpha(-1);
-		// this.tap.setStroke("#FFF", 40*4*this.SCALE);
-		// this.tap.setPadding(2*40*4*this.SCALE);
+		// this.tap.setStroke("#FFF", 40*4);
+		// this.tap.setPadding(2*40*4);
 
-		// this.version = this.createText(this.W, this.H, 40*this.SCALE, "#000", version);
+		// this.version = this.createText(this.W, this.H, 40, "#000", version);
 		// this.version.setOrigin(1, 1);
 		// this.version.setAlpha(-1);
-		// this.version.setStroke("#FFF", 10*4*this.SCALE);
-		// this.version.setPadding(2*40*4*this.SCALE);
-		
+		// this.version.setStroke("#FFF", 10*4);
+		// this.version.setPadding(2*40*4);
+
 		this.credits = this.add.container(0, 0);
 		this.credits.setVisible(false);
 		this.credits.setAlpha(0);
-		
-		// let credits1 = this.createText(0.6*this.W, 4*this.SCALE, 50*this.SCALE, "#c2185b", creditsLeft);
-		// credits1.setStroke("#FFF", 100*this.SCALE);
-		// credits1.setPadding(2*100*this.SCALE);
+
+		// let credits1 = this.createText(0.6*this.W, 4, 50, "#c2185b", creditsLeft);
+		// credits1.setStroke("#FFF", 100);
+		// credits1.setPadding(2*100);
 		// credits1.setLineSpacing(0);
 		// this.credits.add(credits1);
 
-		// let credits2 = this.createText(0.8*this.W, 4*this.SCALE, 50*this.SCALE, "#c2185b", creditsRight);
-		// credits2.setStroke("#FFF", 100*this.SCALE);
-		// credits2.setPadding(2*100*this.SCALE);
+		// let credits2 = this.createText(0.8*this.W, 4, 50, "#c2185b", creditsRight);
+		// credits2.setStroke("#FFF", 100);
+		// credits2.setPadding(2*100);
 		// credits2.setLineSpacing(0);
 		// this.credits.add(credits2);
-
 
 		// Music
 		// if (!this.musicTitle) {
@@ -116,24 +114,27 @@ export class TitleScene extends BaseScene {
 		// 	this.musicTitle.on('bar', this.onBar, this);
 		// 	this.musicTitle.on('beat', this.onBeat, this);
 
-			// this.select = this.sound.add("dayShift", { volume: 0.8, rate: 1.0 }) as Phaser.Sound.WebAudioSound;
-			// this.select2 = this.sound.add("nightShift", { volume: 0.8, rate: 1.0 }) as Phaser.Sound.WebAudioSound;
+		// this.select = this.sound.add("dayShift", { volume: 0.8, rate: 1.0 }) as Phaser.Sound.WebAudioSound;
+		// this.select2 = this.sound.add("nightShift", { volume: 0.8, rate: 1.0 }) as Phaser.Sound.WebAudioSound;
 
 		// }
 		// this.musicTitle.play();
 
-
 		// Input
 
 		this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).on('down', this.progress, this);
-		this.input.on('pointerdown', (pointer: PointerEvent) => {
-			if (pointer.button == 0) {
-				this.progress();
-			}
-		}, this);
+		this.input.on(
+			'pointerdown',
+			(pointer: PointerEvent) => {
+				if (pointer.button == 0) {
+					this.progress();
+				}
+			},
+			this
+		);
 		this.isStarting = false;
 
-		console.log("TitleScene create end");
+		console.log('TitleScene create end');
 	}
 
 	update(time: number, delta: number) {

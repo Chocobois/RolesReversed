@@ -48,7 +48,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.add(this.overworldButtons);
 
 		/* Volume buttons */
-		const buttonSize = 35 * scene.SCALE;
+		const buttonSize = 35;
 		this.muteMusicButton = new MiniButton(scene, scene.W - 7 * buttonSize, 1.5 * buttonSize, 'music').on('click', () => {
 			this.muteMusicButton.toggle();
 			this.emit('muteMusic', !this.muteMusicButton.active);

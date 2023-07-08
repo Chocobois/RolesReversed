@@ -12,6 +12,7 @@ import { GameOverRoom } from '@/rooms/GameOverRoom';
 
 import { UIOverlay } from '@/components/UIOverlay';
 import { DialogueOverlay } from '@/components/DialogueOverlay';
+import { DialogueKey } from '@/components/Conversations';
 
 export class GameScene extends BaseScene {
 	public background: Phaser.GameObjects.Image;
@@ -147,6 +148,10 @@ export class GameScene extends BaseScene {
 		this.townRoom.setVisible(state == State.Town);
 		this.overworldRoom.setVisible(state == State.Overworld);
 		this.gameOverRoom.setVisible(state == State.GAMEOVER);
+	}
+
+	startDialogue(key: DialogueKey) {
+		this.dialogueOverlay.startDialogue(key);
 	}
 
 	endGame() {

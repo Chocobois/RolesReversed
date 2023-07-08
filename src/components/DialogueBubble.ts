@@ -29,8 +29,8 @@ export class DialogueBubble extends Phaser.GameObjects.Container {
 		this.background = new RoundRectangle(scene, 0, 0, this.width, 100, radius - border / 2, 0xffffff);
 		this.add(this.background);
 
-		this.text = scene.createText(0, 0, fontsize, message.color, message.text);
-		this.text.setOrigin(0.5);
+		this.text = scene.createText(-this.width / 2 + padding / 2, 0, fontsize, message.color, message.text);
+		this.text.setOrigin(0.0, 0.5);
 		this.text.setWordWrapWidth(this.width - padding);
 		this.add(this.text);
 
