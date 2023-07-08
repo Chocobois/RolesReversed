@@ -37,6 +37,9 @@ export class GameScene extends BaseScene {
 	public musicTown: Music;
 	public musicOverworld: Music;
 	public musicVolume: number;
+	
+	//placeholder for now
+	public difficulty: number
 
 	constructor() {
 		super({ key: 'GameScene' });
@@ -93,6 +96,7 @@ export class GameScene extends BaseScene {
 		/* Setup */
 
 		this.money = 100;
+		this.difficulty = 0;
 		this.setRoom(State.Princess);
 	}
 
@@ -125,6 +129,12 @@ export class GameScene extends BaseScene {
 		this.townRoom.setVisible(state == State.Town);
 		this.overworldRoom.setVisible(state == State.Overworld);
 		this.gameOverRoom.setVisible(state == State.GAMEOVER);
+	}
+
+	endGame()
+	{
+		this.setRoom(State.GAMEOVER)
+		this.uiOverlay.setVisible(false);
 	}
 
 	setMusicMuted(muted: boolean) {
