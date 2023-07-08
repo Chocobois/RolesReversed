@@ -17,7 +17,8 @@ export class GameScene extends BaseScene {
 	public background: Phaser.GameObjects.Image;
 
 	public state: State;
-	public money: number;
+	public maxEnergy: number;
+	public energy: number;
 
 	private princessRoom: PrincessRoom;
 	private heroRoom: HeroRoom;
@@ -100,12 +101,21 @@ export class GameScene extends BaseScene {
 
 		/* Setup */
 
-		this.money = 100;
+		this.maxEnergy = 100;
+		this.energy = 50;
 		this.difficulty = 0;
 		this.setRoom(State.Princess);
 	}
 
 	update(time: number, delta: number) {
+		if (this.state == State.Treasure) {
+			const energyRecovery = (4 * delta) / 1000;
+			this.energy = Math.min(this.energy + energyRecovery, this.maxEnergy);
+		} else {
+			const energyLoss = (1 * delta) / 1000;
+			this.energy = Math.max(this.energy - energyLoss, 0);
+		}
+
 		this.princessRoom.update(time, delta);
 		this.heroRoom.update(time, delta);
 		this.treasureRoom.update(time, delta);
@@ -115,7 +125,6 @@ export class GameScene extends BaseScene {
 		//dont update gameOverRoom right now
 
 		this.uiOverlay.update(time, delta);
-		this.uiOverlay.setMoney(this.money);
 
 		this.dialogueOverlay.update(time, delta);
 

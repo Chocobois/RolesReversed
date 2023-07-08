@@ -16,7 +16,7 @@ export class RoomButton extends Button {
 	// private text: Phaser.GameObjects.Text;
 
 	private room: State;
-	private size: number;
+	public size: number;
 	private notificationState: Notification;
 	private label: string | undefined;
 	private gScene: GameScene;
@@ -111,8 +111,7 @@ export class RoomButton extends Button {
 	spawnTooltip(styleOverride?: TooltipStyle) {
 		const replacing = this.tooltip?.active;
 		if (replacing) this.tooltip.destroy();
-		// prettier-ignore
-		const style = styleOverride ? styleOverride : (this.gScene.state == this.room ? TooltipStyle.Light : TooltipStyle.Dark);
+		const style = styleOverride ? styleOverride : this.gScene.state == this.room ? TooltipStyle.Light : TooltipStyle.Dark;
 		const { x: dx, y: dy } = this.parentContainer ?? { x: 0, y: 0 };
 		this.tooltip = new Tooltip(this.scene, dx + this.x, dy + this.y + 76, `${this.label}`, 36, style);
 		if (!replacing) this.tooltip.fade(70);
