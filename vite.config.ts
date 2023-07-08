@@ -44,10 +44,6 @@ export default defineConfig({
 			format: {
 				comments: false,
 			},
-			mangle: {
-				keep_classnames: false,
-				reserved: [],
-			},
 		},
 	},
 	server: {
