@@ -37,7 +37,7 @@ export class Hero extends Phaser.GameObjects.Container {
 				this.bribeAmount = 5000;
 				this.courage = 2;
 				this.isHorny = false;
-				this.reputation = 1;
+				this.reputation = 0.1;
 				this.dialogue = DIALOGUE_0;
 				this.patience = 3000;
 				break;
@@ -45,7 +45,7 @@ export class Hero extends Phaser.GameObjects.Container {
 				this.bribeAmount = 5000;
 				this.courage = 0;
 				this.isHorny = false;
-				this.reputation = 1;
+				this.reputation = 0.1;
 				this.dialogue = DIALOGUE_1;
 				this.patience = 5000;
 				break;
@@ -53,7 +53,7 @@ export class Hero extends Phaser.GameObjects.Container {
 				this.bribeAmount = 100;
 				this.courage = 2;
 				this.isHorny = false;
-				this.reputation = 1;
+				this.reputation = 0.1;
 				this.dialogue = DIALOGUE_2;
 				this.patience = 3000;
 				break;
@@ -61,7 +61,7 @@ export class Hero extends Phaser.GameObjects.Container {
 				this.bribeAmount = 5000;
 				this.courage = 2;
 				this.isHorny = true;
-				this.reputation = 1;
+				this.reputation = 0.1;
 				this.dialogue = DIALOGUE_3;
 				this.patience = 2000;
 				this.heroSprite = 'hero_sleazy';
@@ -70,7 +70,7 @@ export class Hero extends Phaser.GameObjects.Container {
 				this.bribeAmount = 5000;
 				this.courage = 2;
 				this.isHorny = false;
-				this.reputation = 1;
+				this.reputation = 0.1;
 				this.dialogue = DIALOGUE_0;
 				this.patience = 3000;
 				break;

@@ -120,7 +120,7 @@ export class HeroRoom extends Room {
 				}
 
 			}
-			this.cooldown = (250+(750/(1+this.scene.difficulty)));
+			this.cooldown = (1000+(1000/(1+this.scene.difficulty)));
 
 		}
 	}
@@ -129,7 +129,7 @@ export class HeroRoom extends Room {
 		this.heroImage.setTexture(this.heroList[0].heroSprite);
 		this.heroButton.setVisible(true);
 		this.heroList[0].myState = HeroState.IDLE;
-		this.setTimer(500+(1500/(1+this.scene.difficulty)));
+		this.setTimer(1000+(5000/(1+this.scene.difficulty)));
 	}
 
 	movementOpportunity() {
@@ -145,7 +145,8 @@ export class HeroRoom extends Room {
 				//set the hero to do actions
 				this.queueFlag = queueState.ACTIVE;
 				this.heroList[0].myState = HeroState.SPEAKING;
-				this.setTimer(3000);
+				this.roomButton.setNotification(Notification.Danger);
+				this.setTimer(1000+(5000/(1+this.scene.difficulty)));
 				if(this.visible == true)
 				{
 					this.timer.paused = true;
@@ -155,7 +156,7 @@ export class HeroRoom extends Room {
 				if(this.heroList[0].myState == HeroState.SPEAKING)
 				{
 					this.heroList[0].myState = HeroState.SELECTED;
-					this.setTimer(3000);
+					this.setTimer(1000+(5000/(1+this.scene.difficulty)));
 					return;
 				} else if (this.heroList[0].myState == HeroState.SELECTED) {
 					this.scene.endGame();
@@ -202,12 +203,11 @@ export class HeroRoom extends Room {
 		this.heroList[0].myState = HeroState.CLEARED;
 		this.heroButton.setVisible(false);
 		this.heroList.shift();
-		if(this.heroList.length > 0)
-		{
+		this.roomButton.setNotification(Notification.Calm);
+		if (this.heroList.length > 0) {
 			//short cooldown before next hero
 			this.queueFlag = queueState.CLEARING;
-			this.setTimer(1000);
-
+			this.setTimer(500 + 500 / (1 + this.scene.difficulty));
 		} else {
 			//hacky fix for now
 			this.setTimer(999999999);
@@ -215,7 +215,8 @@ export class HeroRoom extends Room {
 			this.queueFlag = queueState.IDLE;
 		}
 		this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
-		this.cooldown = 3000;
+		this.scene.difficulty += this.heroList[0].reputation;
+		this.cooldown = 1000 + 1000 / (1 + this.scene.difficulty);
 		//this.currentHero = null;
 	}
 
