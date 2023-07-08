@@ -44,6 +44,7 @@ jobs:
             ./dist/game-web.zip
             ./dist/game-mac.zip
             ./dist/game-win.zip
+            ./dist/game.dmg
 
       - name: Upload to Itch
         uses: Ayowel/butler-to-itch@v1.0.0

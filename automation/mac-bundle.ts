@@ -52,6 +52,12 @@ const BuildMacApp = () => {
 	copyFileSync(`${buildPath}/resources.neu`, `${root}/Contents/MacOS/resources.neu`);
 	copyFileSync(`./src/public/icon.png`, `${root}/Contents/Resources/icon.png`);
 	renameSync(root, `${root}.app`);
+
+	try {
+		execSync(`mkisofs -J -R -o ./dist/game.dmg -mac-name -V DmgLabel -apple -v -dir-mode 777 -file-mode 777 ${root}.app`, { stdio: 'inherit' });
+	} catch (err) {
+		console.log(`Can't build dmg`);
+	}
 };
 
 export default function buildMacApp() {
