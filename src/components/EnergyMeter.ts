@@ -24,10 +24,10 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 		this.scene.add.existing(this);
 
 		// const fontsize = 60;
-		const radius = 13;
+		const radius = 14;
 		const border = 12;
 
-		this.width = 150;
+		this.width = 170;
 		this.height = radius / 2;
 		// this.x = roomButton.x;
 		this.y = -roomButton.size / 2 + border / 2;
