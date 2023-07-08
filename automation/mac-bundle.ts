@@ -1,5 +1,5 @@
 import { PluginOption } from 'vite';
-import { team, name } from '../game.json';
+import { team, title } from '../game.json';
 import { execSync } from 'child_process';
 import { mkdirSync, writeFileSync, copyFileSync, renameSync } from 'fs';
 
@@ -9,7 +9,7 @@ const BuildMacApp = () => {
 	const version = `v${count}.${short}`;
 
 	const teamId = team.toLowerCase().replace(/\s/gi, '-');
-	const appId = name.toLowerCase().replace(/\s/gi, '-');
+	const appId = title.toLowerCase().replace(/\s/gi, '-');
 	const buildName = `${teamId}-${appId}`;
 
 	const plist = `<?xml version="1.0" encoding="UTF-8"?>
@@ -17,13 +17,13 @@ const BuildMacApp = () => {
 <plist version="1.0">
 <dict>
   <key>NSHumanReadableCopyright</key>
-  <string>${name} ${version} © ${team}</string>
+  <string>${title} ${version} © ${team}</string>
   <key>CFBundleExecutable</key>
   <string>game</string>
   <key>CFBundleIdentifier</key>
   <string>com.${teamId}.${appId}</string>
   <key>CFBundleName</key>
-  <string>${name}</string>
+  <string>${title}</string>
   <key>CFBundleIconFile</key>
   <string>icon.png</string>
   <key>CFBundleShortVersionString</key>
@@ -41,7 +41,7 @@ const BuildMacApp = () => {
 
 	mkdirSync(`./dist/mac/`);
 
-	const root = `./dist/mac/${name}`;
+	const root = `./dist/mac/${title}`;
 	const buildPath = `./dist/${buildName}/`;
 
 	mkdirSync(root);
@@ -56,7 +56,7 @@ const BuildMacApp = () => {
 	renameSync(root, `${root}.app`);
 
 	try {
-		execSync(`mkisofs -J -R -o ./dist/game-mac.dmg -mac-name -V "${name}" -apple -v -dir-mode 777 -file-mode 777 "./dist/mac/"`);
+		execSync(`mkisofs -J -R -o ./dist/game-mac.dmg -mac-name -V "${title}" -apple -v -dir-mode 777 -file-mode 777 "./dist/mac/"`);
 	} catch (err) {
 		console.log(`Failed to build dmg`);
 	}
