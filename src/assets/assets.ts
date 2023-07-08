@@ -33,6 +33,7 @@ const images: Asset[] = [
 	image('ui/notification-sleeping', 'button_notification_sleeping'),
 	image('ui/notification-dead', 'button_notification_dead'),
 	image('ui/speechbubble-small', 'speechbubble_small'),
+	image('ui/down_arrow', 'down_arrow'),
 
 	// Sprites
 	image('sprites/princess', 'princess_default'),
