@@ -139,6 +139,12 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.otherButton.update(time, delta);
 
 		this.energyMeter.update(time, delta);
+
+		// Don't show the top right buttons on the game over screen
+		const hideButtons = this.scene.state == State.GAMEOVER ? 0 : 1;
+		this.muteMusicButton.alpha = hideButtons;
+		this.muteSoundButton.alpha = hideButtons;
+		this.pauseButton.alpha = hideButtons;
 	}
 
 	setRoom(state: State) {

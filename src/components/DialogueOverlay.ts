@@ -42,7 +42,7 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 		this.bubbleSpacing = 30;
 
 		this.hide();
-		this.startDialogue(DialogueKey.PrincessIntroduction);
+		// this.startDialogue(DialogueKey.PrincessIntroduction);
 	}
 
 	update(time: number, delta: number) {
