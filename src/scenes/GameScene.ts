@@ -70,8 +70,9 @@ export class GameScene extends BaseScene {
 		this.dialogueOverlay = new DialogueOverlay(this);
 		this.dialogueOverlay.on('finishDialogue', () => {}, this);
 
-		this.debugText = this.createText(0, 0, 40, 'white');
+		this.debugText = this.createText(0, 0, 30, 'white');
 		this.debugText.setStroke('black', 10);
+		this.debugText.setLineSpacing(-10);
 
 		this.princessRoom.setRoomButton(this.uiOverlay.princessButton);
 		this.heroRoom.setRoomButton(this.uiOverlay.heroButton);
@@ -104,7 +105,7 @@ export class GameScene extends BaseScene {
 		this.maxEnergy = 100;
 		this.energy = 50;
 		this.difficulty = 0;
-		this.setRoom(State.Princess);
+		this.setRoom(State.Shop);
 	}
 
 	update(time: number, delta: number) {
