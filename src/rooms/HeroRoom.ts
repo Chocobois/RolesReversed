@@ -52,7 +52,7 @@ export class HeroRoom extends Room {
 		this.heroButton.on('click', this.onHeroClick, this);
 
 		this.timer = this.scene.time.addEvent({
-			delay: 0,
+			delay: 999999,
 			callback: this.movementOpportunity,
 			callbackScope: this,
 			paused: true,
@@ -77,19 +77,11 @@ export class HeroRoom extends Room {
 
 	setVisible(isShown: boolean): this {
 		if (isShown) {
-			/*
 			if (this.timer) {
-				switch (this.heroState) {
-					case HeroState.Absent:
-						this.timer.paused = true;
-						break;
-
-					case HeroState.Arrived:
-						this.setHeroState(HeroState.Speaking);
-						break;
+				if (this.queueFlag == queueState.ACTIVE) {			
+					this.timer.paused = true;
 				}
 			}
-			*/
 		} else {
 			if (this.timer.paused) {
 				this.timer.paused = false;
@@ -117,38 +109,58 @@ export class HeroRoom extends Room {
 		}
 		//if idling state and no cooldown try to push a hero to the queue
 		if((this.queueFlag == queueState.IDLE || this.queueFlag == queueState.WAITING) && this.cooldown <= 0) {
-			if(chance(0.9)){ 
+			if(chance(0.8)){ 
 				this.heroList.push(new Hero(this.scene, 0.2 * this.scene.W, 0.93 * this.scene.H, 'hero_normal', Math.floor(Math.random()*4)));
 				this.queueFlag = queueState.WAITING;
-				//activate the FRONT hero in the queue
-				this.heroImage.setTexture(this.heroList[0].heroSprite);
-				this.heroButton.setVisible(true);
-				this.movementOpportunity();
+
+				//activate immediately if this is the FRONT hero in the queue
+				if(this.heroList.length == 1)
+				{
+					this.activateHero();
+				}
+
 			}
-			this.cooldown = 3000;
+			this.cooldown = 1000;
 
 		}
 	}
+
+	activateHero() {
+		this.heroImage.setTexture(this.heroList[0].heroSprite);
+		this.heroButton.setVisible(true);
+		this.heroList[0].myState = HeroState.IDLE;
+		this.setTimer(2000);
+	}
+
 	movementOpportunity() {
 		function chance(odds: number) {
 			return Math.random() < odds;
 		}
 		switch (this.queueFlag) {
+			case queueState.CLEARING:
+				this.activateHero();
+				this.queueFlag = queueState.WAITING;
 			case queueState.WAITING:
 				//this scene has an active hero so we don't push to the queue
 				//set the hero to do actions
 				this.queueFlag = queueState.ACTIVE;
-				if(this.heroList[0].myState == HeroState.QUEUED)
+				this.heroList[0].myState = HeroState.SPEAKING;
+				this.setTimer(3000);
+				if(this.visible == true)
 				{
-					this.heroList[0].myState = HeroState.IDLE;
-					this.setTimer(2000);
-					this.timer.paused = false;
-					return;
+					this.timer.paused = true;
 				}
-				//this.heroList[0].myState = HeroState.SPEAKING;
-				break;
+				return;
 			case queueState.ACTIVE:
-				break;
+				if(this.heroList[0].myState == HeroState.SPEAKING)
+				{
+					this.heroList[0].myState = HeroState.SELECTED;
+					this.setTimer(3000);
+					return;
+				} else if (this.heroList[0].myState == HeroState.SELECTED) {
+					this.scene.endGame();
+				}
+				return;
 
 		}
 	}
@@ -190,6 +202,20 @@ export class HeroRoom extends Room {
 		this.heroList[0].myState = HeroState.CLEARED;
 		this.heroButton.setVisible(false);
 		this.heroList.shift();
+		if(this.heroList.length > 0)
+		{
+			//short cooldown before next hero
+			this.queueFlag = queueState.CLEARING;
+			this.setTimer(1000);
+
+		} else {
+			//hacky fix for now
+			this.setTimer(999999999);
+			this.timer.paused = true;
+			this.queueFlag = queueState.IDLE;
+		}
+		this.scene.sound.play('HIT_SOUND');
+		this.cooldown = 3000;
 		//this.currentHero = null;
 	}
 
@@ -199,12 +225,14 @@ export class HeroRoom extends Room {
 			if(this.heroList.length > 0)
 			{
 				switch (this.heroList[0].myState) {
+					case HeroState.QUEUED:
+						return 'Arriving, ' + this.heroList.length + " in queue";
 					case HeroState.IDLE:
 						return 'Waiting';
 					case HeroState.SPEAKING:
 						return 'Speaking';
 					case HeroState.SELECTED:
-						return 'Interacting';
+						return 'ACTing';
 					case HeroState.CLEARED:
 						return 'Defeated';
 				}
@@ -217,11 +245,12 @@ export class HeroRoom extends Room {
 		};
 
 		let remaining = Math.ceil(this.timer.getRemaining() / 1000) + 's';
+		let paused = this.timer.paused ? ' paused' : '';
 		if(this.heroList.length == 0)
 		{
+			paused = '';
 			remaining = 'spawning cooldown: ' + Math.ceil(this.cooldown / 1000) + 's';
 		}
-		let paused = this.timer.paused ? ' paused' : '';
 		return `Hero: ${getStateText()} (${remaining}${paused})`;
 	}
 }
