@@ -73,6 +73,10 @@ const audios: Audio[] = [
 ];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');
+// await loadFont('Itim/Itim-Regular', 'Game Font');
+// await loadFont('Pangolin/Pangolin-Regular', 'Game Font');
+await loadFont('Signika/Signika-VariableFont_wght', 'Game Font');
+// await loadFont('Convergence/Convergence-Regular', 'Game Font');
 
 export {
 	images,
