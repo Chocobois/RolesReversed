@@ -148,8 +148,10 @@ export class GameScene extends BaseScene {
 	}
 
 	endGame() {
+		if (this.state != State.GAMEOVER) {
+			this.sound.play('GAME_OVER_SOUND');
+		}
 		this.setRoom(State.GAMEOVER);
-		this.sound.play('GAME_OVER_SOUND');
 		this.uiOverlay.setVisible(false);
 	}
 

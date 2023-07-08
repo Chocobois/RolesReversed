@@ -84,7 +84,7 @@ export class PrincessRoom extends Room {
 
 		switch (this.princessState) {
 			case PrincessState.Idle:
-				if (chance(0.5)) {
+				if (chance(0.2*(1+this.scene.difficulty))) {
 					this.setPrincessState(PrincessState.Escaping);
 				} else if (chance(0.5)) {
 					this.setPrincessState(PrincessState.Sleeping);
@@ -127,7 +127,7 @@ export class PrincessRoom extends Room {
 			case PrincessState.Escaping:
 				this.princessImage.setTexture('princess_escape_1');
 				this.princessButton.setPosition(1080, 500);
-				this.setTimer(10000);
+				this.setTimer(5000 + 5000 / (1 + this.scene.difficulty));
 				break;
 			case PrincessState.Fled:
 				this.princessButton.setVisible(false);
