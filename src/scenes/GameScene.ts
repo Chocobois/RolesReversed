@@ -5,7 +5,7 @@ import { Music } from '@/components/Music';
 import { PrincessRoom } from '@/rooms/PrincessRoom';
 import { HeroRoom } from '@/rooms/HeroRoom';
 import { TreasureRoom } from '@/rooms/TreasureRoom';
-import { ShopRoom } from '@/rooms/ShopRoom';
+import { ItemData, ShopRoom } from '@/rooms/ShopRoom';
 import { TownRoom } from '@/rooms/TownRoom';
 import { OverworldRoom } from '@/rooms/OverworldRoom';
 import { GameOverRoom } from '@/rooms/GameOverRoom';
@@ -106,16 +106,14 @@ export class GameScene extends BaseScene {
 		this.maxEnergy = 100;
 		this.energy = 50;
 		this.difficulty = 0;
-		this.setRoom(State.Treasure);
+		this.setRoom(State.Princess);
 	}
 
 	update(time: number, delta: number) {
 		if (this.state == State.Treasure) {
-			const energyRecovery = (4 * delta) / 1000;
-			this.energy = Math.min(this.energy + energyRecovery, this.maxEnergy);
+			this.addEnergy(4 * (delta / 1000));
 		} else {
-			const energyLoss = (1 * delta) / 1000;
-			this.energy = Math.max(this.energy - energyLoss, 0);
+			this.addEnergy(-1 * (delta / 1000));
 		}
 
 		this.princessRoom.update(time, delta);
@@ -150,8 +148,16 @@ export class GameScene extends BaseScene {
 		this.gameOverRoom.setVisible(state == State.GAMEOVER);
 	}
 
-	startDialogue(key: DialogueKey) {
-		this.dialogueOverlay.startDialogue(key);
+	startDialogue(key: DialogueKey, callback: (success: boolean) => void) {
+		this.dialogueOverlay.startDialogue(key, callback);
+	}
+
+	addEnergy(increment: number) {
+		this.energy = Math.min(Math.max(this.energy + increment, 0), 100);
+	}
+
+	setHeldItem(itemData: ItemData) {
+		this.princessRoom.setHeldItem(itemData);
 	}
 
 	endGame() {

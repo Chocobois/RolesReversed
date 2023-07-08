@@ -2,6 +2,7 @@ import { GameScene } from '../scenes/GameScene';
 import { Room } from './Room';
 import { Button } from '@/components/Button';
 import { Notification } from '@/components/RoomButton';
+import { ItemType, ItemData, shopItems } from './ShopRoom';
 
 enum PrincessState {
 	Idle,
@@ -19,6 +20,10 @@ export class PrincessRoom extends Room {
 	public princessButton: Button;
 	public princessImage: Phaser.GameObjects.Image;
 
+	public speechBubble: Phaser.GameObjects.Container;
+	public speechBubbleBackground: Phaser.GameObjects.Image;
+	public speechBubbleItem: Phaser.GameObjects.Image;
+
 	private princessState: PrincessState;
 	private timer: Phaser.Time.TimerEvent;
 
@@ -26,7 +31,10 @@ export class PrincessRoom extends Room {
 	private happiness: number;
 	private hunger: number;
 	private patience: number;
-	private wantedItem: string;
+	private wantedItem: ItemData | null; // Item the princess requests
+	private heldItem: ItemData | null; // Item the dragon is holding
+	private activeItem: ItemData | null; // Item the princess is using
+	private itemLifetime: number;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -46,6 +54,18 @@ export class PrincessRoom extends Room {
 		this.princessButton.bindInteractive(this.princessImage, false);
 		this.princessButton.on('click', this.onPrincessClick, this);
 
+		// Speech bubble for item requests
+		this.speechBubble = scene.add.container(650, 350);
+		this.speechBubble.setVisible(false);
+
+		this.speechBubbleBackground = scene.add.image(0, 0, 'speechbubble_small');
+		this.speechBubble.add(this.speechBubbleBackground);
+
+		this.speechBubbleItem = scene.add.image(-15, 0, shopItems[0].image);
+		this.speechBubbleItem.setScale(0.75);
+		this.speechBubble.add(this.speechBubbleItem);
+
+		// Timer
 		this.timer = this.scene.time.addEvent({
 			delay: 3000,
 			callback: this.movementOpportunity,
@@ -54,9 +74,13 @@ export class PrincessRoom extends Room {
 		});
 
 		this.energy = 50;
-		this.happiness = 50;
+		this.happiness = 0;
 		this.hunger = 100;
 		this.patience = 100;
+		this.wantedItem = null;
+		this.heldItem = null;
+		this.activeItem = null;
+		this.itemLifetime = 100;
 
 		this.setPrincessState(PrincessState.Idle);
 	}
@@ -242,15 +266,42 @@ export class PrincessRoom extends Room {
 			if (this.wantedItem) {
 				this.setPrincessState(PrincessState.Begging);
 			}
+
+			return;
+		}
+
+		if (this.princessState == PrincessState.Begging) {
+			if (this.heldItem == this.wantedItem) {
+				this.setPrincessState(PrincessState.Playing);
+
+				this.speechBubble.setVisible(false);
+				this.activeItem = this.heldItem;
+				this.itemLifetime = 100;
+				this.wantedItem = null;
+				this.heldItem = null;
+			}
 		}
 	}
 
 	makePrincessBeg() {
 		this.setPrincessState(PrincessState.Begging);
 
-		if (this.happiness == 0) {
-			this.wantedItem = 'burger';
+		let items = Object.values(ItemType);
+		if (this.hunger == 0) {
+			items = [ItemType.Burger, ItemType.Cake];
+		} else if (this.happiness == 0) {
+			items = [ItemType.Book, ItemType.Toy];
 		}
+
+		let key = Phaser.Math.RND.pick(items);
+		this.wantedItem = shopItems.find((item) => item.type == key)!;
+
+		this.speechBubble.setVisible(true);
+		this.speechBubbleItem.setTexture(this.wantedItem.image);
+	}
+
+	setHeldItem(itemData: ItemData) {
+		this.heldItem = itemData;
 	}
 
 	addEnergy(increment: number) {

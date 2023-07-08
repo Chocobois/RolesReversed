@@ -18,6 +18,29 @@ export interface ItemData {
 	name: string;
 }
 
+export const shopItems: ItemData[] = [
+	{
+		type: ItemType.Burger,
+		image: 'item_burger',
+		name: 'Burger',
+	},
+	{
+		type: ItemType.Book,
+		image: 'item_book',
+		name: 'Book',
+	},
+	{
+		type: ItemType.Toy,
+		image: 'item_toy',
+		name: 'Toy',
+	},
+	{
+		type: ItemType.Cake,
+		image: 'item_cake',
+		name: 'Cake',
+	},
+];
+
 export class ShopRoom extends Room {
 	public background: Phaser.GameObjects.Image;
 	private ownerButton: Button;
@@ -29,8 +52,6 @@ export class ShopRoom extends Room {
 	private buyImage: Phaser.GameObjects.Image;
 
 	private items: ShopItem[];
-
-	private itemsForSale: ItemData[];
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -47,29 +68,6 @@ export class ShopRoom extends Room {
 			},
 			this
 		);
-
-		this.itemsForSale = [
-			{
-				type: ItemType.Burger,
-				image: 'item_burger',
-				name: 'Burger',
-			},
-			{
-				type: ItemType.Book,
-				image: 'item_book',
-				name: 'Book',
-			},
-			{
-				type: ItemType.Toy,
-				image: 'item_toy',
-				name: 'Toy',
-			},
-			{
-				type: ItemType.Cake,
-				image: 'item_cake',
-				name: 'Cake',
-			},
-		];
 
 		const W = this.scene.W;
 		const H = this.scene.H;
@@ -129,7 +127,7 @@ export class ShopRoom extends Room {
 				const y = itemTop + j * itemHeight;
 
 				let item = new ShopItem(this.scene, x, y, itemSize);
-				item.setItem(this.itemsForSale[j * 2 + i]);
+				item.setItem(shopItems[j * 2 + i]);
 				item.on(
 					'click',
 					() => {
@@ -154,9 +152,13 @@ export class ShopRoom extends Room {
 	}
 
 	selectItem(itemData: ItemData | null) {
-		console.log('BUY', itemData);
 		if (itemData) {
-			this.scene.startDialogue(DialogueKey.ShopPurchase);
+			this.scene.startDialogue(DialogueKey.ShopPurchase, (success: boolean) => {
+				if (success) {
+					this.scene.addEnergy(-50);
+					this.scene.setHeldItem(itemData);
+				}
+			});
 		}
 	}
 

@@ -17,6 +17,7 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 
 	private currentConversation: Conversation;
 	private currentMessage: Message;
+	private callback: (success: boolean) => void;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -54,10 +55,12 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 		});
 	}
 
-	startDialogue(key: DialogueKey) {
+	startDialogue(key: DialogueKey, callback: (success: boolean) => void) {
 		this.setVisible(true);
 
-		this.currentConversation = Object.assign({}, getDialogue(key)); // Deep copy
+		this.callback = callback;
+		this.currentConversation = structuredClone(getDialogue(key)); // Deep copy
+		console.log(this.currentConversation);
 
 		this.leftSprite.setTexture(this.currentConversation.spriteLeft);
 		this.rightSprite.setTexture(this.currentConversation.spriteRight);
@@ -84,6 +87,7 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 			this.add(newBubble);
 			this.bubbles.push(newBubble);
 		} else {
+			this.callback(true);
 			this.hide();
 		}
 	}
