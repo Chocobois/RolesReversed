@@ -44,3 +44,4 @@ src/neutralino.js
 .firebase/
 *.zip
 src/version.json
+neutralino.config.json

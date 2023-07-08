@@ -12,11 +12,7 @@
     "enabled": true,
     "writeToLogFile": false
   },
-  "nativeAllowList": [
-    "app.exit",
-    "os.showMessageBox",
-    "window.center"
-  ],
+  "nativeAllowList": ["app.exit", "window.center"],
   "modes": {
     "window": {
       "title": "Chocobois Game Jam Template",
