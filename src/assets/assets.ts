@@ -68,6 +68,8 @@ const images: Asset[] = [
 	image('placeholder/placeholder_ui_prev', 'placeholder_ui_prev'),
 	image('placeholder/placeholder_ui_warning1', 'placeholder_ui_warning1'),
 	image('placeholder/placeholder_ui_warning2', 'placeholder_ui_warning2'),
+
+	image('placeholder/placeholder_sleazy', 'hero_sleazy'),
 ];
 
 /* Spritesheets */
