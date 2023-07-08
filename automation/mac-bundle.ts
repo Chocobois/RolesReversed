@@ -59,7 +59,6 @@ const BuildMacApp = () => {
 
 	try {
 		execSync(`mkisofs -J -R -o ./dist/game-mac.dmg -mac-name -V "${title}" -apple -v -dir-mode 777 -file-mode 777 "./dist/mac/"`);
-		console.log(`Done!`);
 	} catch (err) {
 		console.log(`Failed to build dmg`);
 	}
