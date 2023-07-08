@@ -240,7 +240,7 @@ export class ShopRoom extends Room {
 			if (cost > 0) {
 				this.ownerImage.setFrame(1);
 
-				if (this.scene.money >= cost) {
+				if (this.scene.energy >= cost) {
 					this.buyButton.enabled = true;
 					this.buyButton.setAlpha(1.0);
 					if (this.buyImage.input) this.buyImage.input.cursor = 'pointer';
@@ -265,8 +265,8 @@ export class ShopRoom extends Room {
 		if (this.selectedItem) {
 			const cost = this.selectedItem.price;
 
-			if (this.scene.money >= cost) {
-				this.scene.money -= cost;
+			if (this.scene.energy >= cost) {
+				this.scene.energy -= cost;
 				this.scene.sound.play('s_buy');
 
 				this.emit('buy', this.selectedItem);

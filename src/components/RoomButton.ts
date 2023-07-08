@@ -16,7 +16,7 @@ export class RoomButton extends Button {
 	// private text: Phaser.GameObjects.Text;
 
 	private room: State;
-	private size: number;
+	public size: number;
 	private notificationState: Notification;
 	private label: string | undefined;
 	private gScene: GameScene;
@@ -88,7 +88,7 @@ export class RoomButton extends Button {
 	}
 
 	onOver(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
-		if (this.label) this.spawnTooltip()
+		if (this.label) this.spawnTooltip();
 
 		// Code inherited from Button.ts:
 		this.hover = true;
@@ -106,7 +106,7 @@ export class RoomButton extends Button {
 	}
 
 	spawnTooltip(styleOverride?: TooltipStyle) {
-		const style = styleOverride ? styleOverride : (this.gScene.state == this.room ? TooltipStyle.Light : TooltipStyle.Dark);
+		const style = styleOverride ? styleOverride : this.gScene.state == this.room ? TooltipStyle.Light : TooltipStyle.Dark;
 		const { x: dx, y: dy } = this.parentContainer ?? { x: 0, y: 0 };
 		this.tooltip = new Tooltip(this.scene, dx + this.x, dy + this.y + 76, `${this.label}`, 36, style);
 	}

@@ -17,29 +17,33 @@ export interface Audio {
 	rate?: number;
 }
 
-const imageGlob = import.meta.glob('./images/**/*.png', {as: 'url', eager: true});
+const imageGlob = import.meta.glob('./images/**/*.png', { as: 'url', eager: true });
 export const image = (path: string, key: string): Asset => {
 	return { key, path: imageGlob[`./images/${path}.png`] };
-}
+};
 
 export const spritesheet = (path: string, key: string, width: number, height: number): SpriteSheet => {
 	return { key, width, height, path: imageGlob[`./images/${path}.png`] };
-}
+};
 
-const musicGlob = import.meta.glob('./music/**/*.mp3', {as: 'url', eager: true});
+const musicGlob = import.meta.glob('./music/**/*.mp3', { as: 'url', eager: true });
 export const music = (path: string, key: string, volume?: number, rate?: number): Audio => {
 	return { key, volume, rate, path: musicGlob[`./music/${path}.mp3`] };
-}
+};
 
-const audioGlob = import.meta.glob('./sounds/**/*.mp3', {as: 'url', eager: true});
+const audioGlob = import.meta.glob('./sounds/**/*.mp3', { as: 'url', eager: true });
 export const sound = (path: string, key: string, volume?: number, rate?: number): Audio => {
 	return { key, volume, rate, path: audioGlob[`./sounds/${path}.mp3`] };
-}
+};
 
-const fontGlob = import.meta.glob('./fonts/**/*.ttf', {as: 'url', eager: true});
+const fontGlob = import.meta.glob('./fonts/**/*.ttf', { as: 'url', eager: true });
 export const loadFont = async (path: string, name: string) => {
-    const face = new FontFace(name, `url(${fontGlob[`./fonts/${path}.ttf`]})`, {style: 'normal', weight: '400'});
-    await face.load();
-    document.fonts.add(face);
-}
+	const face = new FontFace(name, `url(${fontGlob[`./fonts/${path}.ttf`]})`, { style: 'normal', weight: '400' });
+	await face.load();
+	document.fonts.add(face);
+};
 
+// Return interpolated color between two color1 and color2 at value (0-1)
+export function interpolateColor(color1: number, color2: number, value: number): number {
+	return Phaser.Display.Color.ObjectToColor(Phaser.Display.Color.Interpolate.ColorWithColor(Phaser.Display.Color.ValueToColor(color1), Phaser.Display.Color.ValueToColor(color2), 255, value * 255)).color;
+}
