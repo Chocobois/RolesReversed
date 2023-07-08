@@ -65,8 +65,12 @@ const images: Asset[] = [
 	image('placeholder/placeholder_ui_warning2', 'placeholder_ui_warning2'),
 ];
 
-/* Spritesheets */
-const spritesheets: SpriteSheet[] = [spritesheet('ui/audio', 'audio', 300, 300), spritesheet('ui/music', 'music', 300, 300)];
+/* Spritesheets */ // prettier-ignore
+const spritesheets: SpriteSheet[] = [
+	spritesheet('ui/audio', 'audio', 300, 300),
+	spritesheet('ui/music', 'music', 300, 300),
+	spritesheet('ui/pause', 'pause', 300, 300),
+];
 
 /* Audios */
 const audios: Audio[] = [
