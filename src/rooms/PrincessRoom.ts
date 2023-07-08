@@ -201,7 +201,7 @@ export class PrincessRoom extends Room {
 
 		switch (this.princessState) {
 			case PrincessState.Idle:
-				if (chance(0.02 * (1 + this.scene.difficulty))) {
+				if (chance(0.05 * (1 + this.scene.difficulty))) {
 					this.setPrincessState(PrincessState.Escaping);
 				} else {
 					this.setPrincessState(PrincessState.Idle); // Resets timer and image
@@ -214,7 +214,7 @@ export class PrincessRoom extends Room {
 
 			case PrincessState.Escaping:
 				this.setPrincessState(PrincessState.Fled);
-				this.scene.endGame();
+				// this.scene.endGame();
 				break;
 
 			case PrincessState.Eating:
@@ -227,6 +227,8 @@ export class PrincessRoom extends Room {
 	setPrincessState(state: PrincessState) {
 		this.princessState = state;
 
+		this.speechBubble.setVisible(false);
+
 		switch (this.princessState) {
 			case PrincessState.Idle:
 				this.princessButton.setPosition(960, 800);
@@ -236,6 +238,7 @@ export class PrincessRoom extends Room {
 			case PrincessState.Begging:
 				this.princessButton.setPosition(960, 800);
 				this.princessImage.setTexture('princess_plead');
+				this.speechBubble.setVisible(true);
 				break;
 			case PrincessState.Sleeping:
 				this.princessImage.setTexture(Phaser.Math.RND.pick(['princess_laying', 'princess_laying_2', 'princess_laying_3']));
@@ -295,6 +298,7 @@ export class PrincessRoom extends Room {
 					this.roomButton.setNotification(Notification.Danger);
 					break;
 				case PrincessState.Dead:
+				case PrincessState.Fled:
 					this.roomButton.setNotification(Notification.Dead);
 					break;
 				default:
@@ -319,13 +323,16 @@ export class PrincessRoom extends Room {
 
 		if (this.princessState == PrincessState.Begging) {
 			if (this.heldItem == this.wantedItem) {
-				this.speechBubble.setVisible(false);
 				this.activeItem = this.heldItem;
 				this.roomButton.setHeldItem(this.activeItem!.image);
 				this.wantedItem = null;
 				this.heldItem = null;
 
-				this.setPrincessState(PrincessState.Playing);
+				if (this.activeItem?.type == ItemType.Burger || this.activeItem?.type == ItemType.Cake) {
+					this.setPrincessState(PrincessState.Eating);
+				} else {
+					this.setPrincessState(PrincessState.Playing);
+				}
 			}
 		}
 	}
@@ -343,7 +350,6 @@ export class PrincessRoom extends Room {
 		let key = Phaser.Math.RND.pick(items);
 		this.wantedItem = shopItems.find((item) => item.type == key)!;
 
-		this.speechBubble.setVisible(true);
 		this.speechBubbleItem.setTexture(this.wantedItem.image);
 	}
 
