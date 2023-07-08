@@ -120,7 +120,7 @@ export class HeroRoom extends Room {
 				}
 
 			}
-			this.cooldown = 1000;
+			this.cooldown = (250+(750/(1+this.scene.difficulty)));
 
 		}
 	}
@@ -129,7 +129,7 @@ export class HeroRoom extends Room {
 		this.heroImage.setTexture(this.heroList[0].heroSprite);
 		this.heroButton.setVisible(true);
 		this.heroList[0].myState = HeroState.IDLE;
-		this.setTimer(2000);
+		this.setTimer(500+(1500/(1+this.scene.difficulty)));
 	}
 
 	movementOpportunity() {
