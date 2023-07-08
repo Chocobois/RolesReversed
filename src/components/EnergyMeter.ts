@@ -2,6 +2,7 @@ import { interpolateColor } from '@/assets/util';
 import { GameScene } from '../scenes/GameScene';
 import { RoundRectangle } from './RoundRectangle';
 import State from './State';
+import { Notification, RoomButton } from './RoomButton';
 
 const COLOR_GOLD = 0xffaa00;
 const COLOR_HEALING = 0xffffff;
@@ -9,15 +10,17 @@ const COLOR_DANGER = 0xff0000;
 
 export class EnergyMeter extends Phaser.GameObjects.Container {
 	public scene: GameScene;
+	private roomButton: RoomButton;
 
 	private border: RoundRectangle;
 	private background: RoundRectangle;
 	private foreground: RoundRectangle;
 	private text: Phaser.GameObjects.Text;
 
-	constructor(scene: GameScene, x: number, y: number) {
-		super(scene, x, y);
+	constructor(scene: GameScene, roomButton: RoomButton) {
+		super(scene);
 		this.scene = scene;
+		this.roomButton = roomButton;
 		this.scene.add.existing(this);
 
 		// const fontsize = 60;
@@ -26,7 +29,8 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 
 		this.width = 150;
 		this.height = radius / 2;
-		this.y -= this.height;
+		// this.x = roomButton.x;
+		this.y = -roomButton.size / 2 + border / 2;
 
 		this.border = new RoundRectangle(scene, 0, 0, this.width + border, this.height + border, radius, 0x000000);
 		this.add(this.border);
@@ -53,10 +57,16 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 
 		let color = COLOR_GOLD;
 		let anim = 0.5 + 0.5 * Math.sin(time / 100);
+		this.roomButton.setNotification(Notification.Calm);
+
+		// Healing energy
 		if (this.scene.state == State.Treasure) {
 			color = interpolateColor(COLOR_GOLD, COLOR_HEALING, anim);
-		} else if (this.scene.energy < 20) {
+		}
+		// Critical energy level
+		else if (this.scene.energy < 30) {
 			color = interpolateColor(COLOR_GOLD, COLOR_DANGER, anim);
+			this.roomButton.setNotification(Notification.Danger);
 		}
 		this.foreground.setColor(color);
 	}
