@@ -62,6 +62,10 @@ export class RoomButton extends Button {
 			const squish = 0.05;
 			this.notification.setOrigin(0.5, 0.5 + squish * Math.sin(time / 200));
 		}
+		if (this.notificationState == Notification.Question) {
+			const squish = 0.3;
+			this.notification.setScale(0.7 + squish * Math.abs(Math.sin(time / 200)), 1.0 - squish + squish * Math.abs(Math.sin(time / 200)));
+		}
 		if (this.notificationState == Notification.Danger) {
 			const squish = 0.3;
 			this.notification.setScale(0.7 + squish * Math.abs(Math.sin(time / 200)), 1.0 - squish + squish * Math.abs(Math.sin(time / 200)));
