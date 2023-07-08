@@ -56,9 +56,9 @@ const BuildMacApp = () => {
 	renameSync(root, `${root}.app`);
 
 	try {
-		execSync(`mkisofs -J -R -o ./dist/game.dmg -mac-name -V DmgLabel -apple -v -dir-mode 777 -file-mode 777 "./dist/mac/"`, { stdio: 'inherit' });
+		execSync(`mkisofs -J -R -o ./dist/game-mac.dmg -mac-name -V "${name}" -apple -v -dir-mode 777 -file-mode 777 "./dist/mac/"`);
 	} catch (err) {
-		console.log(`Can't build dmg`);
+		console.log(`Failed to build dmg`);
 	}
 };
 
