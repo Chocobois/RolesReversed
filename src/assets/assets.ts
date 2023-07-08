@@ -28,17 +28,17 @@ const images: Asset[] = [
 	image('ui/ring2', 'button_ring_on'),
 
 	// Sprites
-	image('sprites/princess', 'princess_default',),
-	image('sprites/princess-plead', 'princess_plead',),
-	image('sprites/princess-stare', 'princess_stare',),
-	image('sprites/princess-laying', 'princess_laying',),
-	image('sprites/princess-laying2', 'princess_laying_2',),
-	image('sprites/princess-laying3', 'princess_laying_3',),
-	image('sprites/princess-escape1', 'princess_escape_1',),
-	image('sprites/princess-escape2', 'princess_escape_2',),
-	image('sprites/princess-grab', 'princess_grab',),
+	image('sprites/princess', 'princess_default'),
+	image('sprites/princess-plead', 'princess_plead'),
+	image('sprites/princess-stare', 'princess_stare'),
+	image('sprites/princess-laying', 'princess_laying'),
+	image('sprites/princess-laying2', 'princess_laying_2'),
+	image('sprites/princess-laying3', 'princess_laying_3'),
+	image('sprites/princess-escape1', 'princess_escape_1'),
+	image('sprites/princess-escape2', 'princess_escape_2'),
+	image('sprites/princess-grab', 'princess_grab'),
 	//hero
-	image('sprites/hero-normal', 'hero_normal',),
+	image('sprites/hero-normal', 'hero_normal'),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop'),
 
@@ -64,7 +64,20 @@ const images: Asset[] = [
 const spritesheets: SpriteSheet[] = [spritesheet('ui/audio', 'audio', 300, 300), spritesheet('ui/music', 'music', 300, 300)];
 
 /* Audios */
-const audios: Audio[] = [music('title', 'm_main_menu'), music('first', 'm_first'), music('princess', 'm_princess'), music('invader', 'm_invader'), music('treasure', 'm_treasure'), music('shop', 'm_shop'), music('town', 'm_town'), music('overworld', 'm_overworld'), sound('tree/rustle', 't_rustle', 0.5)];
+const audios: Audio[] = [
+	// Music
+	music('title', 'm_main_menu'),
+	music('first', 'm_first'),
+	music('princess', 'm_princess'),
+	music('invader', 'm_invader'),
+	music('treasure', 'm_treasure'),
+	music('shop', 'm_shop'),
+	music('town', 'm_town'),
+	music('overworld', 'm_overworld'),
+
+	// Sounds
+	sound('tree/rustle', 't_rustle', 0.5),
+];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');
 // await loadFont('Itim/Itim-Regular', 'Game Font');
@@ -72,8 +85,4 @@ const audios: Audio[] = [music('title', 'm_main_menu'), music('first', 'm_first'
 await loadFont('Signika/Signika-VariableFont_wght', 'Game Font');
 // await loadFont('Convergence/Convergence-Regular', 'Game Font');
 
-export {
-	images,
-	spritesheets,
-	audios
-};
+export { images, spritesheets, audios };
