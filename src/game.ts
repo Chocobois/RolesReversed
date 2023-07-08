@@ -2,8 +2,9 @@ import Phaser from 'phaser';
 import { PreloadScene } from "@/scenes/PreloadScene";
 import { TitleScene } from "@/scenes/TitleScene";
 import { GameScene } from "@/scenes/GameScene";
+import { PausedScene } from '@/scenes/PausedScene';
 import OutlinePipelinePlugin from 'phaser3-rex-plugins/plugins/outlinepipeline-plugin.js';
-
+// prettier-ignore
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.WEBGL,
 	width: 1920,
@@ -15,6 +16,7 @@ const config: Phaser.Types.Core.GameConfig = {
 		PreloadScene,
 		TitleScene,
 		GameScene,
+		PausedScene,
 	],
 
 	plugins: {

@@ -53,7 +53,7 @@ export class ShopRoom extends Room {
 	public background: Phaser.GameObjects.Image;
 	private ownerButton: Button;
 	private ownerImage: Phaser.GameObjects.Image;
-	private foreground: Phaser.GameObjects.Image;
+	private dragonSprite: Phaser.GameObjects.Image;
 	private buyImage: Phaser.GameObjects.Image;
 	private buyButton: Button;
 
@@ -117,7 +117,7 @@ export class ShopRoom extends Room {
 		const H = this.scene.H;
 
 		// Background
-		this.background = this.scene.add.image(0, 0, 'shop_background');
+		this.background = this.scene.add.image(0, 0, 'placeholder_scene_shop');
 		this.background.setOrigin(0);
 		this.scene.fitToScreen(this.background);
 		this.add(this.background);
@@ -135,10 +135,9 @@ export class ShopRoom extends Room {
 		this.ownerButton = new Button(this.scene, jx, jy);
 		this.add(this.ownerButton);
 
-		// TODO: Change image name
-		this.ownerImage = this.scene.add.image(0, 0, 'jbun');
-		this.ownerImage.setOrigin(0.5, 0.8);
-		this.ownerImage.setScale(jh / this.ownerImage.height);
+		// Owner
+		this.ownerImage = this.scene.add.image(0, 0, 'shop');
+		this.ownerImage.setOrigin(0.05, 0.67);
 		this.ownerButton.add(this.ownerImage);
 
 		this.ownerButton.bindInteractive(this.ownerImage);
@@ -156,11 +155,10 @@ export class ShopRoom extends Room {
 			});
 		});
 
-		// Foreground
-		this.foreground = this.scene.add.image(0, 0, 'shop_foreground');
-		this.foreground.setOrigin(0);
-		this.scene.fitToScreen(this.foreground);
-		this.add(this.foreground);
+		// Dragon
+		this.dragonSprite = this.scene.add.image(0, 0, 'dragon_shop');
+		this.dragonSprite.setOrigin(0);
+		this.add(this.dragonSprite);
 
 		// Selected item
 		const sx = 0.43 * W;
