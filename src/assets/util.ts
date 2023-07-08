@@ -47,3 +47,14 @@ export const loadFont = async (path: string, name: string) => {
 export function interpolateColor(color1: number, color2: number, value: number): number {
 	return Phaser.Display.Color.ObjectToColor(Phaser.Display.Color.Interpolate.ColorWithColor(Phaser.Display.Color.ValueToColor(color1), Phaser.Display.Color.ValueToColor(color2), 255, value * 255)).color;
 }
+
+// Convert hex number color to hex string color
+export function colorToString(color: number): string {
+	let c = Phaser.Display.Color.ValueToColor(color);
+	return Phaser.Display.Color.RGBToString(c.red, c.green, c.blue);
+}
+
+// Convert hex string color to hex number color
+export function colorToNumber(color: string): number {
+	return Phaser.Display.Color.HexStringToColor(color).color;
+}

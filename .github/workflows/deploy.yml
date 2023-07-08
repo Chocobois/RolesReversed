@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install genisoimage
+        run: sudo apt install genisoimage
+
       - name: Install dependencies
         run: npm install
 
@@ -42,9 +45,8 @@ jobs:
           title: "Game latest build"
           files: |
             ./dist/game-web.zip
-            ./dist/game-mac.zip
             ./dist/game-win.zip
-            ./dist/game.dmg
+            ./dist/game-mac.dmg
 
       - name: Upload to Itch
         uses: Ayowel/butler-to-itch@v1.0.0
@@ -55,7 +57,7 @@ jobs:
           files: |
             ./dist/game-web.zip
             ./dist/game-win.zip
-            ./dist/game-mac.zip
+            ./dist/game-mac.dmg
           auto_channel: true
           butler_version: "latest"
           # unsupported

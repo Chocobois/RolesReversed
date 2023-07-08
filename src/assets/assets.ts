@@ -12,6 +12,7 @@ const images: Asset[] = [
 	image('background/outside-room', 'room_outside'),
 	image('background/overworld-room', 'room_overworld'),
 	image('background/princess-room', 'room_princess'),
+	image('background/princess-room-escaped', 'room_princess-escaped'),
 	image('background/shop-room', 'room_shop'),
 	image('background/sleep-room', 'room_sleep'),
 	image('background/town-room', 'room_town'),
@@ -33,6 +34,7 @@ const images: Asset[] = [
 	image('ui/notification-sleeping', 'button_notification_sleeping'),
 	image('ui/notification-dead', 'button_notification_dead'),
 	image('ui/speechbubble-small', 'speechbubble_small'),
+	image('ui/down_arrow', 'down_arrow'),
 
 	// Sprites
 	image('sprites/princess', 'princess_default'),
@@ -68,12 +70,21 @@ const images: Asset[] = [
 	image('sprites/hero-kobold', 'hero_kobold'),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop'),
+	image('sprites/dragon-sleep', 'dragon_sleep'),
+	image('sprites/dragon-sleep-low', 'dragon_sleep_low'),
+	image('sprites/dragon-sleep-high', 'dragon_sleep_high'),
 	//overworld
 	image('sprites/overworld-shop', 'overworld_shop'),
 	image('sprites/overworld-town', 'overworld_town'),
 	//dialogue
 	image('sprites/dialogue-dragon', 'dialogue_dragon'),
+	image('sprites/dialogue-dragon-angry', 'dialogue_dragon_angry'),
+	image('sprites/dialogue-dragon-talk', 'dialogue_dragon_talk'),
+	image('sprites/dialogue-dragon-blush', 'dialogue_dragon_blush'),
 	image('sprites/dialogue-dragon-right', 'dialogue_dragon_right'),
+	image('sprites/dialogue-dragon-angry-right', 'dialogue_dragon_angry_right'),
+	image('sprites/dialogue-dragon-talk-right', 'dialogue_dragon_talk_right'),
+	image('sprites/dialogue-dragon-blush-right', 'dialogue_dragon_blush_right'),
 	image('sprites/dialogue-hero', 'dialogue_hero'),
 	image('sprites/dialogue-princess', 'dialogue_princess'),
 	image('sprites/dialogue-shopkeeper', 'dialogue_shopkeeper'),

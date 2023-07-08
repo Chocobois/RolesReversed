@@ -1,9 +1,14 @@
-# Chocobois Game Jam Template
+# Himegotch
 
-We make game, but faster
+Game for GMTK Game Jam 2023
 
 ## Quick start
 
+You need:
+* Git
+* Node 18 or newer
+
+Steps:
 1. Clone the repository
 2. `npm install`
 3. `npm run dev`
@@ -32,5 +37,13 @@ A modern up-to-date web browser
 ### MacOS
 * Safari 15 or newer
 
+To run the game:
+* Extract the .app from the .dmg
+* Attempt to run the game, a popup will say the app is unverified
+* Right click/Open the context menu on the .app, hold option, click open
+* The game will now function normally
+
 ### Linux
 * WebKitGTK installed
+
+The game sometimes freezes on Linux, since the cause is unknown, the build is not uploaded.

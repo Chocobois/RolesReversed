@@ -1,15 +1,17 @@
 import { PluginOption } from 'vite';
-import { team, name } from '../game.json';
+import { team, title } from '../game.json';
 import { execSync } from 'child_process';
 import { mkdirSync, writeFileSync, copyFileSync, renameSync } from 'fs';
 
 const BuildMacApp = () => {
+	console.log(`Building Mac dmg...`);
+
 	const count = execSync('git rev-list --count HEAD').toString().trim();
 	const short = execSync('git rev-parse --short HEAD').toString().trim();
 	const version = `v${count}.${short}`;
 
 	const teamId = team.toLowerCase().replace(/\s/gi, '-');
-	const appId = name.toLowerCase().replace(/\s/gi, '-');
+	const appId = title.toLowerCase().replace(/\s/gi, '-');
 	const buildName = `${teamId}-${appId}`;
 
 	const plist = `<?xml version="1.0" encoding="UTF-8"?>
@@ -17,13 +19,13 @@ const BuildMacApp = () => {
 <plist version="1.0">
 <dict>
   <key>NSHumanReadableCopyright</key>
-  <string>${name} ${version} © ${team}</string>
+  <string>${title} ${version} © ${team}</string>
   <key>CFBundleExecutable</key>
   <string>game</string>
   <key>CFBundleIdentifier</key>
   <string>com.${teamId}.${appId}</string>
   <key>CFBundleName</key>
-  <string>${name}</string>
+  <string>${title}</string>
   <key>CFBundleIconFile</key>
   <string>icon.png</string>
   <key>CFBundleShortVersionString</key>
@@ -39,7 +41,9 @@ const BuildMacApp = () => {
 </dict>
 </plist>`;
 
-	const root = `./dist/${name}`;
+	mkdirSync(`./dist/mac/`);
+
+	const root = `./dist/mac/${title}`;
 	const buildPath = `./dist/${buildName}/`;
 
 	mkdirSync(root);
@@ -54,15 +58,15 @@ const BuildMacApp = () => {
 	renameSync(root, `${root}.app`);
 
 	try {
-		execSync(`mkisofs -J -R -o ./dist/game.dmg -mac-name -V DmgLabel -apple -v -dir-mode 777 -file-mode 777 ${root}.app`, { stdio: 'inherit' });
+		execSync(`mkisofs -J -R -o ./dist/game-mac.dmg -mac-name -V "${title}" -apple -v -dir-mode 777 -file-mode 777 "./dist/mac/"`);
 	} catch (err) {
-		console.log(`Can't build dmg`);
+		console.log(`Failed to build dmg`);
 	}
 };
 
 export default function buildMacApp() {
 	return {
-		name: 'Build Mac bundle',
+		name: 'build-mac-bundle',
 		closeBundle: BuildMacApp,
 	} as PluginOption;
 }
