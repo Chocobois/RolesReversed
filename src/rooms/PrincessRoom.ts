@@ -34,7 +34,6 @@ export class PrincessRoom extends Room {
 	private wantedItem: ItemData | null; // Item the princess requests
 	private heldItem: ItemData | null; // Item the dragon is holding
 	private activeItem: ItemData | null; // Item the princess is using
-	private itemLifetime: number;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -73,14 +72,13 @@ export class PrincessRoom extends Room {
 			paused: true,
 		});
 
-		this.energy = 50;
-		this.happiness = 0;
+		this.energy = 80;
+		this.happiness = 20;
 		this.hunger = 100;
 		this.patience = 100;
 		this.wantedItem = null;
 		this.heldItem = null;
 		this.activeItem = null;
-		this.itemLifetime = 100;
 
 		this.setPrincessState(PrincessState.Idle);
 	}
@@ -92,6 +90,16 @@ export class PrincessRoom extends Room {
 		this.princessButton.setScale((1.0 + princessSquish * Math.sin(time / 200)) * princessHoldX, (1.0 + princessSquish * Math.sin(-time / 200)) * princessHoldY);
 
 		/* Moods */
+
+		if (this.visible) {
+			switch (this.princessState) {
+				case PrincessState.Escaping:
+					let frames = ['princess_escape_1', 'princess_escape_2'];
+					let index = Math.floor(time / 400) % frames.length;
+					this.princessImage.setTexture(frames[index]);
+					break;
+			}
+		}
 
 		if (!this.visible) {
 			// Energy
@@ -117,6 +125,11 @@ export class PrincessRoom extends Room {
 					this.addHappiness(-1.0 * (delta / 1000));
 				}
 			}
+			if (this.princessState == PrincessState.Playing && this.happiness == 100) {
+				this.activeItem = null;
+				this.roomButton.setHeldItem(null);
+				this.setPrincessState(PrincessState.Idle);
+			}
 			if (this.princessState == PrincessState.Idle && this.happiness == 0) {
 				this.makePrincessBeg();
 			}
@@ -130,6 +143,11 @@ export class PrincessRoom extends Room {
 				} else {
 					this.addHunger(-0.5 * (delta / 1000));
 				}
+			}
+			if (this.princessState == PrincessState.Eating && this.hunger == 100) {
+				this.activeItem = null;
+				this.roomButton.setHeldItem(null);
+				this.setPrincessState(PrincessState.Idle);
 			}
 			if (this.princessState == PrincessState.Idle && this.hunger == 0) {
 				this.makePrincessBeg();
@@ -198,6 +216,11 @@ export class PrincessRoom extends Room {
 				this.setPrincessState(PrincessState.Fled);
 				this.scene.endGame();
 				break;
+
+			case PrincessState.Eating:
+			case PrincessState.Playing:
+				this.setPrincessState(PrincessState.Idle);
+				break;
 		}
 	}
 
@@ -218,6 +241,30 @@ export class PrincessRoom extends Room {
 				this.princessImage.setTexture(Phaser.Math.RND.pick(['princess_laying', 'princess_laying_2', 'princess_laying_3']));
 				this.princessButton.setPosition(1500, 730);
 				this.setTimer(5000);
+				break;
+			case PrincessState.Eating:
+				if (this.activeItem) {
+					if (this.activeItem.type == ItemType.Burger) {
+						this.princessImage.setTexture('princess_eat_burger');
+						this.princessButton.setPosition(780, 870);
+					}
+					if (this.activeItem.type == ItemType.Cake) {
+						this.princessImage.setTexture('princess_eat_cake');
+						this.princessButton.setPosition(1450, 760);
+					}
+				}
+				break;
+			case PrincessState.Playing:
+				if (this.activeItem) {
+					if (this.activeItem.type == ItemType.Book) {
+						this.princessImage.setTexture('princess_read');
+						this.princessButton.setPosition(1450, 800);
+					}
+					if (this.activeItem.type == ItemType.Toy) {
+						this.princessImage.setTexture('princess_play');
+						this.princessButton.setPosition(860, 860);
+					}
+				}
 				break;
 			case PrincessState.Escaping:
 				this.princessImage.setTexture('princess_escape_1');
@@ -272,13 +319,13 @@ export class PrincessRoom extends Room {
 
 		if (this.princessState == PrincessState.Begging) {
 			if (this.heldItem == this.wantedItem) {
-				this.setPrincessState(PrincessState.Playing);
-
 				this.speechBubble.setVisible(false);
 				this.activeItem = this.heldItem;
-				this.itemLifetime = 100;
+				this.roomButton.setHeldItem(this.activeItem!.image);
 				this.wantedItem = null;
 				this.heldItem = null;
+
+				this.setPrincessState(PrincessState.Playing);
 			}
 		}
 	}
@@ -302,6 +349,7 @@ export class PrincessRoom extends Room {
 
 	setHeldItem(itemData: ItemData) {
 		this.heldItem = itemData;
+		// this.roomButton.setHeldItem(itemData.image);
 	}
 
 	addEnergy(increment: number) {
