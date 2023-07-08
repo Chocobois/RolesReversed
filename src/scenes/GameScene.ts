@@ -15,6 +15,8 @@ export class GameScene extends BaseScene {
 	public background: Phaser.GameObjects.Image;
 
 	public state: State;
+	public money: number;
+
 	private princessRoom: PrincessRoom;
 	private heroRoom: HeroRoom;
 	private treasureRoom: TreasureRoom;
@@ -24,8 +26,6 @@ export class GameScene extends BaseScene {
 
 	private uiOverlay: UIOverlay;
 	private debugText: Phaser.GameObjects.Text;
-
-	public money: number;
 
 	// Music
 	public musicPrincess: Music;
@@ -43,6 +43,8 @@ export class GameScene extends BaseScene {
 	create(): void {
 		this.fade(false, 200, 0x000000);
 
+		/* Rooms */
+
 		this.princessRoom = new PrincessRoom(this);
 		this.heroRoom = new HeroRoom(this);
 		this.treasureRoom = new TreasureRoom(this);
@@ -50,15 +52,15 @@ export class GameScene extends BaseScene {
 		this.townRoom = new TownRoom(this);
 		this.overworldRoom = new OverworldRoom(this);
 
+		/* UI */
+
 		this.uiOverlay = new UIOverlay(this);
 		this.uiOverlay.on('changeRoom', this.setRoom, this);
 
 		this.debugText = this.createText(0, 0, 40, 'white');
 		this.debugText.setStroke('black', 10);
 
-		this.setRoom(State.Princess);
-
-		this.money = 0;
+		/* Music */
 
 		this.musicPrincess = new Music(this, 'm_princess', { volume: 0 });
 		this.musicInvader = new Music(this, 'm_invader', { volume: 0 });
@@ -76,6 +78,11 @@ export class GameScene extends BaseScene {
 		this.musicShop.play();
 		this.musicTown.play();
 		this.musicOverworld.play();
+
+		/* Setup */
+
+		this.money = 100;
+		this.setRoom(State.Princess);
 	}
 
 	update(time: number, delta: number) {
@@ -87,6 +94,7 @@ export class GameScene extends BaseScene {
 		this.overworldRoom.update(time, delta);
 
 		this.uiOverlay.update(time, delta);
+		this.uiOverlay.setMoney(this.money);
 
 		let debugText = '';
 		debugText += this.princessRoom.getDebugText() + '\n';

@@ -23,6 +23,8 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	private townButton: RoomButton;
 	private otherButton: RoomButton;
 
+	private moneyText: Phaser.GameObjects.Text;
+
 	constructor(scene: GameScene) {
 		super(scene, 0, 0);
 		this.scene = scene;
@@ -35,10 +37,11 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		const x2 = -100;
 		const x3 = 100;
 		const x4 = 300;
+		const y = 0.9 * scene.H;
 
-		this.homeButtons = scene.add.container(scene.CX, 0.9 * scene.H);
+		this.homeButtons = scene.add.container(scene.CX, y);
 		this.add(this.homeButtons);
-		this.overworldButtons = scene.add.container(scene.CX, 0.9 * scene.H);
+		this.overworldButtons = scene.add.container(scene.CX, y);
 		this.add(this.overworldButtons);
 
 		/* Volume buttons */
@@ -103,6 +106,12 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 			this.emit('changeRoom', State.Princess);
 		});
 		this.overworldButtons.add(this.castleButton);
+
+		/* Gold */
+
+		this.moneyText = scene.createText(scene.W - 30, y, 60, 'gold');
+		this.moneyText.setOrigin(1.0, 0.5);
+		this.moneyText.setStroke('black', 16);
 	}
 
 	update(time: number, delta: number) {
@@ -128,5 +137,9 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.shopButton.setRoom(state);
 		this.townButton.setRoom(state);
 		this.otherButton.setRoom(state);
+	}
+
+	setMoney(money: number) {
+		this.moneyText.setText(`Gold: ${money.toString()}`);
 	}
 }
