@@ -27,6 +27,7 @@ const images: Asset[] = [
 	image('ui/town', 'button_town'),
 	image('ui/ring', 'button_ring_off'),
 	image('ui/ring2', 'button_ring_on'),
+	image('ui/notification', 'button_notification'),
 
 	// Sprites
 	image('sprites/princess', 'princess_default'),

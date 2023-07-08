@@ -33,10 +33,11 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		// this.background = scene.add.image(scene.CX, scene.CY, "background5");
 		// scene.fitToScreen(this.background);
 
-		const x1 = -300;
-		const x2 = -100;
-		const x3 = 100;
-		const x4 = 300;
+		const sep = 230;
+		const x1 = -1.5 * sep;
+		const x2 = -0.5 * sep;
+		const x3 = 0.5 * sep;
+		const x4 = 1.5 * sep;
 		const y = 0.9 * scene.H;
 
 		this.homeButtons = scene.add.container(scene.CX, y);

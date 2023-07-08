@@ -43,7 +43,7 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 			paused: true,
 		});
 
-		this.setPrincessState(PrincessState.Escaping);
+		this.setPrincessState(PrincessState.Sleeping);
 	}
 
 	update(time: number, delta: number) {
