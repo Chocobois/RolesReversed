@@ -8,6 +8,7 @@ import { TreasureRoom } from '@/rooms/TreasureRoom';
 import { ShopRoom } from '@/rooms/ShopRoom';
 import { TownRoom } from '@/rooms/TownRoom';
 import { OverworldRoom } from '@/rooms/OverworldRoom';
+import { GameOverRoom } from '@/rooms/GameOverRoom';
 
 import { UIOverlay } from '@/components/UIOverlay';
 
@@ -23,6 +24,7 @@ export class GameScene extends BaseScene {
 	private shopRoom: ShopRoom;
 	private townRoom: TownRoom;
 	private overworldRoom: OverworldRoom;
+	private gameOverRoom: GameOverRoom;
 
 	private uiOverlay: UIOverlay;
 	private debugText: Phaser.GameObjects.Text;
@@ -51,6 +53,8 @@ export class GameScene extends BaseScene {
 		this.shopRoom = new ShopRoom(this);
 		this.townRoom = new TownRoom(this);
 		this.overworldRoom = new OverworldRoom(this);
+		this.gameOverRoom = new GameOverRoom(this);
+		this.overworldRoom.on('changeRoom', this.setRoom, this);
 
 		/* UI */
 
@@ -59,6 +63,13 @@ export class GameScene extends BaseScene {
 
 		this.debugText = this.createText(0, 0, 40, 'white');
 		this.debugText.setStroke('black', 10);
+
+		this.princessRoom.setRoomButton(this.uiOverlay.princessButton);
+		this.heroRoom.setRoomButton(this.uiOverlay.heroButton);
+		this.treasureRoom.setRoomButton(this.uiOverlay.treasureButton);
+		this.shopRoom.setRoomButton(this.uiOverlay.shopButton);
+		this.townRoom.setRoomButton(this.uiOverlay.townButton);
+		this.overworldRoom.setRoomButton(this.uiOverlay.overworldButton);
 
 		/* Music */
 
@@ -92,6 +103,7 @@ export class GameScene extends BaseScene {
 		this.shopRoom.update(time, delta);
 		this.townRoom.update(time, delta);
 		this.overworldRoom.update(time, delta);
+		//dont update gameOverRoom right now
 
 		this.uiOverlay.update(time, delta);
 		this.uiOverlay.setMoney(this.money);
@@ -107,11 +119,12 @@ export class GameScene extends BaseScene {
 		this.uiOverlay.setRoom(state);
 
 		this.princessRoom.setVisible(state == State.Princess);
-		this.heroRoom.setVisible(state == State.Invader);
+		this.heroRoom.setVisible(state == State.Hero);
 		this.treasureRoom.setVisible(state == State.Treasure);
 		this.shopRoom.setVisible(state == State.Shop);
 		this.townRoom.setVisible(state == State.Town);
 		this.overworldRoom.setVisible(state == State.Overworld);
+		this.gameOverRoom.setVisible(state == State.GAMEOVER);
 	}
 
 	setMusicMuted(muted: boolean) {

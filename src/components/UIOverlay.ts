@@ -11,17 +11,17 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	private muteMusicButton: MiniButton;
 	private muteSoundButton: MiniButton;
 
-	private homeButtons: Phaser.GameObjects.Container;
-	private princessButton: RoomButton;
-	private invaderButton: RoomButton;
-	private treasureButton: RoomButton;
-	private overworldButton: RoomButton;
+	public homeButtons: Phaser.GameObjects.Container;
+	public princessButton: RoomButton;
+	public heroButton: RoomButton;
+	public treasureButton: RoomButton;
+	public overworldButton: RoomButton;
 
-	private overworldButtons: Phaser.GameObjects.Container;
-	private castleButton: RoomButton;
-	private shopButton: RoomButton;
-	private townButton: RoomButton;
-	private otherButton: RoomButton;
+	public overworldButtons: Phaser.GameObjects.Container;
+	public castleButton: RoomButton;
+	public shopButton: RoomButton;
+	public townButton: RoomButton;
+	public otherButton: RoomButton;
 
 	private moneyText: Phaser.GameObjects.Text;
 
@@ -58,11 +58,11 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		/* Castle buttons */
 
-		this.invaderButton = new RoomButton(scene, x1, 0, 'button_outside', State.Invader, 'Heroes');
-		this.invaderButton.on('click', () => {
-			this.emit('changeRoom', State.Invader);
+		this.heroButton = new RoomButton(scene, x1, 0, 'button_outside', State.Hero, 'Heroes');
+		this.heroButton.on('click', () => {
+			this.emit('changeRoom', State.Hero);
 		});
-		this.homeButtons.add(this.invaderButton);
+		this.homeButtons.add(this.heroButton);
 
 		this.princessButton = new RoomButton(scene, x2, 0, 'button_princess', State.Princess, 'Princess');
 		this.princessButton.on('click', () => {
@@ -76,9 +76,9 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		});
 		this.homeButtons.add(this.treasureButton);
 
-		this.overworldButton = new RoomButton(scene, x4, 0, 'button_overworld', State.Shop, 'Overworld');
+		this.overworldButton = new RoomButton(scene, x4, 0, 'button_overworld', State.Overworld, 'Overworld');
 		this.overworldButton.on('click', () => {
-			this.emit('changeRoom', State.Shop);
+			this.emit('changeRoom', State.Overworld);
 		});
 		this.homeButtons.add(this.overworldButton);
 
@@ -117,7 +117,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 	update(time: number, delta: number) {
 		this.princessButton.update(time, delta);
-		this.invaderButton.update(time, delta);
+		this.heroButton.update(time, delta);
 		this.treasureButton.update(time, delta);
 		this.overworldButton.update(time, delta);
 		this.castleButton.update(time, delta);
@@ -127,11 +127,13 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	}
 
 	setRoom(state: State) {
-		this.homeButtons.setVisible(state == State.Princess || state == State.Invader || state == State.Treasure);
-		this.overworldButtons.setVisible(state == State.Shop || state == State.Town);
+		this.homeButtons.setVisible(true);
+		this.overworldButtons.setVisible(false);
+		// this.homeButtons.setVisible(state == State.Princess || state == State.Hero || state == State.Treasure || state == State.Overworld);
+		// this.overworldButtons.setVisible(state == State.Shop || state == State.Town);
 
 		this.princessButton.setRoom(state);
-		this.invaderButton.setRoom(state);
+		this.heroButton.setRoom(state);
 		this.treasureButton.setRoom(state);
 		this.overworldButton.setRoom(state);
 		this.castleButton.setRoom(state);

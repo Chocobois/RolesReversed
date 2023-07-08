@@ -15,6 +15,7 @@ const images: Asset[] = [
 	image('background/shop-room', 'room_shop'),
 	image('background/sleep-room', 'room_sleep'),
 	image('background/town-room', 'room_town'),
+	image('placeholder/gameover', 'game_over'),
 
 	// UI
 	image('ui/outside', 'button_outside'),
@@ -42,6 +43,9 @@ const images: Asset[] = [
 	image('sprites/hero-normal', 'hero_normal'),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop'),
+	//overworld
+	image('sprites/overworld-shop', 'overworld_shop'),
+	image('sprites/overworld-town', 'overworld_town'),
 
 	image('placeholder/background1', 'background1'),
 	image('placeholder/background2', 'background2'),
@@ -78,6 +82,7 @@ const audios: Audio[] = [
 
 	// Sounds
 	sound('tree/rustle', 't_rustle', 0.5),
+	sound('placeholder/gameover_sound', 'GAME_OVER_SOUND', 0.5),
 ];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');

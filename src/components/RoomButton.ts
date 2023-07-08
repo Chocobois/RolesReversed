@@ -3,6 +3,11 @@ import { Button } from './Button';
 import { Tooltip } from './Tooltip';
 import State from './State';
 
+export enum Notification {
+	Calm = 1,
+	Danger = 2,
+}
+
 export class RoomButton extends Button {
 	private image: Phaser.GameObjects.Image;
 	private border: Phaser.GameObjects.Image;
@@ -12,12 +17,12 @@ export class RoomButton extends Button {
 
 	private room: State;
 	private size: number;
+	private notificationState: Notification;
 	private label: string | undefined;
 
 	constructor(scene: GameScene, x: number, y: number, key: string, room: State, label?: string) {
 		super(scene, x, y);
 		this.room = room;
-
 		this.size = 0.17 * this.scene.H;
 
 		this.image = this.scene.add.image(0, 0, key);
@@ -37,22 +42,44 @@ export class RoomButton extends Button {
 		this.bindInteractive(this.image, false);
 		// const inputPadding = 40 / this.image.scaleX;
 		// this.image.input.hitArea.setTo(-inputPadding, -inputPadding, this.image.width+2*inputPadding, this.image.height+2*inputPadding);
+
+		this.setNotification(Notification.Calm);
 	}
 
 	update(time: number, delta: number) {
-		this.setScale(1.0 - 0.1 * this.holdSmooth);
+		const holdX = 1.0 + 0.15 * this.holdSmooth;
+		const holdY = 1.0 - 0.1 * this.holdSmooth;
+		const buttonSquish = -0.01;
+		this.setScale((1.0 + buttonSquish * Math.sin(time / 200)) * holdX, (1.0 + buttonSquish * Math.sin(-time / 200)) * holdY);
 
-		const squish = 0.3;
-		this.notification.setScale(1.0 - squish + squish * Math.abs(Math.sin(time / 200)), 1.0 - squish + squish * Math.abs(Math.sin(-time / 200)));
+		if (this.notificationState == Notification.Danger) {
+			const squish = 0.3;
+			this.notification.setScale(1.0 - squish + squish * Math.abs(Math.sin(time / 200)), 1.0 - squish + squish * Math.abs(Math.sin(-time / 200)));
+		}
 	}
 
 	setRoom(room: State) {
 		this.border.setTexture(room == this.room ? 'button_ring_on' : 'button_ring_off');
 	}
 
+	setNotification(value: Notification) {
+		this.notificationState = value;
+
+		switch (value) {
+			case Notification.Calm:
+				this.notification.setVisible(false);
+				break;
+			case Notification.Danger:
+				this.notification.setVisible(true);
+				break;
+			default:
+				break;
+		}
+	}
+
 	onOut(pointer: Phaser.Input.Pointer, event: Phaser.Types.Input.EventData) {
 		if (this.tooltip) this.tooltip.destroy();
-		
+
 		// Code inherited from Button.ts:
 		this.hover = false;
 		this.hold = false;
@@ -67,7 +94,7 @@ export class RoomButton extends Button {
 
 	onUp(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
 		if (this.tooltip) this.tooltip.destroy();
-		
+
 		// Code inherited from Button.ts:
 		if (this.hold && !this.blocked) {
 			this.hold = false;
