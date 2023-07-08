@@ -89,6 +89,8 @@ const images: Asset[] = [
 	image('placeholder/placeholder_building_1', 'BLDG_1'),
 	image('placeholder/placeholder_building_2', 'BLDG_2'),
 	image('placeholder/placeholder_building_3', 'BLDG_3'),
+
+	image('placeholder/placeholder_expl', 'EXPL'),
 ];
 
 /* Spritesheets */ // prettier-ignore
@@ -115,6 +117,7 @@ const audios: Audio[] = [
 	sound('placeholder/gameover_sound', 'GAME_OVER_SOUND', 0.1),
 	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.1),
 	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
+	sound('placeholder/explosion_placeholder', 'EXPL_SOUND', 0.1),
 
 	// Sounds: character voices
 	sound('voice/kobl_1', 'v_kobl_1'),
