@@ -86,6 +86,9 @@ const images: Asset[] = [
 	image('placeholder/placeholder_ui_warning2', 'placeholder_ui_warning2'),
 
 	image('placeholder/placeholder_sleazy', 'hero_sleazy'),
+	image('placeholder/placeholder_building_1', 'BLDG_1'),
+	image('placeholder/placeholder_building_2', 'BLDG_2'),
+	image('placeholder/placeholder_building_3', 'BLDG_3'),
 ];
 
 /* Spritesheets */ // prettier-ignore
