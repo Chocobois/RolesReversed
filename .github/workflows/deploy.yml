@@ -41,7 +41,6 @@ jobs:
           prerelease: false
           title: "Game latest build"
           files: |
-            ./dist/chocobois-jam-template-release.zip
             ./dist/game-web.zip
             ./dist/game-mac.zip
             ./dist/game-win.zip
