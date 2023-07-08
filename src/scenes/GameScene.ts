@@ -44,7 +44,8 @@ export class GameScene extends BaseScene {
 		this.uiOverlay = new UIOverlay(this);
 		this.uiOverlay.on('changeRoom', this.setRoom, this);
 
-		this.debugText = this.createText(0, 0, 50, 'black');
+		this.debugText = this.createText(0, 0, 40, 'white');
+		this.debugText.setStroke('black', 10);
 
 		this.setRoom(State.Princess);
 
@@ -61,7 +62,10 @@ export class GameScene extends BaseScene {
 
 		this.uiOverlay.update(time, delta);
 
-		this.debugText.setText(this.princessRoom.getDebugText());
+		let debugText = '';
+		debugText += this.princessRoom.getDebugText() + '\n';
+		debugText += this.invaderRoom.getDebugText() + '\n';
+		this.debugText.setText(debugText);
 	}
 
 	setRoom(state: State) {

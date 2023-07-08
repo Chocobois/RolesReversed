@@ -154,8 +154,7 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 			}
 		};
 
-		let remaining = this.timer.paused ? 'paused' : (this.timer.getRemaining() / 1000).toFixed(1);
-
+		let remaining = Math.ceil(this.timer.getRemaining() / 1000) + 's';
 		return `Princess: ${getStateText()} (${remaining})`;
 	}
 }
