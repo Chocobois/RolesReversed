@@ -1,6 +1,4 @@
 import { GameScene } from '../scenes/GameScene';
-import State from '@/components/State';
-import { GameOverRoom } from './GameOverRoom';
 import { Room } from './Room';
 import { Button } from '@/components/Button';
 import { Notification } from '@/components/RoomButton';
@@ -106,7 +104,7 @@ export class PrincessRoom extends Room {
 
 			case PrincessState.Escaping:
 				this.setPrincessState(PrincessState.Fled);
-				this.scene.setRoom(State.GAMEOVER);
+				this.scene.endGame();
 				this.scene.sound.play("GAME_OVER_SOUND");
 				break;
 
