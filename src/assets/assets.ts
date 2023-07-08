@@ -122,6 +122,12 @@ const audios: Audio[] = [
 	sound('placeholder/gameover_sound', 'GAME_OVER_SOUND', 0.1),
 	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.1),
 	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
+
+	// Sounds: character voices
+	sound('voice/kobl_1', 'v_kobl_1'),
+	sound('voice/kobl_2', 'v_kobl_2'),
+	sound('voice/kobl_3', 'v_kobl_3'),
+	sound('voice/kobl_4', 'v_kobl_4'),
 ];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');

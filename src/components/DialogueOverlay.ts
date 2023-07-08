@@ -80,6 +80,7 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 			// Move all previous bubbles upwards
 			this.bubbles.forEach((bubble) => {
 				bubble.smoothY -= newBubble.height + this.bubbleSpacing;
+				bubble.isLatestMessage = false;
 			});
 			newBubble.y += newBubble.height / 2;
 			newBubble.smoothY -= newBubble.height / 2;

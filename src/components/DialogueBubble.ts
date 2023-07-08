@@ -1,5 +1,5 @@
 import { GameScene } from '../scenes/GameScene';
-import { Message } from './Conversations';
+import { Message, VoiceClips } from './Conversations';
 import { RoundRectangle } from './RoundRectangle';
 import { Button } from '@/components/Button';
 import Triangle from 'phaser3-rex-plugins/plugins/triangle.js';
@@ -15,6 +15,7 @@ export class DialogueBubble extends Phaser.GameObjects.Container {
 	private tailFill: Triangle;
 
 	public smoothY: number;
+	public isLatestMessage: boolean;
 
 	constructor(scene: GameScene, x: number, y: number, message: Message) {
 		super(scene, x, y);
@@ -29,6 +30,11 @@ export class DialogueBubble extends Phaser.GameObjects.Container {
 		const tailScale = 1.6;
 		const borderColor = 0x000000;
 		const fillColor = 0xffffff;
+
+		const wordSpeechCounter = /[\w']{2,}/g; // https://regexr.com/7gmp0
+		const soundsPerWord = 0.4;
+		const defaultPitchVariation = 0;
+		const defaultDelay = 170; // ms
 
 		this.border = new RoundRectangle(scene, 0, 0, this.width + border, 100 + border, radius, borderColor);
 		this.add(this.border);
@@ -59,6 +65,27 @@ export class DialogueBubble extends Phaser.GameObjects.Container {
 		this.background.setHeight(this.height - border);
 
 		this.smoothY = this.y;
+		this.isLatestMessage = true;
+
+		if (message.voice) {
+			const voiceData = VoiceClips[message.voice];
+			const speechDelay = voiceData.delay ?? defaultDelay;
+			const speechTimes = Math.ceil((message.text.match(wordSpeechCounter)?.length ?? 0) * soundsPerWord);
+			// console.log(speechTimes, message.text);
+
+			for (let i = 0; i < speechTimes; i++) {
+				setTimeout(() => {
+					const picked = voiceData.preferred ? Phaser.Math.RND.weightedPick(voiceData.preferred) : Math.floor(Math.random() * voiceData.count + 1);
+					const pitchVar = voiceData.pitchVar ?? defaultPitchVariation;
+					const pitch = 2 * Math.random() * pitchVar - pitchVar + 1;
+
+					if (this.isLatestMessage && this.active) {
+						this.scene.sound.play(voiceData.prefix + picked, { rate: pitch, volume: voiceData.volume });
+						// console.log(voiceData.prefix + picked, '@', pitch.toFixed(2), '×');
+					}
+				}, i * Math.min(speechDelay, 1000));
+			}
+		}
 	}
 
 	update(time: number, delta: number) {
