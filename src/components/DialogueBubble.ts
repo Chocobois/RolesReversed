@@ -4,12 +4,13 @@ import { RoundRectangle } from './RoundRectangle';
 import { Button } from '@/components/Button';
 import Triangle from 'phaser3-rex-plugins/plugins/triangle.js';
 
-export class DialogueBubble extends Phaser.GameObjects.Container {
+export class DialogueBubble extends Button {
 	public scene: GameScene;
 
 	private border: RoundRectangle;
 	private background: RoundRectangle;
 	private text: Phaser.GameObjects.Text;
+	private continueIcon: Phaser.GameObjects.Image;
 	// https://english.stackexchange.com/q/379265
 	private tailBorder: Triangle;
 	private tailFill: Triangle;
@@ -17,19 +18,19 @@ export class DialogueBubble extends Phaser.GameObjects.Container {
 	public smoothY: number;
 	public isLatestMessage: boolean;
 
-	constructor(scene: GameScene, x: number, y: number, message: Message) {
+	constructor(scene: GameScene, x: number, y: number, width: number, message: Message) {
 		super(scene, x, y);
 		this.scene = scene;
 		this.scene.add.existing(this);
 
-		this.width = 1000;
+		this.width = width;
 		const fontsize = 60;
 		const padding = fontsize;
 		const radius = 48;
 		const border = 20;
 		const tailScale = 1.6;
-		const borderColor = 0x000000;
-		const fillColor = 0xffffff;
+		const borderColor = 0x111111;
+		const fillColor = 0xfafaf9;
 
 		const wordSpeechCounter = /[\w']{2,}/g; // https://regexr.com/7gmp0
 		const soundsPerWord = 0.4;
@@ -55,6 +56,11 @@ export class DialogueBubble extends Phaser.GameObjects.Container {
 		this.background = new RoundRectangle(scene, 0, 0, this.width, 100, radius - border / 2, fillColor);
 		this.add(this.background);
 
+		this.continueIcon = scene.add.image(this.width / 2 - padding / 2, 0, 'down_arrow');
+		this.continueIcon.setScale(0.7);
+		this.continueIcon.setTint(0x111111);
+		this.add(this.continueIcon);
+
 		this.text = scene.createText(-this.width / 2 + padding / 2, 0, fontsize, message.color, message.text);
 		this.text.setOrigin(0.0, 0.5);
 		this.text.setWordWrapWidth(this.width - padding);
@@ -63,6 +69,7 @@ export class DialogueBubble extends Phaser.GameObjects.Container {
 		this.height = this.text.height + padding + border;
 		this.border.setHeight(this.height);
 		this.background.setHeight(this.height - border);
+		this.continueIcon.y = this.height / 2 - padding / 2;
 
 		this.smoothY = this.y;
 		this.isLatestMessage = true;
@@ -90,5 +97,7 @@ export class DialogueBubble extends Phaser.GameObjects.Container {
 
 	update(time: number, delta: number) {
 		this.y += (this.smoothY - this.y) / 10;
+		this.continueIcon.setVisible(this.isLatestMessage);
+		this.continueIcon.setOrigin(0.5, 0.7 + 0.1 * Math.sin(time / 100));
 	}
 }
