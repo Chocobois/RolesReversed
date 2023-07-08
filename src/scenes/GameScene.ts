@@ -106,7 +106,7 @@ export class GameScene extends BaseScene {
 		this.maxEnergy = 100;
 		this.energy = 50;
 		this.difficulty = 0;
-		this.setRoom(State.Shop);
+		this.setRoom(State.Treasure);
 	}
 
 	update(time: number, delta: number) {
