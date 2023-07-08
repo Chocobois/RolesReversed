@@ -27,6 +27,7 @@ const images: Asset[] = [
 	image('ui/town', 'button_town'),
 	image('ui/ring', 'button_ring_off'),
 	image('ui/ring2', 'button_ring_on'),
+	image('ui/shop_buy_button', 'button_shop_buy'),
 	image('ui/notification-danger', 'button_notification_danger'),
 	image('ui/notification-question', 'button_notification_question'),
 	image('ui/notification-sleeping', 'button_notification_sleeping'),
