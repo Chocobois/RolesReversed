@@ -58,25 +58,25 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		/* Castle buttons */
 
-		this.heroButton = new RoomButton(scene, x1, 0, 'button_outside', State.Hero);
+		this.heroButton = new RoomButton(scene, x1, 0, 'button_outside', State.Hero, 'Tower');
 		this.heroButton.on('click', () => {
 			this.emit('changeRoom', State.Hero);
 		});
 		this.homeButtons.add(this.heroButton);
 
-		this.princessButton = new RoomButton(scene, x2, 0, 'button_princess', State.Princess);
+		this.princessButton = new RoomButton(scene, x2, 0, 'button_princess', State.Princess, 'Bedroom');
 		this.princessButton.on('click', () => {
 			this.emit('changeRoom', State.Princess);
 		});
 		this.homeButtons.add(this.princessButton);
 
-		this.treasureButton = new RoomButton(scene, x3, 0, 'button_sleep', State.Treasure);
+		this.treasureButton = new RoomButton(scene, x3, 0, 'button_sleep', State.Treasure, 'Gold pile');
 		this.treasureButton.on('click', () => {
 			this.emit('changeRoom', State.Treasure);
 		});
 		this.homeButtons.add(this.treasureButton);
 
-		this.overworldButton = new RoomButton(scene, x4, 0, 'button_overworld', State.Overworld);
+		this.overworldButton = new RoomButton(scene, x4, 0, 'button_overworld', State.Overworld, 'Overworld');
 		this.overworldButton.on('click', () => {
 			this.emit('changeRoom', State.Overworld);
 		});
@@ -84,25 +84,25 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		/* Overworld buttons */
 
-		this.shopButton = new RoomButton(scene, x1, 0, 'button_shop', State.Shop);
+		this.shopButton = new RoomButton(scene, x1, 0, 'button_shop', State.Shop, 'Shop');
 		this.shopButton.on('click', () => {
 			this.emit('changeRoom', State.Shop);
 		});
 		this.overworldButtons.add(this.shopButton);
 
-		this.townButton = new RoomButton(scene, x2, 0, 'button_town', State.Town);
+		this.townButton = new RoomButton(scene, x2, 0, 'button_town', State.Town, 'Town 1');
 		this.townButton.on('click', () => {
 			this.emit('changeRoom', State.Town);
 		});
 		this.overworldButtons.add(this.townButton);
 
-		this.otherButton = new RoomButton(scene, x3, 0, 'button_town', State.Town);
+		this.otherButton = new RoomButton(scene, x3, 0, 'button_town', State.Town, 'Town 2');
 		this.otherButton.on('click', () => {
 			this.emit('changeRoom', State.Town);
 		});
 		this.overworldButtons.add(this.otherButton);
 
-		this.castleButton = new RoomButton(scene, x4, 0, 'button_home', State.Princess);
+		this.castleButton = new RoomButton(scene, x4, 0, 'button_home', State.Princess, 'Back home');
 		this.castleButton.on('click', () => {
 			this.emit('changeRoom', State.Princess);
 		});
