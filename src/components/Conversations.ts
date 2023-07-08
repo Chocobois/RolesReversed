@@ -13,12 +13,30 @@ enum Colors {
 	Shopkeeper = '#946c35',
 }
 
+enum Voices {
+	Shopkeeper = 1,
+}
+
+export interface VoiceClipData {
+	prefix: string;
+	volume: number;
+	count: number;
+	pitchVar?: number;
+	preferred?: number[];
+	delay?: number;
+}
+
+export const VoiceClips: { [key in Voices]: VoiceClipData } = {
+	[Voices.Shopkeeper]: { prefix: 'v_kobl_', volume: 0.5, count: 4, pitchVar: 0.12, preferred: [2, 3, 4, 1], delay: 140 },
+};
+
 export interface Message {
 	left?: boolean;
 	right?: boolean;
 	text: string;
-	color: string;
+	color: Colors;
 	speed?: number;
+	voice?: Voices;
 }
 
 export interface Conversation {
@@ -82,6 +100,7 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 				right: true,
 				text: 'You wish to buy this?',
 				color: Colors.Shopkeeper,
+				voice: Voices.Shopkeeper,
 			},
 			{
 				left: true,
@@ -97,6 +116,7 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 				right: true,
 				text: "Yaas queen, that's right. Buy it.",
 				color: Colors.Shopkeeper,
+				voice: Voices.Shopkeeper,
 			},
 		],
 	},

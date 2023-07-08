@@ -41,8 +41,10 @@ jobs:
           prerelease: false
           title: "Game latest build"
           files: |
-            ./dist/chocobois-jam-template-release.zip
             ./dist/game-web.zip
+            ./dist/game-mac.zip
+            ./dist/game-win.zip
+            ./dist/game.dmg
 
       - name: Upload to Itch
         uses: Ayowel/butler-to-itch@v1.0.0
@@ -52,6 +54,8 @@ jobs:
           itch_game: himegotchi
           files: |
             ./dist/game-web.zip
+            ./dist/game-win.zip
+            ./dist/game-mac.zip
           auto_channel: true
           butler_version: "latest"
           # unsupported

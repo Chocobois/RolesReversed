@@ -15,6 +15,7 @@ export class RoomButton extends Button {
 	private image: Phaser.GameObjects.Image;
 	private border: Phaser.GameObjects.Image;
 	private notification: Phaser.GameObjects.Image;
+	private heldItem: Phaser.GameObjects.Image; // Used on the princess room button
 	private tooltip: Tooltip;
 	// private text: Phaser.GameObjects.Text;
 
@@ -38,6 +39,10 @@ export class RoomButton extends Button {
 		this.border.setScale(this.size / this.border.width);
 		this.add(this.border);
 
+		this.heldItem = this.scene.add.image(-70, -70, 'item_burger');
+		this.heldItem.setScale(0.4);
+		this.add(this.heldItem);
+
 		this.notification = this.scene.add.image(70, -70, 'button_notification_danger');
 		this.add(this.notification);
 
@@ -48,6 +53,7 @@ export class RoomButton extends Button {
 		// this.image.input.hitArea.setTo(-inputPadding, -inputPadding, this.image.width+2*inputPadding, this.image.height+2*inputPadding);
 
 		this.setNotification(Notification.Calm);
+		this.setHeldItem(null);
 	}
 
 	update(time: number, delta: number) {
@@ -108,6 +114,15 @@ export class RoomButton extends Button {
 				this.notification.setTexture('button_notification_dead');
 				this.notification.setScale(0.85);
 				break;
+		}
+	}
+
+	setHeldItem(key: string | null) {
+		if (key) {
+			this.heldItem.setVisible(true);
+			this.heldItem.setTexture(key);
+		} else {
+			this.heldItem.setVisible(false);
 		}
 	}
 
