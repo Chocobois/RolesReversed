@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install genisoimage
+        run: sudo apt install genisoimage
+
       - name: Install dependencies
         run: npm install
 
