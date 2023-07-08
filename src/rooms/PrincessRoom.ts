@@ -87,22 +87,19 @@ export class PrincessRoom extends Room {
 			case PrincessState.Idle:
 				if (chance(0.1)) {
 					this.setPrincessState(PrincessState.Escaping);
-					this.setTimer(10000);
-					break;
-				}
-
-				if (chance(0.5)) {
+				} else if (chance(0.5)) {
 					this.setPrincessState(PrincessState.Sleeping);
+				} else {
+					this.setPrincessState(PrincessState.Idle); // Resets timer and image
 				}
-				this.setTimer(3000);
 				break;
 
 			case PrincessState.Sleeping:
 				if (chance(0.5)) {
 					this.setPrincessState(PrincessState.Idle);
+				} else {
+					this.setPrincessState(PrincessState.Sleeping); // Resets timer and image
 				}
-
-				this.setTimer(3000);
 				break;
 
 			case PrincessState.Escaping:
@@ -118,15 +115,18 @@ export class PrincessRoom extends Room {
 				let texture1 = Phaser.Math.RND.pick(['princess_default', 'princess_plead', 'princess_stare']);
 				this.princessButton.setPosition(960, 800);
 				this.princessImage.setTexture(texture1);
+				this.setTimer(3000);
 				break;
 			case PrincessState.Sleeping:
 				let texture2 = Phaser.Math.RND.pick(['princess_laying', 'princess_laying_2', 'princess_laying_3']);
 				this.princessImage.setTexture(texture2);
 				this.princessButton.setPosition(1500, 730);
+				this.setTimer(3000);
 				break;
 			case PrincessState.Escaping:
 				this.princessImage.setTexture('princess_escape_1');
 				this.princessButton.setPosition(1080, 500);
+				this.setTimer(10000);
 				break;
 			case PrincessState.Fled:
 				this.princessButton.setVisible(false);

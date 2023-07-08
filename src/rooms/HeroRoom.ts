@@ -98,7 +98,7 @@ export class HeroRoom extends Room {
 					break;
 				}
 
-				this.setHeroState(HeroState.Absent);
+				this.setHeroState(HeroState.Absent); // Resets timer and image
 				break;
 
 			case HeroState.Arrived:
