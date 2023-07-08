@@ -1,3 +1,4 @@
+import { ShopRoom } from '@/rooms/ShopRoom';
 import { GameScene } from '../scenes/GameScene';
 import { getDialogue, DialogueKey, Conversation, Message } from './Conversations';
 import { DialogueBubble } from './DialogueBubble';
@@ -5,6 +6,7 @@ import { Button } from '@/components/Button';
 
 export class DialogueOverlay extends Phaser.GameObjects.Container {
 	public scene: GameScene;
+	public shopRoom: ShopRoom;
 
 	private background: Phaser.GameObjects.Rectangle;
 	private leftSprite: Phaser.GameObjects.Image;
@@ -65,6 +67,8 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 		this.leftSprite.setTexture(this.currentConversation.spriteLeft);
 		this.rightSprite.setTexture(this.currentConversation.spriteRight);
 
+		if (this.scene?.shopRoom?.active) this.scene.shopRoom.hideShopkeeper = true;
+
 		this.nextDialogue();
 	}
 
@@ -88,6 +92,7 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 			this.add(newBubble);
 			this.bubbles.push(newBubble);
 		} else {
+			if (this.scene?.shopRoom?.hideShopkeeper == true) this.scene.shopRoom.hideShopkeeper = false;
 			this.callback(true);
 			this.hide();
 		}
