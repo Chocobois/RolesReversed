@@ -155,6 +155,7 @@ export class PrincessRoom extends Room {
 		if (this.princessState == PrincessState.Escaping) {
 			this.setPrincessState(PrincessState.Idle);
 			this.princessImage.setTexture('princess_plead');
+			this.timer.paused = true;
 		}
 	}
 
