@@ -58,13 +58,13 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		/* Castle buttons */
 
-		this.heroButton = new RoomButton(scene, x1, 0, 'button_outside', State.Hero, 'Heroes');
+		this.heroButton = new RoomButton(scene, x1, 0, 'button_outside', State.Hero, 'Tower');
 		this.heroButton.on('click', () => {
 			this.emit('changeRoom', State.Hero);
 		});
 		this.homeButtons.add(this.heroButton);
 
-		this.princessButton = new RoomButton(scene, x2, 0, 'button_princess', State.Princess, 'Princess');
+		this.princessButton = new RoomButton(scene, x2, 0, 'button_princess', State.Princess, 'Bedroom');
 		this.princessButton.on('click', () => {
 			this.emit('changeRoom', State.Princess);
 		});

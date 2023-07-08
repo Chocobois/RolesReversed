@@ -1,6 +1,6 @@
 import { GameScene } from '../scenes/GameScene';
 import { Button } from './Button';
-import { Tooltip } from './Tooltip';
+import { Tooltip, TooltipStyle } from './Tooltip';
 import State from './State';
 
 export enum Notification {
@@ -19,9 +19,11 @@ export class RoomButton extends Button {
 	private size: number;
 	private notificationState: Notification;
 	private label: string | undefined;
+	private gScene: GameScene;
 
 	constructor(scene: GameScene, x: number, y: number, key: string, room: State, label?: string) {
 		super(scene, x, y);
+		this.gScene = scene;
 		this.room = room;
 		this.size = 0.17 * this.scene.H;
 
@@ -86,19 +88,26 @@ export class RoomButton extends Button {
 	}
 
 	onOver(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
-		this.hover = true;
+		if (this.label) this.spawnTooltip()
 
 		// Code inherited from Button.ts:
-		if (this.label) this.tooltip = new Tooltip(this.scene, this.parentContainer.x + this.x, this.parentContainer.y + this.y - 160, this.label, 40);
+		this.hover = true;
 	}
 
 	onUp(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
 		if (this.tooltip) this.tooltip.destroy();
+		if (this.label) this.spawnTooltip(TooltipStyle.Light);
 
 		// Code inherited from Button.ts:
 		if (this.hold && !this.blocked) {
 			this.hold = false;
 			this.emit('click');
 		}
+	}
+
+	spawnTooltip(styleOverride?: TooltipStyle) {
+		const style = styleOverride ? styleOverride : (this.gScene.state == this.room ? TooltipStyle.Light : TooltipStyle.Dark);
+		const { x: dx, y: dy } = this.parentContainer ?? { x: 0, y: 0 };
+		this.tooltip = new Tooltip(this.scene, dx + this.x, dy + this.y + 76, `${this.label}`, 36, style);
 	}
 }
