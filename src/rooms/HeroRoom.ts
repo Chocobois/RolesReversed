@@ -5,7 +5,9 @@ import { Notification } from '@/components/RoomButton';
 
 enum HeroState {
 	Absent = 1,
-	Present = 2,
+	Arrived = 2,
+	Speaking = 3,
+	Dead = 4,
 }
 
 export class HeroRoom extends Room {
@@ -41,7 +43,7 @@ export class HeroRoom extends Room {
 			paused: true,
 		});
 
-		this.setHeroState(HeroState.Present);
+		this.setHeroState(HeroState.Absent);
 	}
 
 	update(time: number, delta: number) {
@@ -54,12 +56,20 @@ export class HeroRoom extends Room {
 	setVisible(isShown: boolean): this {
 		if (isShown) {
 			if (this.timer) {
-				this.timer.paused = true;
+				switch (this.heroState) {
+					case HeroState.Absent:
+						this.timer.paused = true;
+						break;
+
+					case HeroState.Arrived:
+						this.setHeroState(HeroState.Speaking);
+						break;
+				}
 			}
 		} else {
 			if (this.timer.paused) {
 				this.timer.paused = false;
-				this.setTimer(3000);
+				// this.setTimer(3000);
 			}
 		}
 
@@ -84,18 +94,19 @@ export class HeroRoom extends Room {
 		switch (this.heroState) {
 			case HeroState.Absent:
 				if (chance(0.1)) {
-					this.setHeroState(HeroState.Present);
-					this.setTimer(10000);
+					this.setHeroState(HeroState.Arrived);
 					break;
 				}
 
-				this.setTimer(5000);
+				this.setHeroState(HeroState.Absent);
 				break;
 
-			case HeroState.Present:
+			case HeroState.Arrived:
 				this.setHeroState(HeroState.Absent);
+				break;
 
-				this.setTimer(5000);
+			case HeroState.Speaking:
+				this.setHeroState(HeroState.Absent);
 				break;
 		}
 	}
@@ -106,10 +117,15 @@ export class HeroRoom extends Room {
 		switch (this.heroState) {
 			case HeroState.Absent:
 				this.heroImage.setVisible(false);
+				this.setTimer(5000);
 				break;
-			case HeroState.Present:
+			case HeroState.Arrived:
 				this.heroImage.setVisible(true);
 				this.heroImage.setTexture('hero_normal');
+				this.setTimer(10000);
+				break;
+			case HeroState.Speaking:
+				this.setTimer(30000);
 				break;
 			default:
 				break;
@@ -117,7 +133,7 @@ export class HeroRoom extends Room {
 
 		if (this.roomButton) {
 			switch (this.heroState) {
-				case HeroState.Present:
+				case HeroState.Arrived:
 					this.roomButton.setNotification(Notification.Danger);
 					break;
 				default:
@@ -136,14 +152,17 @@ export class HeroRoom extends Room {
 			switch (this.heroState) {
 				case HeroState.Absent:
 					return 'Absent';
-				case HeroState.Present:
-					return 'Present';
+				case HeroState.Arrived:
+					return 'Arrived';
+				case HeroState.Speaking:
+					return 'Speaking';
 				default:
 					return 'Unknown';
 			}
 		};
 
 		let remaining = Math.ceil(this.timer.getRemaining() / 1000) + 's';
-		return `Hero: ${getStateText()} (${remaining})`;
+		let paused = this.timer.paused ? ' paused' : '';
+		return `Hero: ${getStateText()} (${remaining}${paused})`;
 	}
 }

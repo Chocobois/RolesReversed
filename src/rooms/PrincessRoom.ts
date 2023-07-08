@@ -172,6 +172,7 @@ export class PrincessRoom extends Room {
 		};
 
 		let remaining = Math.ceil(this.timer.getRemaining() / 1000) + 's';
-		return `Princess: ${getStateText()} (${remaining})`;
+		let paused = this.timer.paused ? ' paused' : '';
+		return `Princess: ${getStateText()} (${remaining}${paused})`;
 	}
 }
