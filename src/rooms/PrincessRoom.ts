@@ -1,7 +1,9 @@
-import { Button } from '@/components/Button';
 import { GameScene } from '../scenes/GameScene';
 import State from '@/components/State';
 import { GameOverRoom } from './GameOverRoom';
+import { Room } from './Room';
+import { Button } from '@/components/Button';
+import { Notification } from '@/components/RoomButton';
 
 enum PrincessState {
 	Idle = 1,
@@ -10,9 +12,7 @@ enum PrincessState {
 	Fled = 4,
 }
 
-export class PrincessRoom extends Phaser.GameObjects.Container {
-	public scene: GameScene;
-
+export class PrincessRoom extends Room {
 	public background: Phaser.GameObjects.Image;
 	public princessButton: Button;
 	public princessImage: Phaser.GameObjects.Image;
@@ -21,7 +21,7 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 	private timer: Phaser.Time.TimerEvent;
 
 	constructor(scene: GameScene) {
-		super(scene, 0, 0);
+		super(scene);
 		this.scene = scene;
 		this.scene.add.existing(this);
 
@@ -89,22 +89,19 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 			case PrincessState.Idle:
 				if (chance(0.5)) {
 					this.setPrincessState(PrincessState.Escaping);
-					this.setTimer(10000);
-					break;
-				}
-
-				if (chance(0.5)) {
+				} else if (chance(0.5)) {
 					this.setPrincessState(PrincessState.Sleeping);
+				} else {
+					this.setPrincessState(PrincessState.Idle); // Resets timer and image
 				}
-				this.setTimer(3000);
 				break;
 
 			case PrincessState.Sleeping:
 				if (chance(0.5)) {
 					this.setPrincessState(PrincessState.Idle);
+				} else {
+					this.setPrincessState(PrincessState.Sleeping); // Resets timer and image
 				}
-
-				this.setTimer(3000);
 				break;
 
 			case PrincessState.Escaping:
@@ -124,15 +121,18 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 				let texture1 = Phaser.Math.RND.pick(['princess_default', 'princess_plead', 'princess_stare']);
 				this.princessButton.setPosition(960, 800);
 				this.princessImage.setTexture(texture1);
+				this.setTimer(3000);
 				break;
 			case PrincessState.Sleeping:
 				let texture2 = Phaser.Math.RND.pick(['princess_laying', 'princess_laying_2', 'princess_laying_3']);
 				this.princessImage.setTexture(texture2);
 				this.princessButton.setPosition(1500, 730);
+				this.setTimer(3000);
 				break;
 			case PrincessState.Escaping:
 				this.princessImage.setTexture('princess_escape_1');
 				this.princessButton.setPosition(1080, 500);
+				this.setTimer(10000);
 				break;
 			case PrincessState.Fled:
 				this.princessButton.setVisible(false);
@@ -140,6 +140,16 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 				break;
 			default:
 				break;
+		}
+
+		if (this.roomButton) {
+			switch (this.princessState) {
+				case PrincessState.Escaping:
+					this.roomButton.setNotification(Notification.Danger);
+					break;
+				default:
+					this.roomButton.setNotification(Notification.Calm);
+			}
 		}
 	}
 
@@ -168,6 +178,7 @@ export class PrincessRoom extends Phaser.GameObjects.Container {
 		};
 
 		let remaining = Math.ceil(this.timer.getRemaining() / 1000) + 's';
-		return `Princess: ${getStateText()} (${remaining})`;
+		let paused = this.timer.paused ? ' paused' : '';
+		return `Princess: ${getStateText()} (${remaining}${paused})`;
 	}
 }

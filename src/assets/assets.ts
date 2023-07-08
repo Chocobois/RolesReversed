@@ -43,6 +43,9 @@ const images: Asset[] = [
 	image('sprites/hero-normal', 'hero_normal'),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop'),
+	//overworld
+	image('sprites/overworld-shop', 'overworld_shop'),
+	image('sprites/overworld-town', 'overworld_town'),
 
 	image('placeholder/background1', 'background1'),
 	image('placeholder/background2', 'background2'),

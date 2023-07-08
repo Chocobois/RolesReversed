@@ -1,14 +1,16 @@
-import { Button } from '@/components/Button';
 import { GameScene } from '../scenes/GameScene';
+import { Room } from './Room';
+import { Button } from '@/components/Button';
+import { Notification } from '@/components/RoomButton';
 
 enum HeroState {
 	Absent = 1,
-	Present = 2,
+	Arrived = 2,
+	Speaking = 3,
+	Dead = 4,
 }
 
-export class HeroRoom extends Phaser.GameObjects.Container {
-	public scene: GameScene;
-
+export class HeroRoom extends Room {
 	public background: Phaser.GameObjects.Image;
 	public heroButton: Button;
 	public heroImage: Phaser.GameObjects.Image;
@@ -17,7 +19,7 @@ export class HeroRoom extends Phaser.GameObjects.Container {
 	private timer: Phaser.Time.TimerEvent;
 
 	constructor(scene: GameScene) {
-		super(scene, 0, 0);
+		super(scene);
 		this.scene = scene;
 		this.scene.add.existing(this);
 
@@ -41,7 +43,7 @@ export class HeroRoom extends Phaser.GameObjects.Container {
 			paused: true,
 		});
 
-		this.setHeroState(HeroState.Present);
+		this.setHeroState(HeroState.Absent);
 	}
 
 	update(time: number, delta: number) {
@@ -54,12 +56,20 @@ export class HeroRoom extends Phaser.GameObjects.Container {
 	setVisible(isShown: boolean): this {
 		if (isShown) {
 			if (this.timer) {
-				this.timer.paused = true;
+				switch (this.heroState) {
+					case HeroState.Absent:
+						this.timer.paused = true;
+						break;
+
+					case HeroState.Arrived:
+						this.setHeroState(HeroState.Speaking);
+						break;
+				}
 			}
 		} else {
 			if (this.timer.paused) {
 				this.timer.paused = false;
-				this.setTimer(3000);
+				// this.setTimer(3000);
 			}
 		}
 
@@ -84,18 +94,19 @@ export class HeroRoom extends Phaser.GameObjects.Container {
 		switch (this.heroState) {
 			case HeroState.Absent:
 				if (chance(0.1)) {
-					this.setHeroState(HeroState.Present);
-					this.setTimer(10000);
+					this.setHeroState(HeroState.Arrived);
 					break;
 				}
 
-				this.setTimer(5000);
+				this.setHeroState(HeroState.Absent); // Resets timer and image
 				break;
 
-			case HeroState.Present:
+			case HeroState.Arrived:
 				this.setHeroState(HeroState.Absent);
+				break;
 
-				this.setTimer(5000);
+			case HeroState.Speaking:
+				this.setHeroState(HeroState.Absent);
 				break;
 		}
 	}
@@ -106,18 +117,33 @@ export class HeroRoom extends Phaser.GameObjects.Container {
 		switch (this.heroState) {
 			case HeroState.Absent:
 				this.heroImage.setVisible(false);
+				this.setTimer(5000);
 				break;
-			case HeroState.Present:
+			case HeroState.Arrived:
 				this.heroImage.setVisible(true);
 				this.heroImage.setTexture('hero_normal');
+				this.setTimer(10000);
+				break;
+			case HeroState.Speaking:
+				this.setTimer(30000);
 				break;
 			default:
 				break;
 		}
+
+		if (this.roomButton) {
+			switch (this.heroState) {
+				case HeroState.Arrived:
+					this.roomButton.setNotification(Notification.Danger);
+					break;
+				default:
+					this.roomButton.setNotification(Notification.Calm);
+			}
+		}
 	}
 
 	onHeroClick() {
-		// this.setHeroState(HeroState.Idle);
+		this.setHeroState(HeroState.Absent);
 	}
 
 	/* Debug */
@@ -126,14 +152,17 @@ export class HeroRoom extends Phaser.GameObjects.Container {
 			switch (this.heroState) {
 				case HeroState.Absent:
 					return 'Absent';
-				case HeroState.Present:
-					return 'Present';
+				case HeroState.Arrived:
+					return 'Arrived';
+				case HeroState.Speaking:
+					return 'Speaking';
 				default:
 					return 'Unknown';
 			}
 		};
 
 		let remaining = Math.ceil(this.timer.getRemaining() / 1000) + 's';
-		return `Hero: ${getStateText()} (${remaining})`;
+		let paused = this.timer.paused ? ' paused' : '';
+		return `Hero: ${getStateText()} (${remaining}${paused})`;
 	}
 }
