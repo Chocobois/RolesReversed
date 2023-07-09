@@ -84,6 +84,7 @@ const images: Asset[] = [
 	//hero
 	image('sprites/hero-princess', 'hero_princess'),
 	image('sprites/hero-normal', 'hero_normal'),
+	image('sprites/hero-bigger-sword', 'hero_bigger-sword'),
 	image('sprites/hero-sk8r', 'hero_skater'),
 	image('sprites/hero-charming', 'hero_charming'),
 	image('sprites/hero-kobold', 'hero_kobold'),
@@ -122,7 +123,7 @@ const images: Asset[] = [
 	image('placeholder/placeholder_expl', 'EXPL'),
 ];
 
-/* Spritesheets *//* prettier-ignore */
+/* Spritesheets */ /* prettier-ignore */
 const spritesheets: SpriteSheet[] = [
 	spritesheet('ui/audio', 'audio', 300, 300),
 	spritesheet('ui/music', 'music', 300, 300),
@@ -151,11 +152,21 @@ const audios: Audio[] = [
 	sound('placeholder/explosion_placeholder', 'EXPL_SOUND', 0.1),
 	sound('placeholder/placeholder_demolish', 'DEMO_SOUND', 0.1),
 	sound('placeholder/placeholder_fried', 'FRIED_SOUND', 0.1),
+
 	// Sounds: character voices
 	sound('voice/kobl_1', 'v_kobl_1'),
 	sound('voice/kobl_2', 'v_kobl_2'),
 	sound('voice/kobl_3', 'v_kobl_3'),
 	sound('voice/kobl_4', 'v_kobl_4'),
+
+	sound('voice/dragn_1', 'v_dragn_1'),
+	sound('voice/dragn_2', 'v_dragn_2'),
+	sound('voice/dragn_3', 'v_dragn_3'),
+	sound('voice/dragn_4', 'v_dragn_4'),
+	sound('voice/dragn_5', 'v_dragn_5'),
+	sound('voice/dragn_6', 'v_dragn_6'),
+	sound('voice/dragn_7', 'v_dragn_7'),
+	sound('voice/dragn_8', 'v_dragn_8'),
 ];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');

@@ -57,14 +57,14 @@ export interface VoiceClipData {
 
 export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 	[Voices.Dragon]: {
-		prefix: 'v_kobl_',
-		volume: 0.5,
-		count: 4,
-		basePitch: 0.34,
-		pitchVar: 0.06,
-		preferred: [2, 3, 4, 1],
-		delay: 190,
-		soundsPerWord: 0.26,
+		prefix: 'v_dragn_',
+		volume: 0.6,
+		count: 8,
+		basePitch: 1.2,
+		pitchVar: 0.2,
+		preferred: [5, 3, 7, 1, 4, 2, 6, 8],
+		delay: 210,
+		soundsPerWord: 0.22,
 	},
 	[Voices.Princess]: {
 		prefix: 'v_kobl_',
