@@ -5,6 +5,9 @@ import { BlurPostFilter } from '@/pipelines/BlurPostFilter';
 import BendWaves from '@/pipelines/BendWavesPostFX';
 import BendWaves2 from '@/pipelines/BendWavesPostFX2';
 
+import { version } from '@/version.json';
+import { title } from 'game.json';
+
 export class PreloadScene extends BaseScene {
 	constructor() {
 		super({ key: 'PreloadScene' });
@@ -33,6 +36,7 @@ export class PreloadScene extends BaseScene {
 
 		// Loading text
 		this.createText(x, y, 48, '#DDDDDD', 'Loading...').setOrigin(0, 1.5);
+		this.createText(this.W, this.H, 32, '#DDDDDD', `${title} ${version}`).setOrigin(1, 1);
 
 		// Listener
 		this.load.on('progress', (progress: number) => {
