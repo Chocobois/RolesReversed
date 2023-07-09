@@ -6,6 +6,10 @@ export enum DialogueKey {
 	HeroBrave,
 	ShopIntroduction,
 	ShopPurchase,
+
+	KnightText,
+	sk8rText,
+	SquireText,
 }
 
 enum Colors {
@@ -15,6 +19,13 @@ enum Colors {
 
 	Green = '#15803d',
 	Red = '#b91c1c',
+	Gold = '#ba9b00',
+	Pink = '#ff5289',
+	Purple = '#cc24ff',
+	RageKnight = '#ff1717',
+	CowardKnight = '#7000a8',
+	sk8r = '#00c4de',
+	Valentine = '#d43d7c',
 }
 
 enum Voices {
@@ -217,6 +228,351 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								flags: {
 									wantToBuy: true,
 								},
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+	[DialogueKey.KnightText]: {
+		spriteLeft: 'dialogue_dragon_right',
+		spriteRight: 'dialogue_shopkeeper',
+		messages: [
+			{
+				left: true,
+				text: "You know who I'm here for. Hand her over, and I'll make sure to cut you down quick.",
+				color: Colors.RageKnight,
+			},
+			{
+				right: true,
+				text: 'You look like someone with absolutely zero friends.',
+				color: Colors.Dragon,
+			},
+			{
+				left: true,
+				text: "A knight's might is his only friend. I will gut you with pleasure, reptile.",
+				color: Colors.RageKnight,
+			},
+			{
+				right: true,
+				text: '...',
+				color: Colors.Shopkeeper,
+				voice: Voices.Shopkeeper,
+				choice: [
+					{
+						text: 'Intimidate',
+						color: Colors.Purple,
+						messages: [
+							{
+								right: true,
+								text: "Take another step, and I'll boil the flesh off your tiny bones.",
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Such a cowardly bluff befits you. Bleed!',
+								color: Colors.RageKnight,
+								flags: {
+									wantToBuy: false,
+								},
+							},
+						],
+					},
+					{
+						text: 'Bribe',
+						color: Colors.Gold,
+						messages: [
+							{
+								right: true,
+								text: 'And how much, exactly, is that royal order paying you? I might be convinced to... sweeten the pot.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'More than your disgusting hoard is worth to me. Die!',
+								color: Colors.RageKnight,
+								flags: {
+									wantToBuy: true,
+								},
+							},
+							{
+								right: true,
+								text: 'Augh!',
+								color: Colors.Dragon,
+							},
+						],
+					},
+					{
+						text: 'Flirt',
+						color: Colors.Pink,
+						messages: [
+							{
+								right: true,
+								text: 'You know, I have a soft spot for rough guys like you. How about we take this behind the lake?',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Your lust disgusts me. This one is personal!',
+								color: Colors.RageKnight,
+								flags: {
+									wantToBuy: true,
+								},
+							},
+							{
+								right: true,
+								text: 'Hrrrk!',
+								color: Colors.Dragon,
+							},
+						],
+					},
+					{
+						text: 'Kill',
+						color: Colors.Red,
+						messages: [
+							{
+								right: true,
+								text: 'Fry, you buffoon.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'My flesh- it burns, it burns!',
+								color: Colors.RageKnight,
+								flags: {
+									wantToBuy: true,
+								},
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+	[DialogueKey.sk8rText]: {
+		spriteLeft: 'dialogue_dragon_right',
+		spriteRight: 'dialogue_shopkeeper',
+		messages: [
+			{
+				left: true,
+				text: "Gimme the gurrl pal, or I'm sendin' ya back to the dinosaurs.",
+				color: Colors.sk8r,
+			},
+			{
+				right: true,
+				text: "Don't you have homework to do?",
+				color: Colors.Dragon,
+			},
+			{
+				left: true,
+				text: "Nah, riches and bitches' all that matters.",
+				color: Colors.sk8r,
+			},
+			{
+				right: true,
+				text: '...',
+				color: Colors.Shopkeeper,
+				voice: Voices.Shopkeeper,
+				choice: [
+					{
+						text: 'Intimidate',
+						color: Colors.Purple,
+						messages: [
+							{
+								right: true,
+								text: 'Better roll on out of here before I make your family a new jar of ashes.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: "No dice my dude. I've got too much drip, you'd better dip.",
+								color: Colors.sk8r,
+								flags: {
+									wantToBuy: false,
+								},
+							},
+						],
+					},
+					{
+						text: 'Bribe',
+						color: Colors.Gold,
+						messages: [
+							{
+								right: true,
+								text: 'Well then, someone of your... flawless moral standards would rather have... a few luxuries.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Whoa, my mom never gives me allowance. You rock dude.',
+								color: Colors.sk8r,
+								flags: {
+									wantToBuy: true,
+								},
+							},
+							{
+								right: true,
+								text: 'Augh!',
+								color: Colors.Dragon,
+							},
+						],
+					},
+					{
+						text: 'Insult',
+						color: Colors.Pink,
+						messages: [
+							{
+								right: true,
+								text: 'Maidenless.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Stinky.',
+								color: Colors.sk8r,
+								flags: {
+									wantToBuy: true,
+								},
+							},
+						],
+					},
+					{
+						text: 'Kill',
+						color: Colors.Red,
+						messages: [
+							{
+								right: true,
+								text: 'Burn, pest.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Aaaaugh! N-not cool...',
+								color: Colors.sk8r,
+								flags: {
+									wantToBuy: true,
+								},
+							},
+							{
+								right: true,
+								text: 'I hate children.',
+								color: Colors.Dragon,
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+	[DialogueKey.SquireText]: {
+		spriteLeft: 'dialogue_dragon_right',
+		spriteRight: 'dialogue_shopkeeper',
+		messages: [
+			{
+				left: true,
+				text: 'O-on my honor. I will rescue the princess for my lord!',
+				color: Colors.sk8r,
+			},
+			{
+				right: true,
+				text: 'Are you sure about that?',
+				color: Colors.Dragon,
+			},
+			{
+				left: true,
+				text: "I-I musn't run away!",
+				color: Colors.sk8r,
+			},
+			{
+				right: true,
+				text: '...',
+				color: Colors.Shopkeeper,
+				voice: Voices.Shopkeeper,
+				choice: [
+					{
+						text: 'Intimidate',
+						color: Colors.Purple,
+						messages: [
+							{
+								right: true,
+								text: 'Better roll on out of here before I make your family a new jar of ashes.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: "No dice my dude. I've got too much drip, you'd better dip.",
+								color: Colors.sk8r,
+								flags: {
+									wantToBuy: false,
+								},
+							},
+						],
+					},
+					{
+						text: 'Bribe',
+						color: Colors.Gold,
+						messages: [
+							{
+								right: true,
+								text: 'Well then, someone of your... flawless moral standards would rather have... a few luxuries.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Whoa, my mom never gives me allowance. You rock dude.',
+								color: Colors.sk8r,
+								flags: {
+									wantToBuy: true,
+								},
+							},
+							{
+								right: true,
+								text: 'Augh!',
+								color: Colors.Dragon,
+							},
+						],
+					},
+					{
+						text: 'Insult',
+						color: Colors.Pink,
+						messages: [
+							{
+								right: true,
+								text: 'Maidenless.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Stinky.',
+								color: Colors.sk8r,
+								flags: {
+									wantToBuy: true,
+								},
+							},
+						],
+					},
+					{
+						text: 'Kill',
+						color: Colors.Red,
+						messages: [
+							{
+								right: true,
+								text: 'Burn, pest.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Aaaaugh! N-not cool...',
+								color: Colors.sk8r,
+								flags: {
+									wantToBuy: true,
+								},
+							},
+							{
+								right: true,
+								text: 'I hate children.',
+								color: Colors.Dragon,
 							},
 						],
 					},
