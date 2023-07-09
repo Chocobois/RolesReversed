@@ -1,4 +1,8 @@
 {
 	"team": "Chocobois",
-	"title": "Himegotchi"
+	"title": "Himegotchi",
+	"itch": {
+		"user": "golen",
+		"game": "himegotchi"
+	}
 }
