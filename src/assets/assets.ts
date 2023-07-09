@@ -115,6 +115,7 @@ const images: Asset[] = [
 	image('sprites/dialogue-princess-pout', 'dialogue_princess_pout'),
 	image('sprites/dialogue-shopkeeper', 'dialogue_shopkeeper'),
 	image('sprites/dialogue-shopkeeper-talk', 'dialogue_shopkeeper_talk'),
+	image('sprites/dialogue-goldpile', 'dialogue_goldpile'),
 
 	image('placeholder/placeholder_ui_close', 'placeholder_ui_close'),
 	image('placeholder/placeholder_ui_done', 'placeholder_ui_done'),
