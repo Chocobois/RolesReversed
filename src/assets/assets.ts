@@ -5,7 +5,7 @@ import { image, sound, music, loadFont, spritesheet } from './util';
 const images: Asset[] = [
 	// Titlescreen
 	image('titlescreen/title', 'title_title'),
-	image('titlescreen/foreground outer', 'title_foreground-outer'),
+	image('titlescreen/foreground outer', 'title_foreground_outer'),
 	image('titlescreen/foreground', 'title_foreground'),
 	image('titlescreen/background', 'title_background'),
 	image('titlescreen/skybackground', 'title_skybackground'),
