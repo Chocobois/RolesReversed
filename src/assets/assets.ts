@@ -9,7 +9,6 @@ const images: Asset[] = [
 	image('titlescreen/foreground', 'title_foreground'),
 	image('titlescreen/background', 'title_background'),
 	image('titlescreen/skybackground', 'title_skybackground'),
-	image('titlescreen/full-title', 'title_fullimage'),
 
 	// Background images, static
 	image('background/outside-room', 'room_outside'),
