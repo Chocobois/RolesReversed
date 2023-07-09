@@ -160,6 +160,7 @@ export class RoomButton extends Button {
 	spawnTooltip(styleOverride?: TooltipStyle) {
 		const replacing = this.tooltip?.active;
 		if (replacing) this.tooltip.destroy();
+		else this.scene.sound.play('s_tooltip');
 		const style = styleOverride ? styleOverride : this.gScene.state == this.room ? TooltipStyle.Light : TooltipStyle.Dark;
 		const { x: dx, y: dy } = this.parentContainer ?? { x: 0, y: 0 };
 		this.tooltip = new Tooltip(this.scene, dx + this.x, dy + this.y + 76, `${this.label}`, 36, style);

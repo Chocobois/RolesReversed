@@ -159,13 +159,20 @@ const audios: Audio[] = [
 
 	// Sounds
 	sound('ui/title_begin', 's_begin', 0.5),
+	sound('ui/button', 's_button', 0.1),
+	sound('ui/tooltip', 's_tooltip', 0.5),
+	sound('ui/buy', 's_buy', 0.5),
+	sound('ui/collect', 's_collect', 0.5),
+	sound('ui/paper', 's_paper', 0.3),
+	sound('ui/sparkle', 's_sparkle', 0.3),
 
 	sound('tree/rustle', 't_rustle', 0.1),
 	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.1),
 	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
-	sound('placeholder/explosion_placeholder', 'EXPL_SOUND', 0.1),
+	sound('placeholder/placeholder_explosion', 'EXPL_SOUND', 0.1),
 	sound('placeholder/placeholder_demolish', 'DEMO_SOUND', 0.1),
 	sound('placeholder/placeholder_fried', 'FRIED_SOUND', 0.1),
+	sound('placeholder/placeholder_scream', 'SCREAM', 0.1),
 
 	// Sounds: character voices
 	sound('voice/generic', 'v_misc_1'),

@@ -155,7 +155,7 @@ export class ShopRoom extends Room {
 					'click',
 					() => {
 						this.selectItem(item.itemData);
-						// this.scene.sound.play('s_click');
+						this.scene.sound.play('s_collect');
 					},
 					this
 				);
