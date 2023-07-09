@@ -21,13 +21,13 @@ export class GameScene extends BaseScene {
 	public maxEnergy: number;
 	public energy: number;
 
-	private princessRoom: PrincessRoom;
-	private heroRoom: HeroRoom;
-	private treasureRoom: TreasureRoom;
+	public princessRoom: PrincessRoom;
+	public heroRoom: HeroRoom;
+	public treasureRoom: TreasureRoom;
 	public shopRoom: ShopRoom;
-	private townRoom: TownRoom;
-	private overworldRoom: OverworldRoom;
-	private gameOverRoom: GameOverRoom;
+	public townRoom: TownRoom;
+	public overworldRoom: OverworldRoom;
+	public gameOverRoom: GameOverRoom;
 
 	public uiOverlay: UIOverlay;
 	public dialogueOverlay: DialogueOverlay;

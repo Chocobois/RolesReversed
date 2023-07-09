@@ -29,13 +29,13 @@ export class PrincessRoom extends Room {
 	private princessState: PrincessState;
 	private timer: Phaser.Time.TimerEvent;
 
-	private energy: number;
-	private happiness: number;
-	private hunger: number;
-	private patience: number;
-	private wantedItem: ItemData | null; // Item the princess requests
-	private heldItem: ItemData | null; // Item the dragon is holding
-	private activeItem: ItemData | null; // Item the princess is using
+	public energy: number;
+	public happiness: number;
+	public hunger: number;
+	public patience: number;
+	public wantedItem: ItemData | null; // Item the princess requests
+	public heldItem: ItemData | null; // Item the dragon is holding
+	public activeItem: ItemData | null; // Item the princess is using
 
 	private firstTimeClicked: boolean;
 	private firstTimeBeingCaught: boolean;
@@ -86,8 +86,8 @@ export class PrincessRoom extends Room {
 			paused: true,
 		});
 
-		this.energy = 40;
-		this.happiness = 20;
+		this.energy = 80;
+		this.happiness = 60;
 		this.hunger = 80;
 		this.patience = 100;
 		this.wantedItem = null;

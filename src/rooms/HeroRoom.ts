@@ -16,6 +16,7 @@ enum queueState {
 
 export class HeroRoom extends Room {
 	public background: Phaser.GameObjects.Image;
+	public dragon: Phaser.GameObjects.Image;
 	public heroButton: Button;
 	public heroImage: Phaser.GameObjects.Image;
 
@@ -48,6 +49,10 @@ export class HeroRoom extends Room {
 		this.background = scene.add.image(scene.CX, scene.CY, 'room_outside');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
+
+		this.dragon = scene.add.image(scene.CX, scene.CY, 'dragon_peek');
+		this.add(this.dragon);
+		scene.fitToScreen(this.dragon);
 
 		//lumie note: keeping this since it's convenient and i'm very lazy and bad
 		//this only holds the image for the current hero, the actual hero and states gets rotated out in the queue
@@ -84,7 +89,7 @@ export class HeroRoom extends Room {
 			frames: 'explosion_tiny',
 			frameRate: 12,
 			showOnStart: true,
-			hideOnComplete: true
+			hideOnComplete: true,
 		};
 
 		this.scene.anims.create(expl);
@@ -114,8 +119,7 @@ export class HeroRoom extends Room {
 			this.movementOpportunity();
 		}
 
-		if(this.animMode)
-		{
+		if (this.animMode) {
 			this.animFrames -= delta;
 			this.processDisplayMode();
 		}
@@ -205,7 +209,7 @@ export class HeroRoom extends Room {
 		switch (this.queueFlag) {
 			case queueState.CLEARING:
 				this.activateHero();
-				if(!this.tutorialRead) {
+				if (!this.tutorialRead) {
 					this.pendingDialogue = true;
 				}
 				this.queueFlag = queueState.WAITING;
@@ -216,7 +220,7 @@ export class HeroRoom extends Room {
 				this.queueFlag = queueState.ACTIVE;
 				this.heroList[0].myState = HeroState.SPEAKING;
 				this.roomButton.setNotification(Notification.Danger);
-				this.setManualTimer(!this.tutorialRead? 999999999999 : (1000 + 6000 / (1 + this.scene.difficulty)));
+				this.setManualTimer(!this.tutorialRead ? 999999999999 : 1000 + 6000 / (1 + this.scene.difficulty));
 				if (this.visible == true) {
 					this.pausefx = true;
 				}
@@ -273,8 +277,10 @@ export class HeroRoom extends Room {
 		this.scene.startDialogue(this.heroList[0].dialogue, (flags) => {
 			if (flags.tutorial) {
 				this.tutorialRead = true;
+				this.scene.princessRoom.happiness = 0;
 			}
 			if (flags.talkFailure) {
+				this.scene.addEnergy(-100);
 				this.scene.endGame();
 				return;
 			} else if (flags.fried) {
@@ -294,8 +300,7 @@ export class HeroRoom extends Room {
 		});
 	}
 
-	advance(fried: boolean)
-	{
+	advance(fried: boolean) {
 		if (this.fryDifficulty) {
 			this.scene.difficulty += this.heroList[0].reputation;
 			this.fryDifficulty = false;
@@ -304,9 +309,9 @@ export class HeroRoom extends Room {
 			this.scene.addEnergy(-1 * (this.heroList[0].bribeAmount / 10));
 			this.bribeFlag = false;
 		}
-		if(fried) {
-			let xpl = this.scene.add.sprite(this.heroButton.x+50, this.heroButton.y-240, 'explosion');
-			xpl.play({key: 'explosion', delay: 0});
+		if (fried) {
+			let xpl = this.scene.add.sprite(this.heroButton.x + 50, this.heroButton.y - 240, 'explosion');
+			xpl.play({ key: 'explosion', delay: 0 });
 			this.heroImage.setTexture('hero_ash');
 		}
 		this.pendingDialogue = false;
@@ -318,14 +323,12 @@ export class HeroRoom extends Room {
 	}
 
 	//manage when hero exploding
-	processDisplayMode()
-	{
-		if(this.animFrames <= 0)
-		{
+	processDisplayMode() {
+		if (this.animFrames <= 0) {
 			this.animMode = false;
 			this.advanceHeroQueue();
 		}
-		this.heroImage.setAlpha(this.animFrames/1000);
+		this.heroImage.setAlpha(this.animFrames / 1000);
 	}
 
 	advanceHeroQueue() {
@@ -398,8 +401,8 @@ export class HeroRoom extends Room {
 		let remaining = Math.ceil(this.clock / 1000) + 's';
 		let paused = this.pausefx ? ' paused' : '';
 		let anims = '';
-		if(this.animMode) {
-			anims = ' Remaining frames: ' + this.animFrames; 
+		if (this.animMode) {
+			anims = ' Remaining frames: ' + this.animFrames;
 		}
 		return `Hero: ${cd} ${qstate} ${queue} ${getStateText()}(${remaining}${paused})${anims}`;
 	}
