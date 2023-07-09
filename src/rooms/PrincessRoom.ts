@@ -93,7 +93,7 @@ export class PrincessRoom extends Room {
 		this.wantedItem = null;
 		this.heldItem = null;
 		this.activeItem = null;
-		this.escapeTimes = [10000, 8000, 7000, 6000, 5000, 5000];
+		this.escapeTimes = [20000, 10000, 7500];
 		this.escapeTimer = this.escapeTimes.shift() || 5000;
 
 		this.setPrincessState(PrincessState.Idle);
@@ -301,7 +301,7 @@ export class PrincessRoom extends Room {
 				this.princessImage.setTexture('princess_escape_1');
 				this.princessButton.setPosition(1080, 500);
 				this.setTimer(this.escapeTimer);
-				this.escapeTimer = this.escapeTimes.shift() || 5000;
+				this.escapeTimer = this.escapeTimes.shift() || 6000;
 				break;
 			case PrincessState.Fled:
 				this.princessButton.setVisible(false);

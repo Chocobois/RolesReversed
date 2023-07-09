@@ -275,7 +275,7 @@ export class HeroRoom extends Room {
 				this.tutorialRead = true;
 			}
 			if (flags.talkFailure) {
-				// this.scene.endGame();
+				this.scene.endGame();
 				return;
 			} else if (flags.fried) {
 				this.fryDifficulty = true;

@@ -833,7 +833,7 @@ const conversations: { [key in any]: Conversation } = {
 			},
 			{
 				character: LEFT,
-				text: "Nah, riches and bitches' all that matters.",
+				text: 'Nah, dames and dimes all that matters.',
 			},
 			{
 				character: RIGHT,
