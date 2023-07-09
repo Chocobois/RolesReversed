@@ -1,3 +1,4 @@
+import { LEFT } from 'phaser';
 import { GameScene } from '../scenes/GameScene';
 import { Message, VoiceClips } from './Conversations';
 import { RoundRectangle } from './RoundRectangle';
@@ -39,8 +40,8 @@ export class DialogueBubble extends Button {
 		this.border = new RoundRectangle(scene, 0, 0, this.width + border, 100 + border, radius, borderColor);
 		this.add(this.border);
 
-		if (message.left !== message.right) {
-			const direction = message.left ? -1 : +1;
+		if (true) {
+			const direction = message.character == LEFT ? -1 : +1;
 			const height = fontsize * tailScale;
 			const width = (3 / 4) * height;
 
