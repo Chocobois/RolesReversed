@@ -48,9 +48,11 @@ export interface VoiceClipData {
 	prefix: string;
 	volume: number;
 	count: number;
+	basePitch?: number;
 	pitchVar?: number;
 	preferred?: number[];
 	delay?: number;
+	soundsPerWord?: number;
 }
 
 export const VoiceClips: { [key in Voices]: VoiceClipData } = {
@@ -58,9 +60,11 @@ export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 		prefix: 'v_kobl_',
 		volume: 0.5,
 		count: 4,
-		pitchVar: 0.12,
+		basePitch: 0.34,
+		pitchVar: 0.06,
 		preferred: [2, 3, 4, 1],
-		delay: 140,
+		delay: 190,
+		soundsPerWord: 0.26,
 	},
 	[Voices.Princess]: {
 		prefix: 'v_kobl_',
@@ -69,11 +73,13 @@ export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 		pitchVar: 0.12,
 		preferred: [2, 3, 4, 1],
 		delay: 140,
+		soundsPerWord: 0.4,
 	},
 	[Voices.Shopkeeper]: {
 		prefix: 'v_kobl_',
 		volume: 0.5,
 		count: 4,
+		basePitch: 1,
 		pitchVar: 0.12,
 		preferred: [2, 3, 4, 1],
 		delay: 140,

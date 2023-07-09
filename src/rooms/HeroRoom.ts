@@ -34,6 +34,7 @@ export class HeroRoom extends Room {
 	private pausefx: boolean;
 	private fryDifficulty: boolean;
 	private bribeFlag: boolean;
+	private pendingDialogue: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -69,11 +70,15 @@ export class HeroRoom extends Room {
 		this.pausefx = true;
 		this.fryDifficulty = false;
 		this.bribeFlag = false;
+		this.pendingDialogue = false;
 	}
 
 	update(time: number, delta: number) {
-		const heroHoldX = 1.0 + 0.15 * this.heroButton.holdSmooth;
-		const heroHoldY = 1.0 - 0.1 * this.heroButton.holdSmooth;
+		if (this.scene.dialogueFlag) {
+			return;
+		}
+		const heroHoldX = 1.0; //+ 0.15 * this.heroButton.holdSmooth;
+		const heroHoldY = 1.0; //- 0.1 * this.heroButton.holdSmooth;
 		const heroSquish = 0.02;
 		if (this.cooldown > 0) {
 			if (this.queueFlag == queueState.IDLE || this.queueFlag == queueState.WAITING) {
@@ -104,6 +109,10 @@ export class HeroRoom extends Room {
 		}
 
 		super.setVisible(isShown);
+		if (isShown && this.pendingDialogue) {
+			this.scene.startDialogue(this.heroList[0].intro, (flags) => {});
+			this.pendingDialogue = false;
+		}
 		return this;
 	}
 
@@ -169,7 +178,7 @@ export class HeroRoom extends Room {
 				if (this.visible == true) {
 					this.pausefx = true;
 				}
-				this.scene.startDialogue(this.heroList[0].intro, (flags) => {});
+				this.pendingDialogue = true;
 				return;
 			case queueState.ACTIVE:
 				if (this.heroList[0].myState == HeroState.SPEAKING) {
@@ -225,16 +234,18 @@ export class HeroRoom extends Room {
 				this.fryDifficulty = true;
 				this.scene.sound.play('FRIED_SOUND', { volume: 0.25 });
 				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
+				this.advanceHeroQueue();
 				//this.scene.difficulty += this.heroList[0].reputation;
 			} else if (flags.payBribe) {
 				this.bribeFlag = true;
 				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
+				this.advanceHeroQueue();
 			} else {
 				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
+				this.advanceHeroQueue();
 			}
 		});
-		this.advanceHeroQueue();
-		//this.currentHero = null;
+
 	}
 
 	advanceHeroQueue() {
