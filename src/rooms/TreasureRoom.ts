@@ -1,12 +1,15 @@
 import { Button } from '@/components/Button';
 import { GameScene } from '../scenes/GameScene';
 import { Room } from './Room';
+import { ParticleManager } from '@/components/Particle';
 
 export class TreasureRoom extends Room {
 	private background: Phaser.GameObjects.Image;
 	private dragonButton: Button;
 	private dragonImage: Phaser.GameObjects.Image;
 	private breathTime: number;
+	public particles: ParticleManager;
+	private spawnTimer: Phaser.Time.TimerEvent;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -31,10 +34,22 @@ export class TreasureRoom extends Room {
 		});
 
 		this.breathTime = 0;
+
+		this.particles = new ParticleManager(this.scene);
+
+		if (!this.spawnTimer) {
+			this.spawnTimer = this.scene.time.addEvent({
+				delay: 1000,
+				loop: true,
+				callback: () => this.visible && this.particles.push([1220, 580, 'particle_sleep', Phaser.Math.RND.between(0, 3)], 3.5, this.particles.DEAFULT_EFFECTS),
+			});
+		}
 	}
 
 	update(time: number, delta: number) {
 		if (this.visible) {
+			this.particles.update(time, delta);
+
 			let holdX = 1.0 + 0.03 * this.dragonButton.holdSmooth;
 			let holdY = 1.0 - 0.06 * this.dragonButton.holdSmooth;
 			let squish = 0.015;
@@ -57,6 +72,8 @@ export class TreasureRoom extends Room {
 			this.breathTime += delta / speed;
 			this.dragonButton.setScale((1.0 + squish * Math.sin(this.breathTime)) * holdX, (1.0 + squish * Math.sin(-this.breathTime)) * holdY);
 			this.dragonImage.setOrigin(0.5 + vibrate * Math.sin(vibrateSpeed * this.breathTime), 0.9);
+		} else {
+			this.particles.die()
 		}
 	}
 
