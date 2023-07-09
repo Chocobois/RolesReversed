@@ -120,13 +120,14 @@ const spritesheets: SpriteSheet[] = [
 const audios: Audio[] = [
 	// Music
 	music('title', 'm_main_menu'),
-	music('first', 'm_first'),
-	music('princess', 'm_princess'),
-	music('invader', 'm_invader'),
-	music('treasure', 'm_treasure'),
-	music('shop', 'm_shop'),
-	music('town', 'm_town'),
-	music('overworld', 'm_overworld'),
+	music('bgm_always', 'm_backing'),
+	music('bgm_eepy', 'm_goldpile'),
+	music('bgm_drumkit', 'm_highenergy'),
+	music('bgm_drumloop', 'm_drumloop'),
+	music('bgm_watchout', 'm_danger'),
+	music('bgm_strings', 'm_strings'),
+	music('bgm_piano', 'm_piano'),
+	music('bgm_guitar', 'm_guitar'),
 
 	// Sounds
 	sound('tree/rustle', 't_rustle', 0.1),
@@ -135,6 +136,7 @@ const audios: Audio[] = [
 	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
 	sound('placeholder/explosion_placeholder', 'EXPL_SOUND', 0.1),
 	sound('placeholder/placeholder_demolish', 'DEMO_SOUND', 0.1),
+	sound('placeholder/placeholder_fried', 'FRIED_SOUND', 0.1),
 	// Sounds: character voices
 	sound('voice/kobl_1', 'v_kobl_1'),
 	sound('voice/kobl_2', 'v_kobl_2'),
