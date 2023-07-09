@@ -4,6 +4,8 @@ import { image, sound, music, loadFont, spritesheet } from './util';
 /* Images */
 const images: Asset[] = [
 	// Titlescreen
+	image('titlescreen/title', 'title_title'),
+	image('titlescreen/foreground outer', 'title_foreground_outer'),
 	image('titlescreen/foreground', 'title_foreground'),
 	image('titlescreen/background', 'title_background'),
 	image('titlescreen/skybackground', 'title_skybackground'),
@@ -18,9 +20,21 @@ const images: Asset[] = [
 	image('background/princess-room-escaped', 'room_princess_escaped'),
 	image('background/shop-room', 'room_shop'),
 	image('background/sleep-room', 'room_sleep'),
-	image('background/town-room', 'room_town'),
+	image('background/town_bg', 'town_bg'),
+	image('background/town_build_1', 'town_build_1'),
+	image('background/town_build_2', 'town_build_2'),
+	image('background/town_build_3', 'town_build_3'),
+	image('background/town_fg', 'town_fg'),
+	image('background/town_rubble_1', 'town_rubble_1'),
+	image('background/town_rubble_2', 'town_rubble_2'),
+	image('background/town_rubble_3', 'town_rubble_3'),
 	image('background/buttons_background', 'buttons_background'),
-	image('placeholder/gameover', 'game_over'),
+
+	//gameover
+	image('background/game-over', 'game_over'),
+	image('background/game-over-dragon', 'game_over_dragon'),
+	image('background/game-over-text', 'game_over_text'),
+	image('background/game-over-notext', 'game_over_bg'),
 
 	// UI
 	image('ui/outside', 'button_outside'),
@@ -72,15 +86,22 @@ const images: Asset[] = [
 	//hero
 	image('sprites/hero-princess', 'hero_princess'),
 	image('sprites/hero-normal', 'hero_normal'),
+	image('sprites/hero-normal-burnt', 'hero_normal_burnt'),
+	image('sprites/hero-bigger-sword', 'hero_bigger-sword'),
 	image('sprites/hero-sk8r', 'hero_skater'),
+	image('sprites/hero-sk8r-burnt', 'hero_skater_burnt'),
 	image('sprites/hero-charming', 'hero_charming'),
+	image('sprites/hero-charming-burnt', 'hero_charming_burnt'),
 	image('sprites/hero-kobold', 'hero_kobold'),
 	image('sprites/hero-big', 'hero_big'),
+	image('sprites/hero-ash', 'hero_ash'),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop'),
 	image('sprites/dragon-sleep', 'dragon_sleep'),
 	image('sprites/dragon-sleep-low', 'dragon_sleep_low'),
 	image('sprites/dragon-sleep-high', 'dragon_sleep_high'),
+	image('sprites/dragon-peek', 'dragon_peek'),
+	image('sprites/dragon-peek-flip', 'dragon_peek_flip'),
 	//dialogue
 	image('sprites/dialogue-dragon', 'dialogue_dragon'),
 	image('sprites/dialogue-dragon-angry', 'dialogue_dragon_angry'),
@@ -93,6 +114,7 @@ const images: Asset[] = [
 	image('sprites/dialogue-princess', 'dialogue_princess'),
 	image('sprites/dialogue-princess-pout', 'dialogue_princess_pout'),
 	image('sprites/dialogue-shopkeeper', 'dialogue_shopkeeper'),
+	image('sprites/dialogue-shopkeeper-talk', 'dialogue_shopkeeper_talk'),
 
 	image('placeholder/placeholder_ui_close', 'placeholder_ui_close'),
 	image('placeholder/placeholder_ui_done', 'placeholder_ui_done'),
@@ -106,13 +128,15 @@ const images: Asset[] = [
 	image('placeholder/placeholder_building_3', 'BLDG_3'),
 
 	image('placeholder/placeholder_expl', 'EXPL'),
+	image('sprites/particle-sparkle', 'particle_sparkle'),
 ];
 
-/* Spritesheets */ // prettier-ignore
+/* Spritesheets */ /* prettier-ignore */
 const spritesheets: SpriteSheet[] = [
 	spritesheet('ui/audio', 'audio', 300, 300),
 	spritesheet('ui/music', 'music', 300, 300),
 	spritesheet('ui/pause', 'pause', 300, 300),
+	spritesheet('sprites/particle-sleep', 'particle_sleep', 70, 70),
 ];
 
 /* Audios */
@@ -127,6 +151,7 @@ const audios: Audio[] = [
 	music('bgm_strings', 'm_strings'),
 	music('bgm_piano', 'm_piano'),
 	music('bgm_guitar', 'm_guitar'),
+	music('bgm_overwhelm', 'm_critical'),
 	music('bgm_gameover', 'm_gameover'),
 
 	// Sounds
@@ -136,11 +161,21 @@ const audios: Audio[] = [
 	sound('placeholder/explosion_placeholder', 'EXPL_SOUND', 0.1),
 	sound('placeholder/placeholder_demolish', 'DEMO_SOUND', 0.1),
 	sound('placeholder/placeholder_fried', 'FRIED_SOUND', 0.1),
+
 	// Sounds: character voices
 	sound('voice/kobl_1', 'v_kobl_1'),
 	sound('voice/kobl_2', 'v_kobl_2'),
 	sound('voice/kobl_3', 'v_kobl_3'),
 	sound('voice/kobl_4', 'v_kobl_4'),
+
+	sound('voice/dragn_1', 'v_dragn_1'),
+	sound('voice/dragn_2', 'v_dragn_2'),
+	sound('voice/dragn_3', 'v_dragn_3'),
+	sound('voice/dragn_4', 'v_dragn_4'),
+	sound('voice/dragn_5', 'v_dragn_5'),
+	sound('voice/dragn_6', 'v_dragn_6'),
+	sound('voice/dragn_7', 'v_dragn_7'),
+	sound('voice/dragn_8', 'v_dragn_8'),
 ];
 
 // await loadFont('DynaPuff-Medium', 'Game Font');

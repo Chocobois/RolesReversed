@@ -22,7 +22,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	private energyMeter: EnergyMeter;
 
 	private darknessOverlay: Phaser.GameObjects.Image;
-	private blockButtons: boolean;
+	public blockButtons: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene, 0, 0);
@@ -68,7 +68,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		let background = scene.add.image(0, 0, 'buttons_background');
 		background.setScale(1.1);
-		background.setAlpha(0.2);
+		background.setAlpha(0.3);
 		this.homeButtons.add(background);
 
 		this.heroButton = new RoomButton(scene, x1, 0, 'button_outside', State.Hero, 'Tower');

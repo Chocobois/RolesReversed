@@ -11,8 +11,8 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 	public shopRoom: ShopRoom;
 
 	private background: Phaser.GameObjects.Rectangle;
-	private leftSprite: Phaser.GameObjects.Image;
-	private rightSprite: Phaser.GameObjects.Image;
+	public leftSprite: Phaser.GameObjects.Image;
+	public rightSprite: Phaser.GameObjects.Image;
 
 	private bubbleContainer: Phaser.GameObjects.Container;
 	private bubbles: (DialogueBubble | ChoiceBubble)[];
@@ -108,12 +108,9 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 	}
 
 	addSpeechBubble(message: Message) {
-		if (message.leftSprite) {
-			this.leftSprite.setTexture(message.leftSprite);
-		}
-		if (message.rightSprite) {
-			this.rightSprite.setTexture(message.rightSprite);
-		}
+		this.leftSprite.setTexture(message.leftSprite ? message.leftSprite : this.currentConversation.leftCharacter.sprite);
+		this.rightSprite.setTexture(message.rightSprite ? message.rightSprite : this.currentConversation.rightCharacter.sprite);
+				
 		if (!message.color) {
 			if (message.character == LEFT) {
 				message.color = this.currentConversation.leftCharacter.color;
@@ -122,8 +119,16 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 			}
 		}
 
+		if (!message.voice) {
+			if (message.character == LEFT) {
+				message.voice = this.currentConversation.leftCharacter.voice;
+			} else {
+				message.voice = this.currentConversation.rightCharacter.voice;
+			}
+		}
+
 		// Spawn new speech bubble
-		let newBubble = new DialogueBubble(this.scene, 0, this.bubbleSpawnY - this.bubbleY, this.bubbleContainer.width, message);
+		let newBubble = new DialogueBubble(this.scene, 0, this.bubbleSpawnY - this.bubbleY, this.bubbleContainer.width, message, this.currentConversation);
 
 		if (message.flags) {
 			Object.assign(this.flags, message.flags);

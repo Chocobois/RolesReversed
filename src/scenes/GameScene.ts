@@ -29,8 +29,8 @@ export class GameScene extends BaseScene {
 	private overworldRoom: OverworldRoom;
 	private gameOverRoom: GameOverRoom;
 
-	private uiOverlay: UIOverlay;
-	private dialogueOverlay: DialogueOverlay;
+	public uiOverlay: UIOverlay;
+	public dialogueOverlay: DialogueOverlay;
 	private debugText: Phaser.GameObjects.Text;
 
 	// Music
@@ -39,12 +39,14 @@ export class GameScene extends BaseScene {
 	public musicHighEnergy: Music;
 	public musicDrumLoop: Music;
 	public musicDanger: Music;
+	public musicCritical: Music;
 	public musicStrings: Music;
 	public musicPiano: Music;
 	public musicGuitar: Music;
 	public musicGameOver: Music;
 
 	public musicVolume: number;
+	public musicGlobalMuted: boolean;
 
 	//placeholder for now
 	public difficulty: number;
@@ -89,11 +91,13 @@ export class GameScene extends BaseScene {
 		/* Music */
 
 		this.musicVolume = 0.25;
+		this.musicGlobalMuted = false;
 		this.musicBacking = new Music(this, 'm_backing', { volume: this.musicVolume });
 		this.musicGoldPile = new Music(this, 'm_goldpile', { volume: this.musicVolume });
 		this.musicHighEnergy = new Music(this, 'm_highenergy', { volume: this.musicVolume });
 		this.musicDrumLoop = new Music(this, 'm_drumloop', { volume: this.musicVolume });
 		this.musicDanger = new Music(this, 'm_danger', { volume: this.musicVolume });
+		this.musicCritical = new Music(this, 'm_critical', { volume: this.musicVolume });
 		this.musicStrings = new Music(this, 'm_strings', { volume: this.musicVolume });
 		this.musicPiano = new Music(this, 'm_piano', { volume: this.musicVolume });
 		this.musicGuitar = new Music(this, 'm_guitar', { volume: this.musicVolume });
@@ -107,6 +111,7 @@ export class GameScene extends BaseScene {
 		this.musicHighEnergy.play();
 		this.musicDrumLoop.play();
 		this.musicDanger.play();
+		this.musicCritical.play();
 		this.musicStrings.play();
 		this.musicPiano.play();
 		this.musicGuitar.play();
@@ -122,10 +127,12 @@ export class GameScene extends BaseScene {
 	}
 
 	update(time: number, delta: number) {
-		if (this.state == State.Treasure) {
-			this.addEnergy(4 * (delta / 1000));
-		} else {
-			this.addEnergy(-1 * (delta / 1000));
+		if (!this.dialogueOverlay.visible) {
+			if (this.state == State.Treasure) {
+				this.addEnergy(4 * (delta / 1000));
+			} else {
+				this.addEnergy(-1 * (delta / 1000));
+			}
 		}
 
 		this.princessRoom.update(time, delta);
@@ -148,9 +155,16 @@ export class GameScene extends BaseScene {
 
 		const isAlive = this.state != State.GAMEOVER;
 		const isEepy = this.state == State.Treasure;
+		const lowEnergy = this.energy < 30;
+
+		this.musicDrumLoop.mute = lowEnergy ? true : this.musicGlobalMuted;
+		this.musicStrings.mute = lowEnergy ? true : this.musicGlobalMuted;
 
 		this.musicHighEnergy.setVolume(isAlive && !isEepy && this.energy > 70 ? this.musicVolume : 0);
-		this.musicDanger.setVolume(isAlive && this.energy < 30 ? this.musicVolume : 0);
+		this.musicDanger.setVolume(isAlive && lowEnergy ? this.musicVolume : 0);
+
+		const darkness = Math.max(-0.15 + 5 / this.energy, 0);
+		this.musicCritical.setVolume(isAlive ? Math.min(darkness, this.musicVolume) : 0);
 	}
 
 	setRoom(state: State) {
@@ -168,17 +182,17 @@ export class GameScene extends BaseScene {
 		// prettier-ignore
 		switch (state) {
 			case State.Princess:
-				this.updateVolumes([true, false, false, true, true]); break;
+				this.updateVolumes([true, false, true, true, true, true]); break;
 			case State.Hero:
-				this.updateVolumes([true, false, true, true, true, false]); break;
+				this.updateVolumes([true, false, true, true, true, true]); break;
 			case State.Treasure:
-				this.updateVolumes([true, true, false, false, true]); break;
+				this.updateVolumes([true, true, false, false, false, true]); break;
 			case State.Shop:
-				this.updateVolumes([true, false, false, true, false, false]); break;
+				this.updateVolumes([true, false, true, true, false, true]); break;
 			case State.Town:
-				this.updateVolumes([true, false, true, true, true, false]); break;
+				this.updateVolumes([true, false, true, false, true, false]); break;
 			case State.Overworld:
-				this.updateVolumes([true, false, false, false, false, false]); break;
+				this.updateVolumes([true, false, true, false, false, true]); break;
 			case State.GAMEOVER:
 				this.updateVolumes([false, false, false, false, false, false]);
 				this.musicGameOver.play(); break;
@@ -210,11 +224,13 @@ export class GameScene extends BaseScene {
 	}
 
 	setMusicMuted(muted: boolean) {
+		this.musicGlobalMuted = muted;
 		this.musicBacking.mute = muted;
 		this.musicGoldPile.mute = muted;
 		this.musicHighEnergy.mute = muted;
 		this.musicDrumLoop.mute = muted;
 		this.musicDanger.mute = muted;
+		this.musicCritical.mute = muted;
 		this.musicStrings.mute = muted;
 		this.musicPiano.mute = muted;
 		this.musicGuitar.mute = muted;
@@ -224,6 +240,7 @@ export class GameScene extends BaseScene {
 	 * @param tracks Backing, GoldPile, DrumLoop, Strings, Piano, Guitar
 	 */
 	updateVolumes(tracks: boolean[]) {
+		if (tracks.length != 6) console.warn('Wrong array length for music track states');
 		this.musicBacking.setVolume(tracks[0] ? this.musicVolume : 0);
 		this.musicGoldPile.setVolume(tracks[1] ? this.musicVolume : 0);
 		this.musicDrumLoop.setVolume(tracks[2] ? this.musicVolume : 0);

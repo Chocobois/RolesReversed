@@ -3,38 +3,34 @@ import { Music } from "@/components/Music";
 
 import { version } from "@/version.json";
 
-const creditsLeft = `Game Jam Template 
-
-@Golenchu
-@ArcticFqx
-HeXaGoN
+const creditsLeft = `@Golenchu
 @LuxxArt
+@KonixKun
 @MatoCookies
 Lumie
+@ArcticFqx
 @Dreedawott
 Frassy
-Luxi`;
+Soulsong`;
 
-const creditsRight = `
-
-code
-code
-code
+const creditsRight = `code
+art
 art
 music & code
 art & code
-art
-ideas
-testing`;
-
+code
+code
+script
+ideas`;
 
 export class TitleScene extends BaseScene {
 	public skybackground: Phaser.GameObjects.Image;
 	public background: Phaser.GameObjects.Image;
 	public foreground: Phaser.GameObjects.Image;
+	public foreground2: Phaser.GameObjects.Image;
+	public title: Phaser.GameObjects.Image;
 
 	public credits: Phaser.GameObjects.Container;
-	public title: Phaser.GameObjects.Text;
 	public subtitle: Phaser.GameObjects.Text;
 	public tap: Phaser.GameObjects.Text;
 	public version: Phaser.GameObjects.Text;
@@ -45,9 +41,8 @@ export class TitleScene extends BaseScene {
 
 	public isStarting: boolean;
 
-
 	constructor() {
-		super({key: "TitleScene"});
+		super({ key: 'TitleScene' });
 	}
 
 	create(): void {
@@ -55,36 +50,42 @@ export class TitleScene extends BaseScene {
 		// this.fade(false, 200, 0x000000);
 
 		this.skybackground = this.add.image(this.CX, this.CY, 'title_skybackground');
-		this.containToScreen(this.skybackground);
-		this.background = this.add.image(this.CX, 0.9 * this.CY, 'title_background');
-		this.containToScreen(this.background);
+		this.fitToScreen(this.skybackground);
+		this.background = this.add.image(this.CX, 0.9 * this.H, 'title_background');
+		this.background.setOrigin(0.5, 1.0);
+		this.fitToScreen(this.background);
 		this.foreground = this.add.image(this.CX, this.CY, 'title_foreground');
-		this.containToScreen(this.foreground);
+		this.fitToScreen(this.foreground);
+		this.foreground2 = this.add.image(this.CX, this.CY, 'title_foreground_outer');
+		this.fitToScreen(this.foreground2);
+		this.title = this.add.image(this.CX, 0.86 * this.CY, 'title_title');
+		this.fitToScreen(this.foreground2);
 
 		this.background.setVisible(false);
 		this.background.setAlpha(0);
-		this.background.y += 4 * 1000;
-		this.foreground.y += 4 * 250;
+		this.background.y += 500;
+		this.foreground.x += 3000;
+		this.foreground2.y += 6000;
 
 		// this.title = this.createText(0.25*this.W, 0.7*this.H, 160, "#000", "Game Title");
 		// this.title.setOrigin(0.5);
 		// this.title.setStroke("#FFF", 40*8);
 		// this.title.setPadding(2*40*8);
-		// this.title.setVisible(false);
-		// this.title.setAlpha(0);
+		this.title.setVisible(false);
+		this.title.setAlpha(0);
 
-		// this.subtitle = this.createText(0.25*this.W, 0.87*this.H, 120, "#000", "Tap to start");
-		// this.subtitle.setOrigin(0.5);
-		// this.subtitle.setStroke("#FFF", 40*3);
-		// this.subtitle.setPadding(2*40*2);
-		// this.subtitle.setVisible(false);
-		// this.subtitle.setAlpha(0);
+		this.subtitle = this.createText(this.CX, 0.75 * this.H, 120, '#673030', 'Tap to start');
+		this.subtitle.setOrigin(0.5);
+		this.subtitle.setStroke('#FFF', 20);
+		this.subtitle.setPadding(20);
+		this.subtitle.setVisible(false);
+		this.subtitle.setAlpha(0);
 
-		// this.tap = this.createText(this.CX, this.CY, 4*35, "#000", "Tap to focus");
-		// this.tap.setOrigin(0.5);
-		// this.tap.setAlpha(-1);
-		// this.tap.setStroke("#FFF", 40*4);
-		// this.tap.setPadding(2*40*4);
+		this.tap = this.createText(this.CX, this.CY, 80, '#000', 'Tap to focus');
+		this.tap.setOrigin(0.5);
+		this.tap.setAlpha(-1);
+		this.tap.setStroke('#FFF', 20);
+		this.tap.setPadding(2 * 10);
 
 		// this.version = this.createText(this.W, this.H, 40, "#000", version);
 		// this.version.setOrigin(1, 1);
@@ -92,33 +93,34 @@ export class TitleScene extends BaseScene {
 		// this.version.setStroke("#FFF", 10*4);
 		// this.version.setPadding(2*40*4);
 
-		this.credits = this.add.container(0, 0);
+		this.credits = this.add.container(this.W - 520, this.H);
 		this.credits.setVisible(false);
 		this.credits.setAlpha(0);
 
-		// let credits1 = this.createText(0.6*this.W, 4, 50, "#c2185b", creditsLeft);
-		// credits1.setStroke("#FFF", 100);
-		// credits1.setPadding(2*100);
-		// credits1.setLineSpacing(0);
-		// this.credits.add(credits1);
+		let credits1 = this.createText(0, 0, 36, '#c2185b', creditsLeft);
+		credits1.setOrigin(0, 1);
+		credits1.setStroke('#FFF', 16);
+		credits1.setPadding(2);
+		credits1.setLineSpacing(-18);
+		this.credits.add(credits1);
 
-		// let credits2 = this.createText(0.8*this.W, 4, 50, "#c2185b", creditsRight);
-		// credits2.setStroke("#FFF", 100);
-		// credits2.setPadding(2*100);
-		// credits2.setLineSpacing(0);
-		// this.credits.add(credits2);
+		let credits2 = this.createText(280, 0, 36, '#c2185b', creditsRight);
+		credits2.setOrigin(0, 1);
+		credits2.setStroke('#FFF', 16);
+		credits2.setPadding(2);
+		credits2.setLineSpacing(-18);
+		this.credits.add(credits2);
 
 		// Music
-		// if (!this.musicTitle) {
-		// 	this.musicTitle = new Music(this, "m_first", { volume: 0.4 });
-		// 	this.musicTitle.on('bar', this.onBar, this);
-		// 	this.musicTitle.on('beat', this.onBeat, this);
+		if (!this.musicTitle) {
+			this.musicTitle = new Music(this, 'm_main_menu', { volume: 0.0 });
+			this.musicTitle.on('bar', this.onBar, this);
+			this.musicTitle.on('beat', this.onBeat, this);
 
-		// this.select = this.sound.add("dayShift", { volume: 0.8, rate: 1.0 }) as Phaser.Sound.WebAudioSound;
-		// this.select2 = this.sound.add("nightShift", { volume: 0.8, rate: 1.0 }) as Phaser.Sound.WebAudioSound;
-
-		// }
-		// this.musicTitle.play();
+			// this.select = this.sound.add('dayShift', { volume: 0.8, rate: 1.0 }) as Phaser.Sound.WebAudioSound;
+			// this.select2 = this.sound.add('nightShift', { volume: 0.8, rate: 1.0 }) as Phaser.Sound.WebAudioSound;
+		}
+		this.musicTitle.play();
 
 		// Input
 
@@ -139,79 +141,73 @@ export class TitleScene extends BaseScene {
 
 	update(time: number, delta: number) {
 		if (this.background.visible) {
-			this.background.y		+= 0.02 * (this.CY - this.background.y);
-			this.foreground.y		+= 0.025 * (this.CY - this.foreground.y);
+			this.background.y += 0.025 * (this.H - this.background.y);
+			this.foreground.x += 0.02 * (this.CX - this.foreground.x);
+			this.foreground2.y += 0.015 * (this.CY - this.foreground2.y);
 
 			this.background.alpha += 0.03 * (1 - this.background.alpha);
 
-			// this.title.alpha += 0.02 * ((this.title.visible ? 1 : 0) - this.title.alpha);
-			// this.subtitle.alpha += 0.02 * ((this.subtitle.visible ? 1 : 0) - this.subtitle.alpha);
+			this.title.alpha += 0.02 * ((this.title.visible ? 1 : 0) - this.title.alpha);
+			this.subtitle.alpha += 0.02 * ((this.subtitle.visible ? 1 : 0) - this.subtitle.alpha);
 			// this.version.alpha += 0.02 * ((this.version.visible ? 1 : 0) - this.version.alpha);
 
 			if (this.credits.visible) {
 				this.credits.alpha += 0.02 * (1 - this.credits.alpha);
 			}
-		}
-		else {
-			// this.tap.alpha += 0.01 * (1 - this.tap.alpha);
+		} else {
+			this.tap.alpha += 0.01 * (1 - this.tap.alpha);
 
-			// if (this.musicTitle.seek > 0) {
-				// this.background.setVisible(true);
-				// this.tap.setVisible(false);
-			// }
-			this.background.setVisible(true);
-			// this.tap.setVisible(false);
+			if (this.musicTitle.seek > 0) {
+				this.background.setVisible(true);
+				this.tap.setVisible(false);
+			}
 		}
 
-
-		// this.subtitle.setScale(0.1 + 0.002*Math.sin(5*time/1000));
+		this.title.setScale(1.0 - 0.005 * Math.sin((5 * time) / 1000));
+		this.subtitle.setScale(1.0 + 0.02 * Math.sin((5 * time) / 1000));
 
 		if (this.isStarting) {
-			// this.subtitle.setAlpha(0.6 + 0.4*Math.sin(50*time/1000));
+			this.subtitle.setAlpha(0.6 + 0.4 * Math.sin((50 * time) / 1000));
 		}
 	}
 
 	progress() {
 		if (!this.background.visible) {
 			this.onBar(1);
-		}
-		// else if (!this.subtitle.visible) {
-			// this.title.setVisible(true);
-			// this.title.setAlpha(1);
-			// this.subtitle.setVisible(true);
-			// this.subtitle.setAlpha(1);
-		// }
-
-		else if (!this.isStarting) {
-			this.sound.play("t_rustle", { volume: 0.3 });
-			// this.sound.play("m_slice", { volume: 0.3 });
-			// this.sound.play("u_attack_button", { volume: 0.5 });
+		} else if (!this.title.visible) {
+			this.title.setVisible(true);
+			this.title.setAlpha(1);
+			this.subtitle.setVisible(true);
+			this.subtitle.setAlpha(1);
+		} else if (!this.isStarting) {
+			this.sound.play('t_rustle', { volume: 0.3 });
+			// this.sound.play('m_slice', { volume: 0.3 });
+			// this.sound.play('u_attack_button', { volume: 0.5 });
 			// this.select2.play();
 			this.isStarting = true;
-			this.flash(3000, 0xFFFFFF, 0.6);
+			this.flash(3000, 0xffffff, 0.6);
 
-			// this.addEvent(1000, () => {
-				// this.fade(true, 1000, 0x000000);
-				// this.addEvent(1050, () => {
-					// this.musicTitle.stop();
-					this.scene.start("GameScene");
-				// });
-			// });
+			this.addEvent(1000, () => {
+				this.fade(true, 1000, 0x000000);
+				this.addEvent(1050, () => {
+					this.musicTitle.stop();
+					this.scene.start('GameScene');
+				});
+			});
 		}
 	}
 
-
 	onBar(bar: number) {
-		// if (bar >= 2) {
-		// 	this.title.setVisible(true);
-		// }
-		// if (bar >= 4) {
-		// 	this.subtitle.setVisible(true);
-		// 	this.credits.setVisible(true);
-		// }
+		if (bar >= 3) {
+			this.title.setVisible(true);
+		}
+		if (bar >= 4) {
+			this.subtitle.setVisible(true);
+			this.credits.setVisible(true);
+		}
 	}
 
 	onBeat(time: number) {
-		// this.select.play();
+		this.select.play();
 	}
 }

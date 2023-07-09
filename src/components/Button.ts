@@ -1,4 +1,4 @@
-import { BaseScene } from "./../scenes/BaseScene";
+import { BaseScene } from './../scenes/BaseScene';
 
 export class Button extends Phaser.GameObjects.Container {
 	public scene: BaseScene;
@@ -30,16 +30,12 @@ export class Button extends Phaser.GameObjects.Container {
 		this.aliveValue = 0;
 	}
 
-	bindInteractive(gameObject: any, draggable=false) {
+	bindInteractive(gameObject: any, draggable = false) {
 		gameObject.removeInteractive();
-		gameObject.setInteractive({ useHandCursor: true, draggable: draggable })
-			.on('pointerout', this.onOut, this)
-			.on('pointerover', this.onOver, this)
-			.on('pointerdown', this.onDown, this)
-			.on('pointerup', this.onUp, this);
-			// .on('dragstart', this.onDragStart, this)
-			// .on('drag', this.onDrag, this)
-			// .on('dragend', this.onDragEnd, this);
+		gameObject.setInteractive({ useHandCursor: true, draggable: draggable }).on('pointerout', this.onOut, this).on('pointerover', this.onOver, this).on('pointerdown', this.onDown, this).on('pointerup', this.onUp, this);
+		// .on('dragstart', this.onDragStart, this)
+		// .on('drag', this.onDrag, this)
+		// .on('dragend', this.onDragEnd, this);
 		return gameObject;
 	}
 
@@ -57,17 +53,16 @@ export class Button extends Phaser.GameObjects.Container {
 					targets: this,
 					hoverSmooth: { from: 0.0, to: 1.0 },
 					ease: 'Cubic.Out',
-					duration: 100
+					duration: 100,
 				});
-			}
-			else {
+			} else {
 				this.hoverTween = this.scene.tweens.add({
 					targets: this,
 					hoverSmooth: { from: 1.0, to: 0.0 },
 					ease: (v: number) => {
 						return Phaser.Math.Easing.Elastic.Out(v, 1.5, 0.5);
 					},
-					duration: 500
+					duration: 500,
 				});
 			}
 		}
@@ -89,17 +84,16 @@ export class Button extends Phaser.GameObjects.Container {
 					targets: this,
 					holdSmooth: { from: 0.0, to: 1.0 },
 					ease: 'Cubic.Out',
-					duration: 100
+					duration: 100,
 				});
-			}
-			else {
+			} else {
 				this.holdTween = this.scene.tweens.add({
 					targets: this,
 					holdSmooth: { from: 1.0, to: 0.0 },
 					ease: (v: number) => {
 						return Phaser.Math.Easing.Elastic.Out(v, 1.5, 0.5);
 					},
-					duration: 500
+					duration: 500,
 				});
 			}
 		}
@@ -138,7 +132,6 @@ export class Button extends Phaser.GameObjects.Container {
 	// onDrag(pointer, dragX, dragY) {}
 
 	// onDragEnd(pointer, dragX, dragY, dropped) {}
-
 
 	block() {
 		this.blocked = true;

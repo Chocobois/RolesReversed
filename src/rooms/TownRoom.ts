@@ -1,166 +1,146 @@
-import { GameScene } from "../scenes/GameScene";
+import { GameScene } from '../scenes/GameScene';
 import { Room } from './Room';
 import { Button } from '@/components/Button';
 
+export class Building extends Button {
+	public scene: GameScene;
+	public image: Phaser.GameObjects.Image;
+	public rubble: Phaser.GameObjects.Image;
+
+	public exploder: Phaser.GameObjects.Particles.ParticleEmitter;
+
+	public buildingHP: number;
+	public defaultBuildingHP: number;
+	public buildingCooldown: number;
+
+	constructor(scene: GameScene, x: number, y: number, key: string, rubble: Phaser.GameObjects.Image) {
+		super(scene, x, y);
+		this.scene = scene;
+
+		this.image = scene.add.image(0, 0, key);
+		this.image.setOrigin(0.5, 0.8);
+		this.add(this.image);
+		this.bindInteractive(this.image, false);
+		this.on('click', this.onClick, this);
+
+		this.exploder = this.scene.add.particles(0, 0, 'EXPL', {
+			frame: [],
+			lifespan: 1000,
+			angle: { min: 180, max: 360 },
+			speed: { min: 325, max: 525 },
+			scale: { start: 1.5, end: 0 },
+			gravityY: 500,
+			blendMode: 'NORMAL',
+			emitting: false,
+		});
+		this.add(this.exploder);
+
+		this.buildingHP = 5;
+		this.defaultBuildingHP = 5;
+		this.buildingCooldown = 0;
+
+		this.rubble = rubble;
+	}
+
+	reset() {
+		this.buildingHP = this.defaultBuildingHP;
+		this.setAlpha(1);
+		this.image.setVisible(true);
+
+		this.rubble.setVisible(false);
+	}
+
+	update(time: number, delta: number) {
+		const b1HoldX = 1.0 + 0.04 * this.holdSmooth;
+		const b1HoldY = 1.0 - 0.08 * this.holdSmooth;
+		const stretch = 0.01;
+		this.setScale((1.0 + stretch * Math.sin(time / 200)) * b1HoldX, (1.0 + stretch * Math.sin(-time / 200)) * b1HoldY);
+	}
+
+	cooldown(time: number, delta: number) {
+		if (this.buildingCooldown > 0) {
+			this.buildingCooldown -= delta;
+			if (this.buildingCooldown <= 0) {
+				this.reset();
+			}
+		}
+	}
+
+	onClick() {
+		if (this.buildingHP > 0) {
+			this.scene.sound.play('EXPL_SOUND', { volume: 0.2 });
+			this.exploder.explode(3);
+			this.scene.addEnergy(3);
+
+			this.buildingHP--;
+			if (this.buildingHP <= 0) {
+				this.image.setVisible(false);
+				this.rubble.setVisible(true);
+				this.buildingCooldown = this.defaultBuildingHP * 6000;
+				this.scene.addEnergy(10);
+
+				this.scene.sound.play('DEMO_SOUND', { volume: 0.05 });
+				this.exploder.explode(15);
+			}
+		}
+	}
+}
+
 export class TownRoom extends Room {
 	public background: Phaser.GameObjects.Image;
-	public building1: Button;
-	public building2: Button;
-	public building3: Button;
-	public bldgimg1: Phaser.GameObjects.Image;
-	public bldgimg2: Phaser.GameObjects.Image;
-	public bldgimg3: Phaser.GameObjects.Image;
-	public exploder: Phaser.GameObjects.Particles.ParticleEmitter[];
-	public fadeVariables: number[];
-	public stretchScale: number[];
-	public defaultStretchScale: number[];
-	public buildingList: Button[];
-	public stretchRate: number[];
+	public rubble1: Phaser.GameObjects.Image;
+	public rubble2: Phaser.GameObjects.Image;
+	public rubble3: Phaser.GameObjects.Image;
+	public foreground: Phaser.GameObjects.Image;
 
-	public buildingHP: number[];
-	public defaultBuildingHP: number[];
-	public buildingCooldown: number[];
+	public buildings: Building[];
+
 	constructor(scene: GameScene) {
 		super(scene);
 		this.scene = scene;
 		this.scene.add.existing(this);
 
-		this.background = scene.add.image(scene.CX, scene.CY, 'room_town');
+		this.background = scene.add.image(scene.CX, scene.CY, 'town_bg');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
 
-		this.building1 = new Button(scene, 0.16 * scene.W, 0.7 * scene.H);
-		this.building2 = new Button(scene, 0.52 * scene.W, 0.35 * scene.H);
-		this.building3 = new Button(scene, 0.78 * scene.W, 0.52 * scene.H);
+		this.rubble1 = scene.add.image(scene.CX, scene.CY, 'town_rubble_1');
+		this.rubble1.setVisible(false);
+		this.add(this.rubble1);
+		scene.fitToScreen(this.rubble1);
 
-		this.add(this.building1);
-		this.add(this.building2);
-		this.add(this.building3);
+		this.rubble2 = scene.add.image(scene.CX, scene.CY, 'town_rubble_2');
+		this.rubble2.setVisible(false);
+		this.add(this.rubble2);
+		scene.fitToScreen(this.rubble2);
 
-		this.bldgimg1 = scene.add.image(0, 0, 'BLDG_1');
-		this.bldgimg2 = scene.add.image(0, 0, 'BLDG_2');
-		this.bldgimg3 = scene.add.image(0, 0, 'BLDG_3');
+		this.rubble3 = scene.add.image(scene.CX, scene.CY, 'town_rubble_3');
+		this.rubble3.setVisible(false);
+		this.add(this.rubble3);
+		scene.fitToScreen(this.rubble3);
 
-		this.bldgimg1.setOrigin(0.5, 0.5);
-		this.building1.add(this.bldgimg1);
-		this.building1.bindInteractive(this.bldgimg1, false);
-		this.building1.on(
-			'click',
-			() => {
-				this.onBuildingClick(this.building1, 0);
-			},
-			this
-		);
+		let building1 = new Building(scene, 370, 710, 'town_build_1', this.rubble1);
+		let building2 = new Building(scene, 1205, 640, 'town_build_2', this.rubble2);
+		let building3 = new Building(scene, 1680, 695, 'town_build_3', this.rubble3);
+		this.buildings = [];
+		this.buildings.push(building1);
+		this.buildings.push(building2);
+		this.buildings.push(building3);
+		this.add(building1);
+		this.add(building2);
+		this.add(building3);
 
-		this.bldgimg2.setOrigin(0.5, 0.5);
-		this.building2.add(this.bldgimg2);
-		this.building2.bindInteractive(this.bldgimg2, false);
-		this.building2.on(
-			'click',
-			() => {
-				this.onBuildingClick(this.building2, 1);
-			},
-			this
-		);
-
-		this.bldgimg3.setOrigin(0.5, 0.5);
-		this.building3.add(this.bldgimg3);
-		this.building3.bindInteractive(this.bldgimg3, false);
-		this.building3.on(
-			'click',
-			() => {
-				this.onBuildingClick(this.building3, 2);
-			},
-			this
-		);
-
-		this.exploder = [
-			this.scene.add.particles(this.building1.x, this.building1.y, 'EXPL', {
-				frame: [],
-				lifespan: 1000,
-				speed: { min: 325, max: 525 },
-				scale: { start: 1.75, end: 0 },
-				gravityY: 125,
-				blendMode: 'NORMAL',
-				emitting: false,
-			}),
-		];
-
-		this.fadeVariables = [1000, 1000, 1000];
-		this.defaultStretchScale = [0.02, 0.035, 0.05];
-		this.stretchScale = [0.02, 0.035, 0.05];
-		this.buildingList = [this.building1, this.building2, this.building3];
-		this.stretchRate = [200, 200, 200];
-		this.buildingHP = [3, 1, 2];
-		this.defaultBuildingHP = [3, 1, 2];
-		this.buildingCooldown = [0, 0, 0];
+		this.foreground = scene.add.image(scene.CX, scene.CY, 'town_fg');
+		this.add(this.foreground);
+		scene.fitToScreen(this.foreground);
 	}
 
 	update(time: number, delta: number) {
-		this.squashBuildings(time);
-		for (let i = 0; i < this.fadeVariables.length; i++) {
-			if (this.fadeVariables[i] > 0 && this.fadeVariables[i] < 1000) {
-				this.fadeVariables[i] -= delta;
-				if (this.fadeVariables[i] > 0) {
-					this.buildingList[i].setAlpha(this.fadeVariables[i] / 1000);
-				} else {
-					this.buildingList[i].setVisible(false);
-					this.fadeVariables[i] = 0;
-				}
+		this.buildings.forEach((building) => {
+			building.update(time, delta);
+			if (!this.visible) {
+				building.cooldown(time, delta);
 			}
-		}
-		for (let i = 0; i < this.buildingCooldown.length; i++) {
-			if (this.buildingCooldown[i] > 0) {
-				this.buildingCooldown[i] -= delta;
-				if (this.buildingCooldown[i] <= 0) {
-					this.resetBuilding(i);
-				}
-			}
-		}
-	}
-
-	squashBuildings(time: number) {
-		const b1HoldX = 1.0 + 0.15 * this.building1.holdSmooth;
-		const b1HoldY = 1.0 - 0.1 * this.building1.holdSmooth;
-		const b2HoldX = 1.0 + 0.15 * this.building2.holdSmooth;
-		const b2HoldY = 1.0 - 0.1 * this.building2.holdSmooth;
-		const b3HoldX = 1.0 + 0.15 * this.building3.holdSmooth;
-		const b3HoldY = 1.0 - 0.1 * this.building3.holdSmooth;
-		const b1Squish = 0.62;
-		const b2Squish = 0.035;
-		const b3Squish = 0.05;
-
-		this.building1.setScale((1.0 + this.stretchScale[0] * Math.sin(time / 200)) * b1HoldX, (1.0 + this.stretchScale[0] * Math.sin(-time / this.stretchRate[0])) * b1HoldY);
-		this.building2.setScale((1.0 + this.stretchScale[1] * Math.sin(time / 200)) * b2HoldX, (1.0 + this.stretchScale[1] * Math.sin(-time / this.stretchRate[1])) * b2HoldY);
-		this.building3.setScale((1.0 + this.stretchScale[2] * Math.sin(time / 200)) * b3HoldX, (1.0 + this.stretchScale[2] * Math.sin(-time / this.stretchRate[2])) * b3HoldY);
-	}
-
-	resetBuilding(index: number) {
-		this.fadeVariables[index] = 1000;
-		this.stretchScale[index] = this.defaultStretchScale[index];
-		this.buildingHP[index] = this.defaultBuildingHP[index];
-		this.stretchRate[index] = 200;
-		this.buildingList[index].setAlpha(1);
-		this.buildingList[index].setVisible(true);
-	}
-
-	onBuildingClick(reference: Button, index: number) {
-		if (this.buildingHP[index] > 0) {
-			this.exploder[0].x = reference.x;
-			this.exploder[0].y = reference.y;
-			this.scene.sound.play('EXPL_SOUND', { volume: 0.2 });
-			this.exploder[0].explode(25);
-			this.buildingHP[index]--;
-			if (this.buildingHP[index] <= 0) {
-				if (this.fadeVariables[index] == 1000) {
-					this.fadeVariables[index] = 999;
-				}
-				this.stretchScale[index] = 0.72;
-				this.stretchRate[index] = 10;
-				this.scene.addEnergy(this.defaultBuildingHP[index] * 25);
-				this.buildingCooldown[index] = this.defaultBuildingHP[index] * 6000;
-				this.scene.sound.play('DEMO_SOUND', { volume: 0.05 });
-			}
-		}
+		});
 	}
 }
