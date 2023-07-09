@@ -165,7 +165,6 @@ export class GameScene extends BaseScene {
 
 		const darkness = Math.max(-0.15 + 5 / this.energy, 0);
 		this.musicCritical.setVolume(isAlive ? Math.min(darkness, this.musicVolume) : 0);
-		console.log(this.energy, darkness, this.musicVolume);
 	}
 
 	setRoom(state: State) {
