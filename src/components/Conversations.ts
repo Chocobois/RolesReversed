@@ -143,7 +143,7 @@ const Characters: { [key: string]: Character } = {
 		sprite: Sprites.Princess,
 		color: Colors.Princess,
 		voice: Voices.Princess,
-	}
+	},
 };
 
 export interface Message {
@@ -199,7 +199,56 @@ const conversations: { [key in any]: Conversation } = {
 	[DialogueKey.PrincessWantItem]: {
 		leftCharacter: Characters.Princess,
 		rightCharacter: Characters.Dragon,
-		messages: [],
+		messages: [
+			{
+				character: RIGHT,
+				leftSprite: Sprites.PrincessPout,
+				text: '*sigh* What is it now?',
+			},
+			{
+				character: LEFT,
+				leftSprite: Sprites.PrincessPout,
+				text: 'Waiting for a prince is so boring...!',
+			},
+			{
+				character: LEFT,
+				text: 'Could you buy something for me?',
+				choice: [
+					{
+						text: 'Refuse',
+						color: Colors.Red,
+						messages: [
+							{
+								character: RIGHT,
+								rightSprite: Sprites.DragonAngry,
+								text: 'I would never spend my precious gold on such frivolities.',
+							},
+							{
+								character: LEFT,
+								leftSprite: Sprites.PrincessPout,
+								rightSprite: Sprites.DragonAngry,
+								text: '...',
+							},
+							{
+								character: LEFT,
+								leftSprite: Sprites.Princess,
+								rightSprite: Sprites.DragonAngry,
+								text: 'Pretty pleeease~!',
+							},
+							{
+								character: RIGHT,
+								rightSprite: Sprites.DragonAngry,
+								text: '...',
+							},
+							{
+								character: RIGHT,
+								text: "Fine... I'll see what I can do.",
+							},
+						],
+					},
+				],
+			},
+		],
 	},
 	[DialogueKey.PrincessCaughtEscaping]: {
 		leftCharacter: Characters.Princess,
@@ -207,25 +256,39 @@ const conversations: { [key in any]: Conversation } = {
 		messages: [
 			{
 				character: LEFT,
-				text: 'Whoopsie!',
+				rightSprite: Sprites.DragonAngry,
+				text: 'Whoopsie! You caught me.',
 			},
 			{
 				character: LEFT,
+				rightSprite: Sprites.DragonAngry,
 				text: 'I was just... stretching my calves.',
 			},
 			{
 				character: RIGHT,
+				rightSprite: Sprites.DragonAngry,
 				text: 'What are you doing?!',
 			},
 			{
 				character: LEFT,
 				leftSprite: Sprites.PrincessPout,
-				text: "I'm just so bored! I thought this would be more exciting.",
+				rightSprite: Sprites.DragonAngry,
+				text: "... I'm bored!",
+			},
+			{
+				character: LEFT,
+				leftSprite: Sprites.PrincessPout,
+				text: 'I thought being captured would be more exciting.',
+			},
+
+			{
+				character: RIGHT,
+				rightSprite: Sprites.Dragon,
+				text: '...',
 			},
 			{
 				character: RIGHT,
-				rightSprite: Sprites.DragonTalk,
-				text: 'What are you doing?!',
+				text: "I'll try not to ignore you.",
 			},
 		],
 	},
@@ -239,31 +302,15 @@ const conversations: { [key in any]: Conversation } = {
 		messages: [
 			{
 				character: RIGHT,
-				text: 'What in heavens is all the racket about.',
+				text: 'What in heavens is all the racket about...?',
 			},
 			{
 				character: LEFT,
-				text: 'Any honorable knight must introduce himself.',
+				text: 'Be warned, dragon!',
 			},
 			{
 				character: LEFT,
-				text: 'Alas, you can only hear me from this castle wall.',
-			},
-			{
-				character: RIGHT,
-				text: "And why shouldn't I just leave you to tilt at windmills?",
-			},
-			{
-				character: LEFT,
-				text: "Like protecting castles, sparring, and pillaging our enemies, whisking away the princess is one of a knight's duties!",
-			},
-			{
-				character: RIGHT,
-				text: "Doesn't sound too different from a dragon's life if you ask me.",
-			},
-			{
-				character: LEFT,
-				text: 'I detest the comparison, scaly-snout! Be warned, that should you idle too long, I will abduct the fair maiden!',
+				text: "I know you're keeping a princess! And should you idle too long, I will abduct the fair maiden!",
 			},
 			{
 				character: LEFT,
@@ -278,28 +325,20 @@ const conversations: { [key in any]: Conversation } = {
 				text: "Most certainly not! But laying claim to damsels in distress is one of a knight's sacred provisions.",
 			},
 			{
-				character: RIGHT,
-				text: 'That is actually vile. I should incinerate you on the spot.',
-			},
-			{
-				character: LEFT,
-				text: 'It true that you may do so, dragon. But why not engage in a battle of wits?',
-			},
-			{
 				character: LEFT,
 				text: 'My brethren will arrive regularly to challenge you. Some may be cowardly, some brave, some greedy, and some noble.',
 			},
 			{
 				character: RIGHT,
-				text: 'You can try to scare the weakhearted, bribe the shallow-hearted with your gold, or even seduce those tempted by your draconic nature!',
+				text: 'So what? I will just use their weakness against them.',
+			},
+			{
+				character: LEFT,
+				text: 'Beware, misjudge their weakness, and they shall use the opportunity to strike!',
 			},
 			{
 				character: RIGHT,
-				text: 'But beware, misjudge their weakness, and they shall use the opportunity to strike!',
-			},
-			{
-				character: RIGHT,
-				text: "Well then, let's try this.",
+				text: "Well then, let's try this...",
 				choice: [
 					{
 						text: 'Intimidate',
@@ -363,7 +402,7 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
-								text: "Hey there, uh, good-lookin'. I like your... big sword?",
+								text: "Hey there, uh, good-lookin'. I like your... armor?",
 							},
 							{
 								character: LEFT,
@@ -1151,10 +1190,6 @@ const conversations: { [key in any]: Conversation } = {
 			{
 				character: LEFT,
 				text: "It's not for me! It's for a princess!",
-			},
-			{
-				character: RIGHT,
-				text: "Oh you can't just have one! You need two of these to play with!",
 				choice: [
 					{
 						text: 'Refuse',

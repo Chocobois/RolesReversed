@@ -1,5 +1,5 @@
 import { GameScene } from '@/scenes/GameScene';
-import { RoomButton } from '@/components/RoomButton';
+import { Notification, RoomButton } from '@/components/RoomButton';
 import State from './State';
 import { MiniButton } from './MiniButton';
 import { EnergyMeter } from './EnergyMeter';
@@ -75,24 +75,28 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.heroButton.on('click', () => {
 			this.emit('changeRoom', State.Hero);
 		});
+		this.heroButton.setVisible(false);
 		this.homeButtons.add(this.heroButton);
 
 		this.princessButton = new RoomButton(scene, x2, 0, 'button_princess', State.Princess, 'Bedroom');
 		this.princessButton.on('click', () => {
 			this.emit('changeRoom', State.Princess);
 		});
+		this.princessButton.setVisible(false);
 		this.homeButtons.add(this.princessButton);
 
 		this.treasureButton = new RoomButton(scene, x3, 0, 'button_sleep', State.Treasure, 'Gold pile');
 		this.treasureButton.on('click', () => {
 			this.emit('changeRoom', State.Treasure);
 		});
+		this.treasureButton.setVisible(false);
 		this.homeButtons.add(this.treasureButton);
 
 		this.overworldButton = new RoomButton(scene, x4, 0, 'button_overworld', State.Overworld, 'Overworld');
 		this.overworldButton.on('click', () => {
 			this.emit('changeRoom', State.Overworld);
 		});
+		this.overworldButton.setVisible(false);
 		this.homeButtons.add(this.overworldButton);
 
 		/* Energy */
@@ -110,6 +114,10 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.homeButtons.add(this.darknessOverlay);
 
 		this.homeButtons.bringToTop(this.treasureButton);
+
+		this.unlockHero();
+		this.unlockPrincess();
+		this.unlockTreasure();
 	}
 
 	update(time: number, delta: number) {
@@ -162,5 +170,19 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 			this.heroButton.enabled = true;
 			this.overworldButton.enabled = true;
 		}
+	}
+
+	unlockPrincess() {
+		this.princessButton.setVisible(true);
+	}
+	unlockHero() {
+		this.heroButton.setVisible(true);
+	}
+	unlockTreasure() {
+		this.treasureButton.setVisible(true);
+	}
+	unlockOverworld() {
+		this.overworldButton.setVisible(true);
+		this.overworldButton.makeBouncy();
 	}
 }
