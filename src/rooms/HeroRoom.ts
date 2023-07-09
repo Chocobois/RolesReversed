@@ -34,6 +34,7 @@ export class HeroRoom extends Room {
 	private pausefx: boolean;
 	private fryDifficulty: boolean;
 	private bribeFlag: boolean;
+	private pendingDialogue: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -69,9 +70,13 @@ export class HeroRoom extends Room {
 		this.pausefx = true;
 		this.fryDifficulty = false;
 		this.bribeFlag = false;
+		this.pendingDialogue = false;
 	}
 
 	update(time: number, delta: number) {
+		if (this.scene.dialogueFlag) {
+			return;
+		}
 		const heroHoldX = 1.0 + 0.15 * this.heroButton.holdSmooth;
 		const heroHoldY = 1.0 - 0.1 * this.heroButton.holdSmooth;
 		const heroSquish = 0.02;
@@ -104,6 +109,10 @@ export class HeroRoom extends Room {
 		}
 
 		super.setVisible(isShown);
+		if (isShown && this.pendingDialogue) {
+			this.scene.startDialogue(this.heroList[0].intro, (flags) => {});
+			this.pendingDialogue = false;
+		}
 		return this;
 	}
 
@@ -169,7 +178,7 @@ export class HeroRoom extends Room {
 				if (this.visible == true) {
 					this.pausefx = true;
 				}
-				this.scene.startDialogue(this.heroList[0].intro, (flags) => {});
+				this.pendingDialogue = true;
 				return;
 			case queueState.ACTIVE:
 				if (this.heroList[0].myState == HeroState.SPEAKING) {

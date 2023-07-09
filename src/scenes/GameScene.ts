@@ -47,6 +47,7 @@ export class GameScene extends BaseScene {
 
 	//placeholder for now
 	public difficulty: number;
+	public dialogueFlag: boolean;
 
 	constructor() {
 		super({ key: 'GameScene' });
