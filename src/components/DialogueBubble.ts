@@ -1,6 +1,6 @@
 import { LEFT } from 'phaser';
 import { GameScene } from '../scenes/GameScene';
-import { Message, VoiceClips } from './Conversations';
+import { Message, VoiceClips, Conversation } from './Conversations';
 import { RoundRectangle } from './RoundRectangle';
 import { Button } from '@/components/Button';
 import Triangle from 'phaser3-rex-plugins/plugins/triangle.js';
@@ -18,7 +18,7 @@ export class DialogueBubble extends Button {
 
 	public isLatestMessage: boolean;
 
-	constructor(scene: GameScene, x: number, y: number, width: number, message: Message) {
+	constructor(scene: GameScene, x: number, y: number, width: number, message: Message, conversation: Conversation) {
 		super(scene, x, y);
 		this.scene = scene;
 		this.scene.add.existing(this);
@@ -73,17 +73,19 @@ export class DialogueBubble extends Button {
 
 		this.isLatestMessage = true;
 
-		if (message.voice) {
-			const voiceData = VoiceClips[message.voice];
+		const currChar = message.character == LEFT ? conversation.leftCharacter : conversation.rightCharacter;
+
+		if (!isNaN(currChar.voice) || !isNaN(message.voice ?? NaN)) {
+			const voiceData = VoiceClips[currChar.voice ?? message.voice];
 			const speechDelay = voiceData.delay ?? defaultDelay;
-			const speechTimes = Math.ceil(0.5 + (message.text.match(wordSpeechCounter)?.length ?? 0) * soundsPerWord);
+			const speechTimes = Math.ceil(0.5 + (message.text.match(wordSpeechCounter)?.length ?? 0) * (voiceData.soundsPerWord ?? soundsPerWord));
 			// console.log(speechTimes, message.text);
 
 			for (let i = 0; i < speechTimes; i++) {
 				setTimeout(() => {
 					const picked = voiceData.preferred ? Phaser.Math.RND.weightedPick(voiceData.preferred) : Math.floor(Math.random() * voiceData.count + 1);
 					const pitchVar = voiceData.pitchVar ?? defaultPitchVariation;
-					const pitch = 2 * Math.random() * pitchVar - pitchVar + 1;
+					const pitch = 2 * Math.random() * pitchVar - pitchVar + (voiceData.basePitch ?? 1);
 
 					if (this.isLatestMessage && this.active) {
 						this.scene.sound.play(voiceData.prefix + picked, { rate: pitch, volume: voiceData.volume });

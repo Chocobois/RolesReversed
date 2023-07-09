@@ -167,17 +167,17 @@ export class GameScene extends BaseScene {
 		// prettier-ignore
 		switch (state) {
 			case State.Princess:
-				this.updateVolumes([true, false, false, true, true]); break;
+				this.updateVolumes([true, false, true, true, true, true]); break;
 			case State.Hero:
-				this.updateVolumes([true, false, true, true, true, false]); break;
+				this.updateVolumes([true, false, true, true, true, true]); break;
 			case State.Treasure:
-				this.updateVolumes([true, true, false, false, true]); break;
+				this.updateVolumes([true, true, false, false, false, true]); break;
 			case State.Shop:
-				this.updateVolumes([true, false, false, true, false, false]); break;
+				this.updateVolumes([true, false, true, true, false, true]); break;
 			case State.Town:
-				this.updateVolumes([true, false, true, true, true, false]); break;
+				this.updateVolumes([true, false, true, true, true, true]); break;
 			case State.Overworld:
-				this.updateVolumes([true, false, false, false, false, false]); break;
+				this.updateVolumes([true, false, true, false, false, false]); break;
 			case State.GAMEOVER:
 				this.updateVolumes([false, false, false, false, false, false]);
 				this.musicGameOver.play(); break;
@@ -226,6 +226,7 @@ export class GameScene extends BaseScene {
 	 * @param tracks Backing, GoldPile, DrumLoop, Strings, Piano, Guitar
 	 */
 	updateVolumes(tracks: boolean[]) {
+		if (tracks.length != 6) console.warn('Wrong array length for music track states');
 		this.musicBacking.setVolume(tracks[0] ? this.musicVolume : 0);
 		this.musicGoldPile.setVolume(tracks[1] ? this.musicVolume : 0);
 		this.musicDrumLoop.setVolume(tracks[2] ? this.musicVolume : 0);

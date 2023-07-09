@@ -120,7 +120,7 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 		}
 
 		// Spawn new speech bubble
-		let newBubble = new DialogueBubble(this.scene, 0, this.bubbleSpawnY - this.bubbleY, this.bubbleContainer.width, message);
+		let newBubble = new DialogueBubble(this.scene, 0, this.bubbleSpawnY - this.bubbleY, this.bubbleContainer.width, message, this.currentConversation);
 
 		if (message.flags) {
 			Object.assign(this.flags, message.flags);
