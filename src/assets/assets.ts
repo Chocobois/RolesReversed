@@ -10,12 +10,16 @@ const images: Asset[] = [
 
 	// Background images, static
 	image('background/outside-room', 'room_outside'),
-	image('background/overworld-room', 'room_overworld'),
+	image('background/bg_lol', 'room_overworld_bg'),
+	image('background/bg_lol_1', 'overworld_shop'),
+	image('background/bg_lol_2', 'overworld_town'),
+	image('background/bg_lol_3', 'room_overworld_fg'),
 	image('background/princess-room', 'room_princess'),
 	image('background/princess-room-escaped', 'room_princess_escaped'),
 	image('background/shop-room', 'room_shop'),
 	image('background/sleep-room', 'room_sleep'),
 	image('background/town-room', 'room_town'),
+	image('background/buttons_background', 'buttons_background'),
 	image('placeholder/gameover', 'game_over'),
 
 	// UI
@@ -76,9 +80,6 @@ const images: Asset[] = [
 	image('sprites/dragon-sleep', 'dragon_sleep'),
 	image('sprites/dragon-sleep-low', 'dragon_sleep_low'),
 	image('sprites/dragon-sleep-high', 'dragon_sleep_high'),
-	//overworld
-	image('sprites/overworld-shop', 'overworld_shop'),
-	image('sprites/overworld-town', 'overworld_town'),
 	//dialogue
 	image('sprites/dialogue-dragon', 'dialogue_dragon'),
 	image('sprites/dialogue-dragon-angry', 'dialogue_dragon_angry'),

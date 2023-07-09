@@ -66,6 +66,11 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		/* Castle buttons */
 
+		let background = scene.add.image(0, 0, 'buttons_background');
+		background.setScale(1.1);
+		background.setAlpha(0.2);
+		this.homeButtons.add(background);
+
 		this.heroButton = new RoomButton(scene, x1, 0, 'button_outside', State.Hero, 'Tower');
 		this.heroButton.on('click', () => {
 			this.emit('changeRoom', State.Hero);
