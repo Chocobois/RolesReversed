@@ -74,6 +74,7 @@ export class GameScene extends BaseScene {
 		this.debugText = this.createText(0, 0, 30, 'white');
 		this.debugText.setStroke('black', 10);
 		this.debugText.setLineSpacing(-10);
+		this.debugText.setVisible(false);
 
 		this.princessRoom.setRoomButton(this.uiOverlay.princessButton);
 		this.heroRoom.setRoomButton(this.uiOverlay.heroButton);
@@ -146,7 +147,7 @@ export class GameScene extends BaseScene {
 		this.gameOverRoom.setVisible(state == State.GAMEOVER);
 	}
 
-	startDialogue(key: DialogueKey, callback: (flags: { [key: string]: any }) => void) {
+	startDialogue(key: DialogueKey, callback?: (flags: { [key: string]: any }) => void) {
 		this.dialogueOverlay.startDialogue(key, callback);
 	}
 

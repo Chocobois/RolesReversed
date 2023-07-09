@@ -4,6 +4,7 @@ import { ChoiceBubble } from './ChoiceBubble';
 import { getDialogue, DialogueKey, Conversation, Message, Choice } from './Conversations';
 import { DialogueBubble } from './DialogueBubble';
 import { Button } from '@/components/Button';
+import { LEFT } from 'phaser';
 
 export class DialogueOverlay extends Phaser.GameObjects.Container {
 	public scene: GameScene;
@@ -22,7 +23,7 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 	private currentConversation: Conversation;
 	private currentMessage: Message | null;
 	private hasActiveChoice: boolean;
-	private callback: (flags: { [key: string]: any }) => void;
+	private callback?: (flags: { [key: string]: any }) => void;
 	private flags: { [key: string]: any };
 
 	constructor(scene: GameScene) {
@@ -68,15 +69,15 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 		this.bubbleContainer.y += (this.bubbleY - this.bubbleContainer.y) / 10;
 	}
 
-	startDialogue(key: DialogueKey, callback: (flags: { [key: string]: any }) => void) {
+	startDialogue(key: DialogueKey, callback?: (flags: { [key: string]: any }) => void) {
 		this.setVisible(true);
 
 		this.callback = callback;
 		this.flags = {};
 		this.currentConversation = structuredClone(getDialogue(key)); // Deep copy
 
-		this.leftSprite.setTexture(this.currentConversation.spriteLeft);
-		this.rightSprite.setTexture(this.currentConversation.spriteRight);
+		this.leftSprite.setTexture(this.currentConversation.leftCharacter.sprite);
+		this.rightSprite.setTexture(this.currentConversation.rightCharacter.sprite);
 
 		if (this.scene?.shopRoom?.active) this.scene.shopRoom.hideShopkeeper = true;
 
@@ -95,13 +96,29 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 				this.addSpeechBubble(message);
 			} else {
 				if (this.scene?.shopRoom?.hideShopkeeper == true) this.scene.shopRoom.hideShopkeeper = false;
-				this.callback(this.flags);
+				if (this.callback) {
+					this.callback(this.flags);
+				}
 				this.hide();
 			}
 		}
 	}
 
 	addSpeechBubble(message: Message) {
+		if (message.leftSprite) {
+			this.leftSprite.setTexture(message.leftSprite);
+		}
+		if (message.rightSprite) {
+			this.rightSprite.setTexture(message.rightSprite);
+		}
+		if (!message.color) {
+			if (message.character == LEFT) {
+				message.color = this.currentConversation.leftCharacter.color;
+			} else {
+				message.color = this.currentConversation.rightCharacter.color;
+			}
+		}
+
 		// Spawn new speech bubble
 		let newBubble = new DialogueBubble(this.scene, 0, this.bubbleSpawnY - this.bubbleY, this.bubbleContainer.width, message);
 

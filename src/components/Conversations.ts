@@ -1,3 +1,5 @@
+import { LEFT, RIGHT } from 'phaser';
+
 export enum DialogueKey {
 	PrincessIntroduction,
 	PrincessWantItem,
@@ -16,6 +18,7 @@ enum Colors {
 	Dragon = '#770000',
 	Princess = '#FF009D',
 	Shopkeeper = '#946C35',
+	Hero = '#0000FF',
 
 	Green = '#15803d',
 	Red = '#b91c1c',
@@ -29,7 +32,10 @@ enum Colors {
 }
 
 enum Voices {
-	Shopkeeper = 1,
+	Dragon,
+	Princess,
+	Shopkeeper,
+	Hero,
 }
 
 export interface VoiceClipData {
@@ -42,14 +48,52 @@ export interface VoiceClipData {
 }
 
 export const VoiceClips: { [key in Voices]: VoiceClipData } = {
-	[Voices.Shopkeeper]: { prefix: 'v_kobl_', volume: 0.5, count: 4, pitchVar: 0.12, preferred: [2, 3, 4, 1], delay: 140 },
+	[Voices.Dragon]: {
+		prefix: 'v_kobl_',
+		volume: 0.5,
+		count: 4,
+		pitchVar: 0.12,
+		preferred: [2, 3, 4, 1],
+		delay: 140,
+	},
+	[Voices.Princess]: {
+		prefix: 'v_kobl_',
+		volume: 0.5,
+		count: 4,
+		pitchVar: 0.12,
+		preferred: [2, 3, 4, 1],
+		delay: 140,
+	},
+	[Voices.Shopkeeper]: {
+		prefix: 'v_kobl_',
+		volume: 0.5,
+		count: 4,
+		pitchVar: 0.12,
+		preferred: [2, 3, 4, 1],
+		delay: 140,
+	},
+	[Voices.Hero]: {
+		prefix: 'v_kobl_',
+		volume: 0.5,
+		count: 4,
+		pitchVar: 0.12,
+		preferred: [2, 3, 4, 1],
+		delay: 140,
+	},
 };
 
-export interface Message {
-	left?: boolean;
-	right?: boolean;
-	text: string;
+export interface Character {
+	sprite: string;
 	color: Colors;
+	voice: Voices;
+}
+
+export interface Message {
+	character: number;
+	text: string;
+	leftSprite?: string;
+	rightSprite?: string;
+	color?: Colors;
 	voice?: Voices;
 	choice?: Choice[];
 	flags?: { [key: string]: any };
@@ -62,70 +106,90 @@ export interface Choice {
 }
 
 export interface Conversation {
-	spriteLeft: string;
-	spriteRight: string;
+	leftCharacter: Character;
+	rightCharacter: Character;
 	messages: Message[];
 }
 
-const conversations: { [key in DialogueKey]: Conversation } = {
+// const conversations: { [key in DialogueKey]: Conversation } = {
+const conversations: { [key in any]: Conversation } = {
 	[DialogueKey.PrincessIntroduction]: {
-		spriteLeft: 'dialogue_princess',
-		spriteRight: 'dialogue_dragon',
+		leftCharacter: {
+			sprite: 'dialogue_princess',
+			color: Colors.Princess,
+			voice: Voices.Princess,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_dragon',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
 		messages: [
 			{
-				left: true,
+				character: LEFT,
 				text: 'Omg hiii dragon-kun~ <3',
-				color: Colors.Princess,
 			},
 			{
-				right: true,
+				character: RIGHT,
+				rightSprite: 'dialogue_dragon_angry',
 				text: 'What the fuck...',
-				color: Colors.Dragon,
 			},
 			{
-				left: true,
+				character: LEFT,
+				rightSprite: 'dialogue_dragon',
 				text: "uwu please capture me I've been a NAUGHTY girl! yeah that's right this is a pretty long message.",
-				color: Colors.Princess,
 			},
 			{
-				right: true,
+				character: RIGHT,
+				rightSprite: 'dialogue_dragon_talk',
 				text: 'Ok fine come on in gurrrl',
-				color: Colors.Dragon,
 			},
 		],
 	},
 	[DialogueKey.PrincessWantItem]: {
-		spriteLeft: 'dialogue_dragon',
-		spriteRight: 'dialogue_dragon',
+		leftCharacter: {
+			sprite: 'dialogue_princess',
+			color: Colors.Princess,
+			voice: Voices.Princess,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_dragon',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
 		messages: [],
 	},
 	[DialogueKey.PrincessCaughtEscaping]: {
-		spriteLeft: 'dialogue_princess',
-		spriteRight: 'dialogue_dragon',
+		leftCharacter: {
+			sprite: 'dialogue_princess',
+			color: Colors.Princess,
+			voice: Voices.Princess,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_dragon',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
 		messages: [
 			{
-				left: true,
+				character: LEFT,
 				text: 'Haha whoopsie! You caught me.',
-				color: Colors.Princess,
 			},
 			{
-				left: true,
+				character: LEFT,
 				text: 'I was just... stretching my calves on the windowsill.',
-				color: Colors.Princess,
 				choice: [
 					{
 						text: 'Scold',
 						color: Colors.Red,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: "I'm very disappointed in you...",
-								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: '...',
-								color: Colors.Princess,
 								flags: {
 									killsHerself: true,
 								},
@@ -137,14 +201,12 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Green,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: "It's ok. Now don't do it again.",
-								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'I promiiise~',
-								color: Colors.Princess,
 							},
 						],
 					},
@@ -153,44 +215,71 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 		],
 	},
 	[DialogueKey.HeroIntroduction]: {
-		spriteLeft: 'dialogue_hero',
-		spriteRight: 'dialogue_dragon',
+		leftCharacter: {
+			sprite: 'dialogue_hero',
+			color: Colors.Hero,
+			voice: Voices.Hero,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_dragon',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
 		messages: [],
 	},
 	[DialogueKey.HeroBrave]: {
-		spriteLeft: 'dialogue_hero',
-		spriteRight: 'dialogue_dragon',
+		leftCharacter: {
+			sprite: 'dialogue_hero',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_dragon',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
 		messages: [],
 	},
 	[DialogueKey.ShopIntroduction]: {
-		spriteLeft: 'dialogue_dragon',
-		spriteRight: 'dialogue_shopkeeper',
+		leftCharacter: {
+			sprite: 'dialogue_dragon',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_shopkeeper',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
 		messages: [],
 	},
 	[DialogueKey.ShopPurchase]: {
-		spriteLeft: 'dialogue_dragon_right',
-		spriteRight: 'dialogue_shopkeeper',
+		leftCharacter: {
+			sprite: 'dialogue_dragon_right',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_shopkeeper',
+			color: Colors.Shopkeeper,
+			voice: Voices.Shopkeeper,
+		},
 		messages: [
 			{
-				right: true,
+				character: RIGHT,
 				text: 'You wish to buy this?',
-				color: Colors.Shopkeeper,
-				voice: Voices.Shopkeeper,
 			},
 			{
-				left: true,
+				character: LEFT,
 				text: 'I HATE spending my precious gold.',
-				color: Colors.Dragon,
 			},
 			{
-				left: true,
+				character: LEFT,
 				text: 'But if I must... The princess demands it.',
-				color: Colors.Dragon,
 			},
 			{
-				right: true,
+				character: RIGHT,
 				text: "Yaas queen, that's right. Buy it.",
-				color: Colors.Shopkeeper,
 				voice: Voices.Shopkeeper,
 				choice: [
 					{
@@ -198,14 +287,12 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Red,
 						messages: [
 							{
-								left: true,
+								character: LEFT,
 								text: "I... I can't. Not my gold.",
-								color: Colors.Dragon,
 							},
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Go home and rest.',
-								color: Colors.Shopkeeper,
 								flags: {
 									wantToBuy: false,
 								},
@@ -217,14 +304,12 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Green,
 						messages: [
 							{
-								left: true,
+								character: LEFT,
 								text: 'Ok fine, take my precious gold.',
-								color: Colors.Dragon,
 							},
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Thank you~',
-								color: Colors.Shopkeeper,
 								flags: {
 									wantToBuy: true,
 								},
@@ -236,28 +321,32 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 		],
 	},
 	[DialogueKey.KnightText]: {
-		spriteLeft: 'dialogue_dragon_right',
-		spriteRight: 'dialogue_shopkeeper',
+		leftCharacter: {
+			sprite: 'dialogue_dragon_right',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_hero',
+			color: Colors.RageKnight,
+			voice: Voices.Hero,
+		},
 		messages: [
 			{
-				left: true,
+				character: LEFT,
 				text: "You know who I'm here for. Hand her over, and I'll make sure to cut you down quick.",
-				color: Colors.RageKnight,
 			},
 			{
-				right: true,
+				character: RIGHT,
 				text: 'You look like someone with absolutely zero friends.',
-				color: Colors.Dragon,
 			},
 			{
-				left: true,
+				character: LEFT,
 				text: "A knight's might is his only friend. I will gut you with pleasure, reptile.",
-				color: Colors.RageKnight,
 			},
 			{
-				right: true,
+				character: RIGHT,
 				text: '...',
-				color: Colors.Shopkeeper,
 				voice: Voices.Shopkeeper,
 				choice: [
 					{
@@ -265,14 +354,12 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Purple,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: "Take another step, and I'll boil the flesh off your tiny bones.",
-								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'Such a cowardly bluff befits you. Bleed!',
-								color: Colors.RageKnight,
 								flags: {
 									wantToBuy: false,
 								},
@@ -284,22 +371,19 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Gold,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'And how much, exactly, is that royal order paying you? I might be convinced to... sweeten the pot.',
-								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'More than your disgusting hoard is worth to me. Die!',
-								color: Colors.RageKnight,
 								flags: {
 									wantToBuy: true,
 								},
 							},
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Augh!',
-								color: Colors.Dragon,
 							},
 						],
 					},
@@ -308,12 +392,12 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Pink,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'You know, I have a soft spot for rough guys like you. How about we take this behind the lake?',
 								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'Your lust disgusts me. This one is personal!',
 								color: Colors.RageKnight,
 								flags: {
@@ -321,7 +405,7 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								},
 							},
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Hrrrk!',
 								color: Colors.Dragon,
 							},
@@ -332,12 +416,12 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Red,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Fry, you buffoon.',
 								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'My flesh- it burns, it burns!',
 								color: Colors.RageKnight,
 								flags: {
@@ -351,26 +435,34 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 		],
 	},
 	[DialogueKey.sk8rText]: {
-		spriteLeft: 'dialogue_dragon_right',
-		spriteRight: 'dialogue_shopkeeper',
+		leftCharacter: {
+			sprite: 'dialogue_dragon_right',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: {
+			sprite: 'hero_skater',
+			color: Colors.Hero,
+			voice: Voices.Hero,
+		},
 		messages: [
 			{
-				left: true,
+				character: LEFT,
 				text: "Gimme the gurrl pal, or I'm sendin' ya back to the dinosaurs.",
 				color: Colors.sk8r,
 			},
 			{
-				right: true,
+				character: RIGHT,
 				text: "Don't you have homework to do?",
 				color: Colors.Dragon,
 			},
 			{
-				left: true,
+				character: LEFT,
 				text: "Nah, riches and bitches' all that matters.",
 				color: Colors.sk8r,
 			},
 			{
-				right: true,
+				character: RIGHT,
 				text: '...',
 				color: Colors.Shopkeeper,
 				voice: Voices.Shopkeeper,
@@ -380,12 +472,12 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Purple,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Better roll on out of here before I make your family a new jar of ashes.',
 								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: "No dice my dude. I've got too much drip, you'd better dip.",
 								color: Colors.sk8r,
 								flags: {
@@ -399,20 +491,17 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Gold,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Well then, someone of your... flawless moral standards would rather have... a few luxuries.',
 								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'Whoa, my mom never gives me allowance. You rock dude.',
 								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Augh!',
 								color: Colors.Dragon,
 							},
@@ -423,17 +512,14 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Pink,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Maidenless.',
 								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'Stinky.',
 								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 						],
 					},
@@ -442,20 +528,17 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Red,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Burn, pest.',
 								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'Aaaaugh! N-not cool...',
 								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 							{
-								right: true,
+								character: RIGHT,
 								text: 'I hate children.',
 								color: Colors.Dragon,
 							},
@@ -466,46 +549,44 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 		],
 	},
 	[DialogueKey.SquireText]: {
-		spriteLeft: 'dialogue_dragon_right',
-		spriteRight: 'dialogue_shopkeeper',
+		leftCharacter: {
+			sprite: 'dialogue_hero',
+			color: Colors.CowardKnight,
+			voice: Voices.Hero,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_dragon_right',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
 		messages: [
 			{
-				left: true,
+				character: LEFT,
 				text: 'O-on my honor. I will rescue the princess for my lord!',
-				color: Colors.sk8r,
 			},
 			{
-				right: true,
+				character: RIGHT,
 				text: 'Are you sure about that?',
-				color: Colors.Dragon,
 			},
 			{
-				left: true,
+				character: LEFT,
 				text: "I-I musn't run away!",
-				color: Colors.sk8r,
 			},
 			{
-				right: true,
+				character: RIGHT,
 				text: '...',
-				color: Colors.Shopkeeper,
-				voice: Voices.Shopkeeper,
 				choice: [
 					{
 						text: 'Intimidate',
 						color: Colors.Purple,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Better roll on out of here before I make your family a new jar of ashes.',
-								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: "No dice my dude. I've got too much drip, you'd better dip.",
-								color: Colors.sk8r,
-								flags: {
-									wantToBuy: false,
-								},
 							},
 						],
 					},
@@ -514,22 +595,16 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Gold,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Well then, someone of your... flawless moral standards would rather have... a few luxuries.',
-								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'Whoa, my mom never gives me allowance. You rock dude.',
-								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Augh!',
-								color: Colors.Dragon,
 							},
 						],
 					},
@@ -538,17 +613,12 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Pink,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Maidenless.',
-								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'Stinky.',
-								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 						],
 					},
@@ -557,22 +627,16 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						color: Colors.Red,
 						messages: [
 							{
-								right: true,
+								character: RIGHT,
 								text: 'Burn, pest.',
-								color: Colors.Dragon,
 							},
 							{
-								left: true,
+								character: LEFT,
 								text: 'Aaaaugh! N-not cool...',
-								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 							{
-								right: true,
+								character: RIGHT,
 								text: 'I hate children.',
-								color: Colors.Dragon,
 							},
 						],
 					},
