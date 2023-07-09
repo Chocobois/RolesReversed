@@ -70,14 +70,15 @@ export class Building extends Button {
 		if (this.buildingHP > 0) {
 			this.scene.sound.play('EXPL_SOUND', { volume: 0.2 });
 			this.exploder.explode(3);
+			this.scene.addEnergy(3);
 
 			this.buildingHP--;
 			if (this.buildingHP <= 0) {
 				this.image.setVisible(false);
 				this.rubble.setVisible(true);
 				this.buildingCooldown = this.defaultBuildingHP * 6000;
+				this.scene.addEnergy(10);
 
-				this.scene.addEnergy(this.defaultBuildingHP * 25);
 				this.scene.sound.play('DEMO_SOUND', { volume: 0.05 });
 				this.exploder.explode(15);
 			}
