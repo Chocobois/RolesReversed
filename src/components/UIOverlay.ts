@@ -22,7 +22,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	private energyMeter: EnergyMeter;
 
 	private darknessOverlay: Phaser.GameObjects.Image;
-	private blockButtons: boolean;
+	public blockButtons: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene, 0, 0);

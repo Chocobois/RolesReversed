@@ -40,6 +40,13 @@ const Data = {
 		start: 514763 / 44100 + overlap,
 		end: 2506847 / 44100 + overlap,
 	},
+	m_critical: {
+		offset: 1 / (170 / 60),
+		bpm: 170,
+		loop: true,
+		start: 514763 / 44100 + overlap,
+		end: 2506847 / 44100 + overlap,
+	},
 	m_strings: {
 		offset: 1 / (170 / 60),
 		bpm: 170,

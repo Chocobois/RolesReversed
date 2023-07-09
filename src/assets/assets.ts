@@ -150,6 +150,7 @@ const audios: Audio[] = [
 	music('bgm_strings', 'm_strings'),
 	music('bgm_piano', 'm_piano'),
 	music('bgm_guitar', 'm_guitar'),
+	music('bgm_overwhelm', 'm_critical'),
 	music('bgm_gameover', 'm_gameover'),
 
 	// Sounds
