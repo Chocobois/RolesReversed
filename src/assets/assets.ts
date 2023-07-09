@@ -63,7 +63,9 @@ const images: Asset[] = [
 	image('sprites/shop_desk', 'shop_desk'),
 	image('sprites/shop_kobold', 'shop_kobold'),
 	image('sprites/shop_tail', 'shop_tail'),
+	image('sprites/shop-pole', 'shop_pole'),
 	//hero
+	image('sprites/hero-princess', 'hero_princess'),
 	image('sprites/hero-normal', 'hero_normal'),
 	image('sprites/hero-sk8r', 'hero_skater'),
 	image('sprites/hero-charming', 'hero_charming'),
@@ -87,6 +89,7 @@ const images: Asset[] = [
 	image('sprites/dialogue-dragon-blush-right', 'dialogue_dragon_blush_right'),
 	image('sprites/dialogue-hero', 'dialogue_hero'),
 	image('sprites/dialogue-princess', 'dialogue_princess'),
+	image('sprites/dialogue-princess-pout', 'dialogue_princess_pout'),
 	image('sprites/dialogue-shopkeeper', 'dialogue_shopkeeper'),
 
 	image('placeholder/placeholder_ui_close', 'placeholder_ui_close'),
