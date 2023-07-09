@@ -135,7 +135,7 @@ export class HeroRoom extends Room {
 		this.queueFlag = queueState.CLEARING;
 		this.heroList.push(new Hero(this.scene, 0.13 * this.scene.W, 0.75 * this.scene.H, 'hero_big', 999));
 		this.heroList[0].myState = HeroState.QUEUED;
-		this.setManualTimer(10000);
+		this.setManualTimer(3000);
 		this.pausefx = false;
 	}
 
@@ -166,9 +166,9 @@ export class HeroRoom extends Room {
 		this.heroImage.setTexture(this.heroList[0].heroSprite);
 		this.heroButton.setVisible(true);
 		this.heroList[0].myState = HeroState.IDLE;
-		this.setManualTimer(1000 + 6000 / (1 + this.scene.difficulty));
 		this.pausefx = false;
 		this.roomButton.setNotification(Notification.Question);
+		this.setManualTimer(1000 + 6000 / (1 + this.scene.difficulty));
 	}
 
 	movementOpportunity() {
@@ -178,18 +178,24 @@ export class HeroRoom extends Room {
 		switch (this.queueFlag) {
 			case queueState.CLEARING:
 				this.activateHero();
+				if(!this.tutorialRead) {
+					this.pendingDialogue = true;
+				}
 				this.queueFlag = queueState.WAITING;
+				return;
 			case queueState.WAITING:
 				//this scene has an active hero so we don't push to the queue
 				//set the hero to do actions
 				this.queueFlag = queueState.ACTIVE;
 				this.heroList[0].myState = HeroState.SPEAKING;
 				this.roomButton.setNotification(Notification.Danger);
-				this.setManualTimer(1000 + 6000 / (1 + this.scene.difficulty));
+				this.setManualTimer(!this.tutorialRead? 999999999999 : (1000 + 6000 / (1 + this.scene.difficulty)));
 				if (this.visible == true) {
 					this.pausefx = true;
 				}
-				this.pendingDialogue = true;
+				if (this.tutorialRead) {
+					this.pendingDialogue = true;
+				}
 				return;
 			case queueState.ACTIVE:
 				if (this.heroList[0].myState == HeroState.SPEAKING) {
@@ -314,7 +320,24 @@ export class HeroRoom extends Room {
 		};
 
 		let queue = 'In queue: ' + this.heroList.length + ', ';
-		let qstate = 'Queue State: ' + this.queueFlag + ', ';
+		let qstate = '';
+		switch (this.queueFlag) {
+			case queueState.IDLE:
+				qstate = 'Queue State: IDLE, ';
+				break;
+			case queueState.ACTIVE:
+				qstate = 'Queue State: ACTIVE, ';
+				break;
+			case queueState.CLEARING:
+				qstate = 'Queue State: CLEARING, ';
+				break;
+			case queueState.WAITING:
+				qstate = 'Queue State: WAITING, ';
+				break;
+			default:
+				qstate = 'Queue State: UNKNOWN, ';
+				break;
+		}
 		let cd = 'Spawning cooldown: ' + Math.ceil(this.cooldown / 1000) + 's ,';
 
 		let remaining = Math.ceil(this.clock / 1000) + 's';
