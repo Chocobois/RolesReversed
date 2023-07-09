@@ -138,7 +138,7 @@ export class HeroRoom extends Room {
 					}
 				}
 			}
-			this.cooldown = 15000 + 2000 / (1 + this.scene.difficulty);
+			this.cooldown = 5000 + 2000 / (1 + this.scene.difficulty);
 		}
 	}
 
@@ -262,7 +262,7 @@ export class HeroRoom extends Room {
 			this.pausefx = true;
 			this.queueFlag = queueState.IDLE;
 		}
-		this.cooldown = 15000 + 2000 / (1 + this.scene.difficulty);
+		this.cooldown = 5000 + 2000 / (1 + this.scene.difficulty);
 	}
 
 	/* Debug */
