@@ -115,6 +115,7 @@ const images: Asset[] = [
 	image('sprites/dialogue-princess-pout', 'dialogue_princess_pout'),
 	image('sprites/dialogue-shopkeeper', 'dialogue_shopkeeper'),
 	image('sprites/dialogue-shopkeeper-talk', 'dialogue_shopkeeper_talk'),
+	image('sprites/dialogue-goldpile', 'dialogue_goldpile'),
 
 	image('placeholder/placeholder_ui_close', 'placeholder_ui_close'),
 	image('placeholder/placeholder_ui_done', 'placeholder_ui_done'),
@@ -167,9 +168,10 @@ const audios: Audio[] = [
 	sound('tree/rustle', 't_rustle', 0.1),
 	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.1),
 	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
-	sound('placeholder/explosion_placeholder', 'EXPL_SOUND', 0.1),
+	sound('placeholder/placeholder_explosion', 'EXPL_SOUND', 0.1),
 	sound('placeholder/placeholder_demolish', 'DEMO_SOUND', 0.1),
 	sound('placeholder/placeholder_fried', 'FRIED_SOUND', 0.1),
+	sound('placeholder/placeholder_scream', 'SCREAM', 0.1),
 
 	// Sounds: character voices
 	sound('voice/generic', 'v_misc_1'),

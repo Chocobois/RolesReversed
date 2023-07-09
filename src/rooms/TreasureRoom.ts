@@ -2,6 +2,7 @@ import { Button } from '@/components/Button';
 import { GameScene } from '../scenes/GameScene';
 import { Room } from './Room';
 import { ParticleManager } from '@/components/Particle';
+import { DialogueKey } from '@/components/Conversations';
 
 export class TreasureRoom extends Room {
 	private background: Phaser.GameObjects.Image;
@@ -11,6 +12,8 @@ export class TreasureRoom extends Room {
 	public particlesMato: ParticleManager;
 	public particlesPhaser: Phaser.GameObjects.Particles.ParticleEmitter;
 	private spawnTimer: Phaser.Time.TimerEvent;
+
+	private firstTimePanicAttack: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -98,6 +101,17 @@ export class TreasureRoom extends Room {
 		} else {
 			this.particlesMato.die();
 		}
+	}
+
+	setVisible(isShown: boolean): this {
+		if (isShown) {
+			if (!this.firstTimePanicAttack && this.scene.energy == 0) {
+				this.firstTimePanicAttack = true;
+				this.scene.startDialogue(DialogueKey.GoldPanicAttack);
+			}
+		}
+
+		return super.setVisible(isShown);
 	}
 
 	/* Debug */

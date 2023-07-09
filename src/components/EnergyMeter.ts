@@ -22,7 +22,6 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 		this.scene = scene;
 		this.roomButton = roomButton;
 		this.scene.add.existing(this);
-		this.text = scene.createText(this.width / 2 - 50 / 2, this.height / 2 - 13, 18, '#FFFFFFAA', 'PRIDE');
 
 		// const fontsize = 60;
 		const radius = 14;
@@ -42,6 +41,10 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 		this.foreground = new RoundRectangle(scene, 0, 0, this.width, this.height, radius - border / 2, 0xffaa00);
 		this.add(this.foreground);
 
+		this.text = scene.createText(0, 0, 16, 'white', 'P R I D E');
+		this.text.setOrigin(0.5);
+		this.text.setAlpha(0.8);
+		this.text.setBlendMode(Phaser.BlendModes.ADD);
 		this.add(this.text);
 	}
 

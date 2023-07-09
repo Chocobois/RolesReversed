@@ -71,6 +71,8 @@ export class ShopRoom extends Room {
 
 	public hideShopkeeper: boolean;
 
+	private firstTimeVisitingShop: boolean;
+
 	constructor(scene: GameScene) {
 		super(scene);
 		this.scene = scene;
@@ -176,10 +178,10 @@ export class ShopRoom extends Room {
 	}
 
 	selectItem(itemData: ItemData | null) {
-		if (itemData) {
+		if (itemData && this.scene.energy > 0) {
 			this.scene.startDialogue(itemData.bought ? itemData.default : itemData.init, (flags) => {
 				if (flags.wantToBuy) {
-					this.scene.addEnergy(-50);
+					this.scene.addEnergy(-100);
 					this.scene.setHeldItem(itemData);
 					if (itemData.bought == false) {
 						itemData.bought = true;
@@ -205,5 +207,14 @@ export class ShopRoom extends Room {
 		// 		}
 		// 	}
 		// }
+	}
+
+	setVisible(isShown: boolean): this {
+		if (isShown && !this.firstTimeVisitingShop) {
+			this.firstTimeVisitingShop = true;
+			this.scene.startDialogue(DialogueKey.ShopIntroduction);
+		}
+
+		return super.setVisible(isShown);
 	}
 }
