@@ -137,6 +137,7 @@ const spritesheets: SpriteSheet[] = [
 	spritesheet('ui/music', 'music', 300, 300),
 	spritesheet('ui/pause', 'pause', 300, 300),
 	spritesheet('sprites/particle-sleep', 'particle_sleep', 70, 70),
+	spritesheet('sprites/explosion_tiny', 'explosion_tiny', 512, 512),
 ];
 
 /* Audios */

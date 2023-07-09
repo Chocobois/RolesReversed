@@ -11,6 +11,7 @@ enum queueState {
 	WAITING = 1,
 	ACTIVE = 2,
 	CLEARING = 3,
+	DISPLAY = 4,
 }
 
 export class HeroRoom extends Room {
@@ -36,6 +37,8 @@ export class HeroRoom extends Room {
 	private bribeFlag: boolean;
 	private pendingDialogue: boolean;
 	private tutorialRead: boolean;
+	private animMode: boolean;
+	private animFrames: number;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -74,6 +77,18 @@ export class HeroRoom extends Room {
 		this.pendingDialogue = false;
 		this.tutorialRead = false;
 		this.heroButton.setVisible(false);
+		this.animMode = false;
+		this.animFrames = 0;
+		const expl = {
+			key: 'explosion',
+			frames: 'explosion_tiny',
+			frameRate: 12,
+			showOnStart: true,
+			hideOnComplete: true
+		};
+
+		this.scene.anims.create(expl);
+
 		this.startTutorial();
 	}
 
@@ -91,8 +106,14 @@ export class HeroRoom extends Room {
 		}
 		if (this.clock >= 0 && !this.pausefx) {
 			this.clock -= delta;
-		} else if (this.clock <= 0) {
+		} else if (this.clock <= 0 && !(this.queueFlag == queueState.DISPLAY)) {
 			this.movementOpportunity();
+		}
+
+		if(this.animMode)
+		{
+			this.animFrames -= delta;
+			this.processDisplayMode();
 		}
 		this.checkHeroSpawn();
 		this.heroButton.setScale((1.0 + heroSquish * Math.sin(time / 200)) * heroHoldX, (1.0 + heroSquish * Math.sin(-time / 200)) * heroHoldY);
@@ -164,7 +185,9 @@ export class HeroRoom extends Room {
 
 	activateHero() {
 		this.heroImage.setTexture(this.heroList[0].heroSprite);
+		this.heroImage.setAlpha(1);
 		this.heroButton.setVisible(true);
+		this.heroButton.enabled = true;
 		this.heroList[0].myState = HeroState.IDLE;
 		this.pausefx = false;
 		this.roomButton.setNotification(Notification.Question);
@@ -254,23 +277,21 @@ export class HeroRoom extends Room {
 				this.fryDifficulty = true;
 				this.scene.sound.play('FRIED_SOUND', { volume: 0.25 });
 				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
-				this.advanceHeroQueue();
+				this.advance(true);
 				//this.scene.difficulty += this.heroList[0].reputation;
 			} else if (flags.payBribe) {
 				this.bribeFlag = true;
 				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
-				this.advanceHeroQueue();
+				this.advance(false);
 			} else {
 				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
-				this.advanceHeroQueue();
+				this.advance(false);
 			}
 		});
 	}
 
-	advanceHeroQueue() {
-		this.pendingDialogue = false;
-		this.heroList[0].myState = HeroState.CLEARED;
-		this.heroButton.setVisible(false);
+	advance(fried: boolean)
+	{
 		if (this.fryDifficulty) {
 			this.scene.difficulty += this.heroList[0].reputation;
 			this.fryDifficulty = false;
@@ -279,6 +300,33 @@ export class HeroRoom extends Room {
 			this.scene.addEnergy(-1 * (this.heroList[0].bribeAmount / 10));
 			this.bribeFlag = false;
 		}
+		if(fried) {
+			let xpl = this.scene.add.sprite(this.heroButton.x+50, this.heroButton.y-240, 'explosion');
+			xpl.play({key: 'explosion', delay: 0});
+			this.heroImage.setTexture('hero_ash');
+		}
+		this.pendingDialogue = false;
+		this.heroList[0].myState = HeroState.CLEARED;
+		this.animMode = true;
+		this.animFrames = 1000;
+		this.queueFlag = queueState.DISPLAY;
+		this.heroButton.enabled = false;
+	}
+
+	//manage when hero exploding
+	processDisplayMode()
+	{
+		if(this.animFrames <= 0)
+		{
+			this.animMode = false;
+			this.advanceHeroQueue();
+		}
+		this.heroImage.setAlpha(this.animFrames/1000);
+	}
+
+	advanceHeroQueue() {
+		this.heroButton.setVisible(false);
+		this.heroImage.setAlpha(1);
 		this.heroList.shift();
 		this.roomButton.setNotification(Notification.Calm);
 		if (this.heroList.length > 0) {
@@ -334,6 +382,9 @@ export class HeroRoom extends Room {
 			case queueState.WAITING:
 				qstate = 'Queue State: WAITING, ';
 				break;
+			case queueState.DISPLAY:
+				qstate = 'Queue State: DISPLAY, ';
+				break;
 			default:
 				qstate = 'Queue State: UNKNOWN, ';
 				break;
@@ -342,6 +393,10 @@ export class HeroRoom extends Room {
 
 		let remaining = Math.ceil(this.clock / 1000) + 's';
 		let paused = this.pausefx ? ' paused' : '';
-		return `Hero: ${cd} ${qstate} ${queue} ${getStateText()}(${remaining}${paused})`;
+		let anims = '';
+		if(this.animMode) {
+			anims = ' Remaining frames: ' + this.animFrames; 
+		}
+		return `Hero: ${cd} ${qstate} ${queue} ${getStateText()}(${remaining}${paused})${anims}`;
 	}
 }
