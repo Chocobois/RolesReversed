@@ -19,9 +19,9 @@ export class ShopItem extends Button {
 		// Background
 
 		// TODO: Change image name
-		this.background = this.scene.add.image(10, 380, 'shop_pole');
+		this.background = this.scene.add.image(10, 70, 'shop_pole');
+		this.background.setOrigin(0.5, 0);
 		this.background.setScale(this.size / this.background.width);
-		this.background.setTint(0xbbbbbb);
 		this.add(this.background);
 
 		// Item
