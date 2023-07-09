@@ -16,6 +16,9 @@ export interface ItemData {
 	type: ItemType;
 	image: string;
 	name: string;
+	bought: boolean;
+	init: DialogueKey;
+	default: DialogueKey;
 }
 
 export const shopItems: ItemData[] = [
@@ -23,21 +26,33 @@ export const shopItems: ItemData[] = [
 		type: ItemType.Burger,
 		image: 'item_burger',
 		name: 'Burger',
+		bought: false,
+		init: DialogueKey.BurgerInit,
+		default: DialogueKey.ShopPurchase,
 	},
 	{
 		type: ItemType.Book,
 		image: 'item_book',
 		name: 'Book',
+		bought: false,
+		init: DialogueKey.BookInit,
+		default: DialogueKey.ShopPurchase,
 	},
 	{
 		type: ItemType.Toy,
 		image: 'item_toy',
 		name: 'Toy',
+		bought: false,
+		init: DialogueKey.BallInit,
+		default: DialogueKey.ShopPurchase,
 	},
 	{
 		type: ItemType.Cake,
 		image: 'item_cake',
 		name: 'Cake',
+		bought: false,
+		init: DialogueKey.CakeInit,
+		default: DialogueKey.ShopPurchase,
 	},
 ];
 
@@ -50,6 +65,7 @@ export class ShopRoom extends Room {
 	private ownerTailImage: Phaser.GameObjects.Image;
 	private dragonSprite: Phaser.GameObjects.Image;
 	private buyImage: Phaser.GameObjects.Image;
+	private buyTracker: number[];
 
 	private items: ShopItem[];
 
@@ -118,6 +134,7 @@ export class ShopRoom extends Room {
 
 		// Items
 		this.items = [];
+		this.buyTracker = [0, 0, 0, 0];
 
 		const itemLeft = 260;
 		const itemTop = 320;
@@ -160,10 +177,13 @@ export class ShopRoom extends Room {
 
 	selectItem(itemData: ItemData | null) {
 		if (itemData) {
-			this.scene.startDialogue(DialogueKey.ShopPurchase, (flags) => {
+			this.scene.startDialogue(itemData.bought ? itemData.default : itemData.init, (flags) => {
 				if (flags.wantToBuy) {
 					this.scene.addEnergy(-50);
 					this.scene.setHeldItem(itemData);
+					if (itemData.bought == false) {
+						itemData.bought = true;
+					}
 				}
 			});
 		}

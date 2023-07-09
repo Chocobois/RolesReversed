@@ -98,11 +98,11 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 				this.addSpeechBubble(message);
 			} else {
 				if (this.scene?.shopRoom?.hideShopkeeper == true) this.scene.shopRoom.hideShopkeeper = false;
+				this.scene.dialogueFlag = false;
 				if (this.callback) {
 					this.callback(this.flags);
 				}
-				this.hide();
-				this.scene.dialogueFlag = false;
+				this.hide();			
 			}
 		}
 	}

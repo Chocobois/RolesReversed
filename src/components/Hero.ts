@@ -70,6 +70,16 @@ export class Hero extends Phaser.GameObjects.Container {
 				this.patience = 2000;
 				this.heroSprite = 'hero_charming';
 				break;
+			case 999:
+				this.bribeAmount = 650;
+				this.courage = 0;
+				this.isHorny = true;
+				this.reputation = 0.3;
+				this.dialogue = DialogueKey.HeroIntroduction;
+				this.intro = DialogueKey.HeroShout;
+				this.patience = 2000;
+				this.heroSprite = 'hero_big';
+				break;
 			default:
 				this.bribeAmount = 5000;
 				this.courage = 2;

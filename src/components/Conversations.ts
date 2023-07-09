@@ -5,6 +5,7 @@ export enum DialogueKey {
 	PrincessWantItem,
 	PrincessCaughtEscaping,
 	HeroIntroduction,
+	HeroShout,
 	HeroBrave,
 	ShopIntroduction,
 	ShopPurchase,
@@ -18,6 +19,11 @@ export enum DialogueKey {
 	sk8rIntro,
 	SquireIntro,
 	ValentineIntro,
+
+	BurgerInit,
+	BallInit,
+	BookInit,
+	CakeInit,
 }
 
 enum Colors {
@@ -59,6 +65,7 @@ enum Sprites {
 	HeroCharmingBurnt = 'hero_charming_burnt',
 	HeroNormalBurnt = 'hero_normal_burnt',
 	HeroSkaterBurnt = 'hero_skater_burnt',
+	HeroBig = 'hero_big',
 }
 
 enum Voices {
@@ -125,6 +132,20 @@ export interface Character {
 	voice: Voices;
 }
 
+const Characters: { [key: string]: Character } = {
+	Dragon: {
+		sprite: Sprites.Dragon,
+		spriteTalk: Sprites.DragonTalk,
+		color: Colors.Dragon,
+		voice: Voices.Dragon,
+	},
+	Princess: {
+		sprite: Sprites.Princess,
+		color: Colors.Princess,
+		voice: Voices.Princess,
+	}
+};
+
 export interface Message {
 	character: number;
 	text: string;
@@ -151,17 +172,8 @@ export interface Conversation {
 // const conversations: { [key in DialogueKey]: Conversation } = {
 const conversations: { [key in any]: Conversation } = {
 	[DialogueKey.PrincessIntroduction]: {
-		leftCharacter: {
-			sprite: Sprites.Princess,
-			color: Colors.Princess,
-			voice: Voices.Princess,
-		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		leftCharacter: Characters.Princess,
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
@@ -185,31 +197,13 @@ const conversations: { [key in any]: Conversation } = {
 		],
 	},
 	[DialogueKey.PrincessWantItem]: {
-		leftCharacter: {
-			sprite: Sprites.Princess,
-			color: Colors.Princess,
-			voice: Voices.Princess,
-		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		leftCharacter: Characters.Princess,
+		rightCharacter: Characters.Dragon,
 		messages: [],
 	},
 	[DialogueKey.PrincessCaughtEscaping]: {
-		leftCharacter: {
-			sprite: Sprites.Princess,
-			color: Colors.Princess,
-			voice: Voices.Princess,
-		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonAngry,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		leftCharacter: Characters.Princess,
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
@@ -237,17 +231,187 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.HeroIntroduction]: {
 		leftCharacter: {
-			sprite: Sprites.HeroCharming,
+			sprite: Sprites.HeroBig,
 			color: Colors.Hero,
 			voice: Voices.Hero,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		messages: [],
+		rightCharacter: Characters.Dragon,
+		messages: [
+			{
+				character: RIGHT,
+				text: 'What in heavens is all the racket about.',
+			},
+			{
+				character: LEFT,
+				text: 'Any honorable knight must introduce himself.',
+			},
+			{
+				character: LEFT,
+				text: 'Alas, you can only hear me from this castle wall.',
+			},
+			{
+				character: RIGHT,
+				text: "And why shouldn't I just leave you to tilt at windmills?",
+			},
+			{
+				character: LEFT,
+				text: "Like protecting castles, sparring, and pillaging our enemies, whisking away the princess is one of a knight's duties!",
+			},
+			{
+				character: RIGHT,
+				text: "Doesn't sound too different from a dragon's life if you ask me.",
+			},
+			{
+				character: LEFT,
+				text: 'I detest the comparison, scaly-snout! Be warned, that should you idle too long, I will abduct the fair maiden!',
+			},
+			{
+				character: LEFT,
+				text: 'And such a loss would surely be a lethal blow to the pride of a dragon!',
+			},
+			{
+				character: RIGHT,
+				text: 'Do you even know her?',
+			},
+			{
+				character: LEFT,
+				text: "Most certainly not! But laying claim to damsels in distress is one of a knight's sacred provisions.",
+			},
+			{
+				character: RIGHT,
+				text: 'That is actually vile. I should incinerate you on the spot.',
+			},
+			{
+				character: LEFT,
+				text: 'It true that you may do so, dragon. But why not engage in a battle of wits?',
+			},
+			{
+				character: LEFT,
+				text: 'My brethren will arrive regularly to challenge you. Some may be cowardly, some brave, some greedy, and some noble.',
+			},
+			{
+				character: RIGHT,
+				text: 'You can try to scare the weakhearted, bribe the shallow-hearted with your gold, or even seduce those tempted by your draconic nature!',
+			},
+			{
+				character: RIGHT,
+				text: 'But beware, misjudge their weakness, and they shall use the opportunity to strike!',
+			},
+			{
+				character: RIGHT,
+				text: "Well then, let's try this.",
+				choice: [
+					{
+						text: 'Intimidate',
+						color: Colors.Purple,
+						messages: [
+							{
+								character: RIGHT,
+								text: "I'll cook you in your tin can.",
+							},
+							{
+								character: LEFT,
+								text: 'How clearly frightening! I wish to avoid a demise by baking, and shall take my leave!',
+							},
+							{
+								character: RIGHT,
+								text: 'Good riddance.',
+								flags: {
+									talkFailure: false,
+									fried: false,
+									paidBribe: false,
+									tutorial: true,
+								},
+							},
+						],
+					},
+					{
+						text: 'Bribe',
+						color: Colors.Gold,
+						messages: [
+							{
+								character: RIGHT,
+								text: 'Take my money and leave!',
+							},
+							{
+								character: LEFT,
+								text: "Gladly! A serpent's gold is as good as any!",
+							},
+							{
+								character: RIGHT,
+								text: 'Augh, what is this vile feeling.',
+							},
+							{
+								character: LEFT,
+								text: 'Your pride stings at the sight of tiny men whisking away your hoard! Feel the burn!',
+							},
+							{
+								character: RIGHT,
+								text: 'I am already cringing.',
+								flags: {
+									talkFailure: false,
+									fried: false,
+									paidBribe: true,
+									tutorial: true,
+								},
+							},
+						],
+					},
+					{
+						text: 'Flirt',
+						color: Colors.Pink,
+						messages: [
+							{
+								character: RIGHT,
+								text: "Hey there, uh, good-lookin'. I like your... big sword?",
+							},
+							{
+								character: LEFT,
+								text: 'I hold not a shred of attraction to reptiles like you!',
+							},
+							{
+								character: LEFT,
+								text: 'Neither your broad tail, nor your luscious mane, or even your strong, princess-grabbing paws! I shall quit this vile place!',
+							},
+							{
+								character: RIGHT,
+								text: 'Ugh, I need a shower.',
+								flags: {
+									talkFailure: false,
+									fried: false,
+									paidBribe: false,
+									tutorial: true,
+								},
+							},
+						],
+					},
+					{
+						text: 'Kill',
+						color: Colors.Red,
+						messages: [
+							{
+								character: RIGHT,
+								text: 'Sometimes simple is best. Time to roast.',
+							},
+							{
+								character: LEFT,
+								text: 'I appear to have burst into flames. You may win this battle, wyrm, but I will haunt these walls!',
+							},
+							{
+								character: RIGHT,
+								text: 'I certainly hope your ghost is quieter.',
+								flags: {
+									talkFailure: false,
+									fried: true,
+									paidBribe: false,
+									tutorial: true,
+								},
+							},
+						],
+					},
+				],
+			},
+		],
 	},
 	[DialogueKey.HeroBrave]: {
 		leftCharacter: {
@@ -255,12 +419,7 @@ const conversations: { [key in any]: Conversation } = {
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		rightCharacter: Characters.Dragon,
 		messages: [],
 	},
 	[DialogueKey.ShopIntroduction]: {
@@ -353,12 +512,7 @@ const conversations: { [key in any]: Conversation } = {
 			color: Colors.RageKnight,
 			voice: Voices.Hero,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
@@ -465,12 +619,7 @@ const conversations: { [key in any]: Conversation } = {
 			color: Colors.Hero,
 			voice: Voices.Hero,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
@@ -582,12 +731,7 @@ const conversations: { [key in any]: Conversation } = {
 			color: Colors.CowardKnight,
 			voice: Voices.Hero,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
@@ -716,12 +860,7 @@ const conversations: { [key in any]: Conversation } = {
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
@@ -871,12 +1010,7 @@ const conversations: { [key in any]: Conversation } = {
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
@@ -891,12 +1025,7 @@ const conversations: { [key in any]: Conversation } = {
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
@@ -911,12 +1040,7 @@ const conversations: { [key in any]: Conversation } = {
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
@@ -931,17 +1055,258 @@ const conversations: { [key in any]: Conversation } = {
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
-		rightCharacter: {
-			sprite: Sprites.Dragon,
-			spriteTalk: Sprites.DragonTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
+		rightCharacter: Characters.Dragon,
 		messages: [
 			{
 				character: LEFT,
 				text: 'Hearken to my call dragon!',
 				color: Colors.Valentine,
+			},
+		],
+	},
+	[DialogueKey.HeroShout]: {
+		leftCharacter: {
+			sprite: Sprites.HeroBig,
+			color: Colors.Valentine,
+			voice: Voices.Hero,
+		},
+		rightCharacter: Characters.Dragon,
+		messages: [
+			{
+				character: LEFT,
+				text: 'Hearken to my call dragon!',
+			},
+		],
+	},
+	[DialogueKey.BurgerInit]: {
+		leftCharacter: {
+			sprite: Sprites.DragonShopkeeper,
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: {
+			sprite: Sprites.Shopkeeper,
+			color: Colors.Shopkeeper,
+			voice: Voices.Shopkeeper,
+		},
+		messages: [
+			{
+				character: RIGHT,
+				text: 'Aw I bet you could stuff these down your gullet for days!',
+				choice: [
+					{
+						text: 'Refuse',
+						color: Colors.Red,
+						messages: [
+							{
+								character: LEFT,
+								text: 'Are you calling me fat!?',
+							},
+							{
+								character: RIGHT,
+								text: 'Hey no shame in having an appetite!',
+								flags: {
+									wantToBuy: false,
+								},
+							},
+						],
+					},
+					{
+						text: 'Buy it',
+						color: Colors.Green,
+						messages: [
+							{
+								character: LEFT,
+								text: "It's not for me. I have someone to feed.",
+							},
+							{
+								character: RIGHT,
+								text: "Sure, I hope ''they'' enjoy it.",
+								flags: {
+									wantToBuy: true,
+								},
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+	[DialogueKey.BallInit]: {
+		leftCharacter: {
+			sprite: Sprites.DragonShopkeeper,
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: {
+			sprite: Sprites.Shopkeeper,
+			color: Colors.Shopkeeper,
+			voice: Voices.Shopkeeper,
+		},
+		messages: [
+			{
+				character: RIGHT,
+				text: 'Ooh you wanna play with a ball?',
+			},
+			{
+				character: LEFT,
+				text: "It's not for me! It's for a princess!",
+			},
+			{
+				character: RIGHT,
+				text: "Oh you can't just have one! You need two of these to play with!",
+				choice: [
+					{
+						text: 'Refuse',
+						color: Colors.Red,
+						messages: [
+							{
+								character: LEFT,
+								text: "On second thought, I don't need it.",
+								flags: {
+									wantToBuy: false,
+								},
+							},
+						],
+					},
+					{
+						text: 'Buy it',
+						color: Colors.Green,
+						messages: [
+							{
+								character: LEFT,
+								text: 'One will be enough for now.',
+							},
+							{
+								character: RIGHT,
+								text: 'Enjoy your purchase!',
+								flags: {
+									wantToBuy: true,
+								},
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+	[DialogueKey.BookInit]: {
+		leftCharacter: {
+			sprite: Sprites.DragonShopkeeper,
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: {
+			sprite: Sprites.Shopkeeper,
+			color: Colors.Shopkeeper,
+			voice: Voices.Shopkeeper,
+		},
+		messages: [
+			{
+				character: RIGHT,
+				text: "A riveting book! It's all the rage!",
+			},
+			{
+				character: LEFT,
+				text: "I've never tried a book before, do I cook it myself?",
+			},
+			{
+				character: RIGHT,
+				text: "This isn't Atlanta Nights, it's for reading, not eating!",
+				choice: [
+					{
+						text: 'Refuse',
+						color: Colors.Red,
+						messages: [
+							{
+								character: LEFT,
+								text: "Add some pictures and I'll reconsider.",
+							},
+							{
+								character: RIGHT,
+								text: "Yeah, pay me in exposure while you're at it!",
+								flags: {
+									wantToBuy: false,
+								},
+							},
+						],
+					},
+					{
+						text: 'Buy it',
+						color: Colors.Green,
+						messages: [
+							{
+								character: LEFT,
+								text: 'Sure, whatever these scribbles mean.',
+							},
+							{
+								character: RIGHT,
+								text: "You can't read?",
+							},
+							{
+								character: LEFT,
+								text: "I'm getting around to it.",
+								flags: {
+									wantToBuy: true,
+								},
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+	[DialogueKey.CakeInit]: {
+		leftCharacter: {
+			sprite: Sprites.DragonShopkeeper,
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: {
+			sprite: Sprites.Shopkeeper,
+			color: Colors.Shopkeeper,
+			voice: Voices.Shopkeeper,
+		},
+		messages: [
+			{
+				character: RIGHT,
+				text: 'Proof that my foods class was worth something!',
+				choice: [
+					{
+						text: 'Refuse',
+						color: Colors.Red,
+						messages: [
+							{
+								character: LEFT,
+								text: 'I hate cake, actually, I prefer pie.',
+							},
+							{
+								character: RIGHT,
+								text: 'Wow, a dragon spitting a cold take.',
+								flags: {
+									wantToBuy: false,
+								},
+							},
+						],
+					},
+					{
+						text: 'Buy it',
+						color: Colors.Green,
+						messages: [
+							{
+								character: LEFT,
+								text: 'At least a princess might enjoy cake.',
+							},
+							{
+								character: RIGHT,
+								text: "She expects catering, but I bet she'll love this!",
+								flags: {
+									wantToBuy: true,
+								},
+							},
+						],
+					},
+				],
 			},
 		],
 	},
