@@ -81,7 +81,7 @@ export class GameScene extends BaseScene {
 		this.debugText = this.createText(0, 0, 30, 'white');
 		this.debugText.setStroke('black', 10);
 		this.debugText.setLineSpacing(-10);
-		this.debugText.setVisible(true);
+		this.debugText.setVisible(false);
 
 		this.princessRoom.setRoomButton(this.uiOverlay.princessButton);
 		this.heroRoom.setRoomButton(this.uiOverlay.heroButton);
