@@ -27,7 +27,12 @@ const images: Asset[] = [
 	image('background/town_rubble_2', 'town_rubble_2'),
 	image('background/town_rubble_3', 'town_rubble_3'),
 	image('background/buttons_background', 'buttons_background'),
-	image('placeholder/gameover', 'game_over'),
+	
+	//gameover
+	image('background/game-over', 'game_over'),
+	image('background/game-over-dragon', 'game_over_dragon'),
+	image('background/game-over-text', 'game_over_text'),
+	image('background/game-over-notext', 'game_over_bg'),
 
 	// UI
 	image('ui/outside', 'button_outside'),
