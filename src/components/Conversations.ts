@@ -37,6 +37,30 @@ enum Colors {
 	Valentine = '#d43d7c',
 }
 
+enum Sprites {
+	Dragon = 'dialogue_dragon',
+	DragonAngry = 'dialogue_dragon_angry',
+	DragonTalk = 'dialogue_dragon_talk',
+	DragonBlush = 'dialogue_dragon_blush',
+	DragonShopkeeper = 'dialogue_dragon_right',
+	DragonShopkeeperAngry = 'dialogue_dragon_angry_right',
+	DragonShopkeeperTalk = 'dialogue_dragon_talk_right',
+	DragonShopkeeperBlush = 'dialogue_dragon_blush_right',
+
+	Princess = 'dialogue_princess',
+	PrincessPout = 'dialogue_princess_pout',
+
+	Shopkeeper = 'dialogue_shopkeeper',
+	ShopkeeperTalk = 'dialogue_shopkeeper_talk',
+
+	HeroCharming = 'hero_charming',
+	HeroNormal = 'hero_normal',
+	HeroSkater = 'hero_skater',
+	HeroCharmingBurnt = 'hero_charming_burnt',
+	HeroNormalBurnt = 'hero_normal_burnt',
+	HeroSkaterBurnt = 'hero_skater_burnt',
+}
+
 enum Voices {
 	Dragon,
 	Princess,
@@ -95,8 +119,8 @@ export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 };
 
 export interface Character {
-	sprite: string;
-	spriteTalk?: string;
+	sprite: Sprites;
+	spriteTalk?: Sprites;
 	color: Colors;
 	voice: Voices;
 }
@@ -104,8 +128,8 @@ export interface Character {
 export interface Message {
 	character: number;
 	text: string;
-	leftSprite?: string;
-	rightSprite?: string;
+	leftSprite?: Sprites;
+	rightSprite?: Sprites;
 	color?: Colors;
 	voice?: Voices;
 	choice?: Choice[];
@@ -128,13 +152,13 @@ export interface Conversation {
 const conversations: { [key in any]: Conversation } = {
 	[DialogueKey.PrincessIntroduction]: {
 		leftCharacter: {
-			sprite: 'dialogue_princess',
+			sprite: Sprites.Princess,
 			color: Colors.Princess,
 			voice: Voices.Princess,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -145,30 +169,30 @@ const conversations: { [key in any]: Conversation } = {
 			},
 			{
 				character: RIGHT,
-				rightSprite: 'dialogue_dragon_angry',
+				rightSprite: Sprites.DragonAngry,
 				text: 'What the fuck...',
 			},
 			{
 				character: LEFT,
-				rightSprite: 'dialogue_dragon',
+				rightSprite: Sprites.Dragon,
 				text: "uwu please capture me I've been a NAUGHTY girl! yeah that's right this is a pretty long message.",
 			},
 			{
 				character: RIGHT,
-				rightSprite: 'dialogue_dragon_talk',
+				rightSprite: Sprites.DragonTalk,
 				text: 'Ok fine come on in gurrrl',
 			},
 		],
 	},
 	[DialogueKey.PrincessWantItem]: {
 		leftCharacter: {
-			sprite: 'dialogue_princess',
+			sprite: Sprites.Princess,
 			color: Colors.Princess,
 			voice: Voices.Princess,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -176,69 +200,50 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.PrincessCaughtEscaping]: {
 		leftCharacter: {
-			sprite: 'dialogue_princess',
+			sprite: Sprites.Princess,
 			color: Colors.Princess,
 			voice: Voices.Princess,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonAngry,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
 		messages: [
 			{
 				character: LEFT,
-				text: 'Haha whoopsie! You caught me.',
+				text: 'Whoopsie!',
 			},
 			{
 				character: LEFT,
-				text: 'I was just... stretching my calves on the windowsill.',
-				choice: [
-					{
-						text: 'Scold',
-						color: Colors.Red,
-						messages: [
-							{
-								character: RIGHT,
-								text: "I'm very disappointed in you...",
-							},
-							{
-								character: LEFT,
-								text: '...',
-								flags: {
-									killsHerself: true,
-								},
-							},
-						],
-					},
-					{
-						text: 'Forgive',
-						color: Colors.Green,
-						messages: [
-							{
-								character: RIGHT,
-								text: "It's ok. Now don't do it again.",
-							},
-							{
-								character: LEFT,
-								text: 'I promiiise~',
-							},
-						],
-					},
-				],
+				text: 'I was just... stretching my calves.',
+			},
+			{
+				character: RIGHT,
+				text: 'What are you doing?!',
+			},
+			{
+				character: LEFT,
+				leftSprite: Sprites.PrincessPout,
+				text: "I'm just so bored! I thought this would be more exciting.",
+			},
+			{
+				character: RIGHT,
+				rightSprite: Sprites.DragonTalk,
+				text: 'What are you doing?!',
 			},
 		],
 	},
 	[DialogueKey.HeroIntroduction]: {
 		leftCharacter: {
-			sprite: 'hero_charming',
+			sprite: Sprites.HeroCharming,
 			color: Colors.Hero,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -246,13 +251,13 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.HeroBrave]: {
 		leftCharacter: {
-			sprite: 'hero_charming',
+			sprite: Sprites.HeroCharming,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -260,14 +265,14 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.ShopIntroduction]: {
 		leftCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.DragonShopkeeper,
+			spriteTalk: Sprites.DragonShopkeeperTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_shopkeeper',
-			spriteTalk: 'dialogue_shopkeeper_talk',
+			sprite: Sprites.Shopkeeper,
+			spriteTalk: Sprites.ShopkeeperTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -275,14 +280,14 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.ShopPurchase]: {
 		leftCharacter: {
-			sprite: 'dialogue_dragon_right',
-			spriteTalk: 'dialogue_dragon_talk_right',
+			sprite: Sprites.DragonShopkeeper,
+			spriteTalk: Sprites.DragonShopkeeperTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_shopkeeper',
-			spriteTalk: 'dialogue_shopkeeper_talk',
+			sprite: Sprites.Shopkeeper,
+			spriteTalk: Sprites.ShopkeeperTalk,
 			color: Colors.Shopkeeper,
 			voice: Voices.Shopkeeper,
 		},
@@ -344,13 +349,13 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.KnightText]: {
 		leftCharacter: {
-			sprite: 'hero_charming',
+			sprite: Sprites.HeroCharming,
 			color: Colors.RageKnight,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -436,13 +441,13 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
-								rightSprite: 'dialogue_dragon_angry',
+								rightSprite: Sprites.DragonAngry,
 								text: 'Fry, you buffoon.',
 							},
 							{
 								character: LEFT,
-								leftSprite: 'hero_charming_burnt',
-								rightSprite: 'dialogue_dragon_angry',
+								leftSprite: Sprites.HeroCharmingBurnt,
+								rightSprite: Sprites.DragonAngry,
 								text: 'My flesh- it burns, it burns!',
 								flags: {
 									fried: true,
@@ -456,13 +461,13 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.sk8rText]: {
 		leftCharacter: {
-			sprite: 'hero_skater',
+			sprite: Sprites.HeroSkater,
 			color: Colors.Hero,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -548,18 +553,18 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
-								rightSprite: 'dialogue_dragon_angry',
+								rightSprite: Sprites.DragonAngry,
 								text: 'Burn, pest.',
 							},
 							{
 								character: LEFT,
-								leftSprite: 'hero_skater_burnt',
-								rightSprite: 'dialogue_dragon_angry',
+								leftSprite: Sprites.HeroSkaterBurnt,
+								rightSprite: Sprites.DragonAngry,
 								text: 'Aaaaugh! N-not cool...',
 							},
 							{
 								character: RIGHT,
-								leftSprite: 'hero_skater_burnt',
+								leftSprite: Sprites.HeroSkaterBurnt,
 								text: 'I hate children.',
 								flags: {
 									fried: true,
@@ -573,13 +578,13 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.SquireText]: {
 		leftCharacter: {
-			sprite: 'hero_normal',
+			sprite: Sprites.HeroNormal,
 			color: Colors.CowardKnight,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -682,18 +687,18 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
-								rightSprite: 'dialogue_dragon_angry',
+								rightSprite: Sprites.DragonAngry,
 								text: "I decided I'm in the mood for some barbecue.",
 							},
 							{
 								character: LEFT,
-								leftSprite: 'hero_normal_burnt',
-								rightSprite: 'dialogue_dragon_angry',
+								leftSprite: Sprites.HeroNormalBurnt,
+								rightSprite: Sprites.DragonAngry,
 								text: 'W-wait. N-no, please- aaah! W-water, somebody- AAAAUUUGH!',
 							},
 							{
 								character: RIGHT,
-								leftSprite: 'hero_normal_burnt',
+								leftSprite: Sprites.HeroNormalBurnt,
 								text: 'Almost feel bad for him.',
 								flags: {
 									fried: true,
@@ -707,13 +712,13 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.ValentineText]: {
 		leftCharacter: {
-			sprite: 'hero_charming',
+			sprite: Sprites.HeroCharming,
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -834,20 +839,20 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
-								rightSprite: 'dialogue_dragon_angry',
+								rightSprite: Sprites.DragonAngry,
 								text: 'Time for some real fire, Romeo.',
 								color: Colors.Dragon,
 							},
 							{
 								character: LEFT,
-								leftSprite: 'hero_charming_burnt',
-								rightSprite: 'dialogue_dragon_angry',
+								leftSprite: Sprites.HeroCharmingBurnt,
+								rightSprite: Sprites.DragonAngry,
 								text: 'Aaaah! The flames of ecstasy~!',
 								color: Colors.Valentine,
 							},
 							{
 								character: RIGHT,
-								leftSprite: 'hero_charming_burnt',
+								leftSprite: Sprites.HeroCharmingBurnt,
 								text: 'Ew.',
 								color: Colors.Dragon,
 								flags: {
@@ -862,13 +867,13 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.KnightIntro]: {
 		leftCharacter: {
-			sprite: 'hero_charming',
+			sprite: Sprites.HeroCharming,
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -882,13 +887,13 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.sk8rIntro]: {
 		leftCharacter: {
-			sprite: 'hero_skater',
+			sprite: Sprites.HeroSkater,
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -902,13 +907,13 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.SquireIntro]: {
 		leftCharacter: {
-			sprite: 'hero_normal',
+			sprite: Sprites.HeroNormal,
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -922,13 +927,13 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.ValentineIntro]: {
 		leftCharacter: {
-			sprite: 'hero_charming',
+			sprite: Sprites.HeroCharming,
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon',
-			spriteTalk: 'dialogue_dragon_talk',
+			sprite: Sprites.Dragon,
+			spriteTalk: Sprites.DragonTalk,
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
