@@ -155,6 +155,8 @@ const audios: Audio[] = [
 	music('bgm_gameover', 'm_gameover'),
 
 	// Sounds
+	sound('ui/title_begin', 's_begin', 0.5),
+
 	sound('tree/rustle', 't_rustle', 0.1),
 	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.1),
 	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
