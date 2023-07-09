@@ -10,6 +10,12 @@ export enum DialogueKey {
 	KnightText,
 	sk8rText,
 	SquireText,
+	ValentineText,
+
+	KnightIntro,
+	sk8rIntro,
+	SquireIntro,
+	ValentineIntro,
 }
 
 enum Colors {
@@ -236,8 +242,8 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 		],
 	},
 	[DialogueKey.KnightText]: {
-		spriteLeft: 'dialogue_dragon_right',
-		spriteRight: 'dialogue_shopkeeper',
+		spriteLeft: 'hero_sleazy',
+		spriteRight: 'dialogue_dragon',
 		messages: [
 			{
 				left: true,
@@ -274,7 +280,7 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								text: 'Such a cowardly bluff befits you. Bleed!',
 								color: Colors.RageKnight,
 								flags: {
-									wantToBuy: false,
+									talkFailure: true,
 								},
 							},
 						],
@@ -292,14 +298,14 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								left: true,
 								text: 'More than your disgusting hoard is worth to me. Die!',
 								color: Colors.RageKnight,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 							{
 								right: true,
 								text: 'Augh!',
 								color: Colors.Dragon,
+								flags: {
+									talkFailure: true,
+								},
 							},
 						],
 					},
@@ -316,14 +322,14 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								left: true,
 								text: 'Your lust disgusts me. This one is personal!',
 								color: Colors.RageKnight,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 							{
 								right: true,
 								text: 'Hrrrk!',
 								color: Colors.Dragon,
+								flags: {
+									talkFailure: true,
+								},
 							},
 						],
 					},
@@ -341,7 +347,7 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								text: 'My flesh- it burns, it burns!',
 								color: Colors.RageKnight,
 								flags: {
-									wantToBuy: true,
+									fried: true,
 								},
 							},
 						],
@@ -351,8 +357,8 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 		],
 	},
 	[DialogueKey.sk8rText]: {
-		spriteLeft: 'dialogue_dragon_right',
-		spriteRight: 'dialogue_shopkeeper',
+		spriteLeft: 'hero_skater',
+		spriteRight: 'dialogue_dragon',
 		messages: [
 			{
 				left: true,
@@ -386,10 +392,15 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 							},
 							{
 								left: true,
-								text: "No dice my dude. I've got too much drip, you'd better dip.",
+								text: "No dice my dude. I've got too much drip, you'd better dip. Eat this!",
 								color: Colors.sk8r,
+							},
+							{
+								right: true,
+								text: 'Watch it, brat- huuurgh!',
+								color: Colors.Dragon,
 								flags: {
-									wantToBuy: false,
+									talkFailure: true,
 								},
 							},
 						],
@@ -407,14 +418,14 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								left: true,
 								text: 'Whoa, my mom never gives me allowance. You rock dude.',
 								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 							{
 								right: true,
-								text: 'Augh!',
+								text: "Don't spend it all in one place.",
 								color: Colors.Dragon,
+								flags: {
+									payBribe: true,
+								},
 							},
 						],
 					},
@@ -432,7 +443,7 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								text: 'Stinky.',
 								color: Colors.sk8r,
 								flags: {
-									wantToBuy: true,
+									talkFailure: true,
 								},
 							},
 						],
@@ -450,14 +461,14 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								left: true,
 								text: 'Aaaaugh! N-not cool...',
 								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
 							},
 							{
 								right: true,
 								text: 'I hate children.',
 								color: Colors.Dragon,
+								flags: {
+									fried: true,
+								},
 							},
 						],
 					},
@@ -466,13 +477,13 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 		],
 	},
 	[DialogueKey.SquireText]: {
-		spriteLeft: 'dialogue_dragon_right',
-		spriteRight: 'dialogue_shopkeeper',
+		spriteLeft: 'hero_normal',
+		spriteRight: 'dialogue_dragon',
 		messages: [
 			{
 				left: true,
-				text: 'O-on my honor. I will rescue the princess for my lord!',
-				color: Colors.sk8r,
+				text: 'B-by my name. I will rescue the princess for my lord!',
+				color: Colors.CowardKnight,
 			},
 			{
 				right: true,
@@ -481,8 +492,13 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 			},
 			{
 				left: true,
-				text: "I-I musn't run away!",
-				color: Colors.sk8r,
+				text: "I-I musn't run away! I will be stout as a great oak!",
+				color: Colors.CowardKnight,
+			},
+			{
+				right: true,
+				text: 'Ha, well, you look a little scrawny to be rescuing anyone.',
+				color: Colors.Dragon,
 			},
 			{
 				right: true,
@@ -496,16 +512,23 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						messages: [
 							{
 								right: true,
-								text: 'Better roll on out of here before I make your family a new jar of ashes.',
+								text: "What's that? Maybe you'll speak up a bit when you start burning.",
 								color: Colors.Dragon,
 							},
 							{
 								left: true,
-								text: "No dice my dude. I've got too much drip, you'd better dip.",
-								color: Colors.sk8r,
-								flags: {
-									wantToBuy: false,
-								},
+								text: "I'll.. I'll fight to protect my princess! Whatever it takes!",
+								color: Colors.CowardKnight,
+							},
+							{
+								right: true,
+								text: 'YOUR princess? I could turn you to cinders with one puff. Should have brought a bigger sword, hmph!',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: "T-that's what I'll do! I'll bring my biggest sword! Then you'll see!",
+								color: Colors.CowardKnight,
 							},
 						],
 					},
@@ -515,39 +538,54 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						messages: [
 							{
 								right: true,
-								text: 'Well then, someone of your... flawless moral standards would rather have... a few luxuries.',
+								text: "How about you scurry home, pipsqueak? I'll even toss you a bit of coin for the road.",
 								color: Colors.Dragon,
 							},
 							{
 								left: true,
-								text: 'Whoa, my mom never gives me allowance. You rock dude.',
-								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
+								text: "It's not j-just my body that's trained. M-my honor too! Take that!",
+								color: Colors.CowardKnight,
 							},
 							{
 								right: true,
-								text: 'Augh!',
+								text: 'Ouuuaagh!',
 								color: Colors.Dragon,
+								flags: {
+									talkFailure: true,
+								},
 							},
 						],
 					},
 					{
-						text: 'Insult',
+						text: 'Flirt',
 						color: Colors.Pink,
 						messages: [
 							{
 								right: true,
-								text: 'Maidenless.',
+								text: "How's Sir Shakes-a-lot say to putting this big scary dragon business aside? I'll show you how to really handle a sword.",
 								color: Colors.Dragon,
 							},
 							{
 								left: true,
-								text: 'Stinky.',
-								color: Colors.sk8r,
+								text: "T-there's nothing I could learn from you. You can't even hold a sword!",
+								color: Colors.CowardKnight,
+							},
+							{
+								right: true,
+								text: "I didn't think anyone could be that thick.",
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'I said, give back the princess. Hiyaah!',
+								color: Colors.CowardKnight,
+							},
+							{
+								right: true,
+								text: 'Gyuh! What an embarassing mistake...',
+								color: Colors.Dragon,
 								flags: {
-									wantToBuy: true,
+									talkFailure: true,
 								},
 							},
 						],
@@ -558,25 +596,216 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 						messages: [
 							{
 								right: true,
-								text: 'Burn, pest.',
+								text: "I decided I'm in the mood for some barbecue.",
 								color: Colors.Dragon,
 							},
 							{
 								left: true,
-								text: 'Aaaaugh! N-not cool...',
-								color: Colors.sk8r,
-								flags: {
-									wantToBuy: true,
-								},
+								text: 'W-wait. N-no, please- aaah! W-water, somebody- AAAAUUUGH!',
+								color: Colors.CowardKnight,
 							},
 							{
 								right: true,
-								text: 'I hate children.',
+								text: 'Almost feel bad for him.',
 								color: Colors.Dragon,
+								flags: {
+									fried: true,
+								},
 							},
 						],
 					},
 				],
+			},
+		],
+	},
+	[DialogueKey.ValentineText]: {
+		spriteLeft: 'hero_charming',
+		spriteRight: 'dialogue_dragon',
+		messages: [
+			{
+				left: true,
+				text: 'The mighty power of love conquers all evil! Bestow to me my princess, wicked dragon!',
+				color: Colors.Valentine,
+			},
+			{
+				right: true,
+				text: "Well, someone's spent a bit too long in the alehouse?",
+				color: Colors.Dragon,
+			},
+			{
+				left: true,
+				text: 'Jest not, wyrm, the swelling passion of my soul has vanquished countless of your kind!',
+				color: Colors.Valentine,
+			},
+			{
+				right: true,
+				text: '...',
+				color: Colors.Shopkeeper,
+				voice: Voices.Shopkeeper,
+				choice: [
+					{
+						text: 'Intimidate',
+						color: Colors.Purple,
+						messages: [
+							{
+								right: true,
+								text: "I wonder if you'll be just as loud when you're set ablaze.",
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'The foundation of love is unshakable! I will take your punishment and return with rapturous fury!',
+								color: Colors.Valentine,
+							},
+							{
+								left: true,
+								text: 'Behold, my heart-crushing grapple! For you, my princess!',
+								color: Colors.Valentine,
+							},
+							{
+								left: true,
+								text: 'Huh? Uuuuuuorgh!',
+								color: Colors.Dragon,
+								flags: {
+									talkFailure: true,
+								},
+							},
+						],
+					},
+					{
+						text: 'Bribe',
+						color: Colors.Gold,
+						messages: [
+							{
+								right: true,
+								text: "You look like you'll have no trouble finding a different princess. How about some gold for the inevitable honeymoon instead?",
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'My passion is richer than any jewel, and I have no need of your coffers.',
+								color: Colors.Valentine,
+							},
+							{
+								left: true,
+								text: 'My passion is richer than any jewel, and I have no need of your coffers. Bring to me my princess, my future bride!',
+								color: Colors.Valentine,
+							},
+							{
+								right: true,
+								text: 'You really are a clown.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Your poisonous words are harmless to my admantine heart, and my steel point shall penetrate your dirty scales! En garde!',
+								color: Colors.Valentine,
+							},
+							{
+								right: true,
+								text: 'Auuugh! Uuurhh...',
+								color: Colors.Dragon,
+								flags: {
+									talkFailure: true,
+								},
+							},
+						],
+					},
+					{
+						text: 'Flirt',
+						color: Colors.Pink,
+						messages: [
+							{
+								right: true,
+								text: "A warrior of love, you say? Well, then, why don't you take this big, bad dragon's heart behind the castle this evening?",
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'A battle of romance, you propose? Well, those lustrous scales and broad wings are quite impressive. I shall not turn this challenge down!',
+								color: Colors.Valentine,
+							},
+							{
+								right: true,
+								text: 'Do try to keep pace, lover boy.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Prepare to be utterly ravished, on my honor as a knight!',
+								color: Colors.Valentine,
+							},
+						],
+					},
+					{
+						text: 'Kill',
+						color: Colors.Red,
+						messages: [
+							{
+								right: true,
+								text: 'Time for some real fire, Romeo.',
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'Aaaah! The flames of ecstasy~!',
+								color: Colors.Valentine,
+							},
+							{
+								right: true,
+								text: 'Ew.',
+								color: Colors.Dragon,
+								flags: {
+									fried: true,
+								},
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+	[DialogueKey.KnightIntro]: {
+		spriteLeft: 'hero_sleazy',
+		spriteRight: 'dialogue_dragon',
+		messages: [
+			{
+				left: true,
+				text: 'Crawl out of your den, dragon.',
+				color: Colors.RageKnight,
+			},
+		],
+	},
+	[DialogueKey.sk8rIntro]: {
+		spriteLeft: 'hero_skater',
+		spriteRight: 'dialogue_dragon',
+		messages: [
+			{
+				left: true,
+				text: 'Raaadical. Yo, ya home lizard?',
+				color: Colors.sk8r,
+			},
+		],
+	},
+	[DialogueKey.SquireIntro]: {
+		spriteLeft: 'hero_normal',
+		spriteRight: 'dialogue_dragon',
+		messages: [
+			{
+				left: true,
+				text: 'I-is anyone here?',
+				color: Colors.CowardKnight,
+			},
+		],
+	},
+	[DialogueKey.ValentineIntro]: {
+		spriteLeft: 'hero_charming',
+		spriteRight: 'dialogue_dragon',
+		messages: [
+			{
+				left: true,
+				text: 'Hearken to my call dragon!',
+				color: Colors.Valentine,
 			},
 		],
 	},

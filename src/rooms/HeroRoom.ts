@@ -4,6 +4,7 @@ import { Button } from '@/components/Button';
 import { Notification } from '@/components/RoomButton';
 import { Hero } from '@/components/Hero';
 import HeroState from '@/components/HeroState';
+import { DialogueKey } from '@/components/Conversations';
 
 enum queueState {
 	IDLE = 0,
@@ -31,6 +32,8 @@ export class HeroRoom extends Room {
 	private cooldown: number;
 	private clock: number;
 	private pausefx: boolean;
+	private fryDifficulty: boolean;
+	private bribeFlag: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -64,6 +67,8 @@ export class HeroRoom extends Room {
 		this.cooldown = 3000;
 		this.clock = 9999999999999999;
 		this.pausefx = true;
+		this.fryDifficulty = false;
+		this.bribeFlag = false;
 	}
 
 	update(time: number, delta: number) {
@@ -164,6 +169,7 @@ export class HeroRoom extends Room {
 				if (this.visible == true) {
 					this.pausefx = true;
 				}
+				this.scene.startDialogue(this.heroList[0].intro, (flags) => {});
 				return;
 			case queueState.ACTIVE:
 				if (this.heroList[0].myState == HeroState.SPEAKING) {
@@ -211,8 +217,37 @@ export class HeroRoom extends Room {
 	}
 
 	onHeroClick() {
+		this.scene.startDialogue(this.heroList[0].dialogue, (flags) => {
+			if (flags.talkFailure) {
+				this.scene.endGame();
+				return;
+			} else if (flags.fried) {
+				this.fryDifficulty = true;
+				this.scene.sound.play('FRIED_SOUND', { volume: 0.25 });
+				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
+				//this.scene.difficulty += this.heroList[0].reputation;
+			} else if (flags.payBribe) {
+				this.bribeFlag = true;
+				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
+			} else {
+				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
+			}
+		});
+		this.advanceHeroQueue();
+		//this.currentHero = null;
+	}
+
+	advanceHeroQueue() {
 		this.heroList[0].myState = HeroState.CLEARED;
 		this.heroButton.setVisible(false);
+		if (this.fryDifficulty) {
+			this.scene.difficulty += this.heroList[0].reputation;
+			this.fryDifficulty = false;
+		}
+		if (this.bribeFlag) {
+			this.scene.addEnergy(-1 * (this.heroList[0].bribeAmount / 10));
+			this.bribeFlag = false;
+		}
 		this.heroList.shift();
 		this.roomButton.setNotification(Notification.Calm);
 		if (this.heroList.length > 0) {
@@ -227,10 +262,7 @@ export class HeroRoom extends Room {
 			this.pausefx = true;
 			this.queueFlag = queueState.IDLE;
 		}
-		this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
-		this.scene.difficulty += this.heroList[0].reputation;
 		this.cooldown = 15000 + 2000 / (1 + this.scene.difficulty);
-		//this.currentHero = null;
 	}
 
 	/* Debug */
