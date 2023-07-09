@@ -41,7 +41,7 @@ export class TreasureRoom extends Room {
 			this.spawnTimer = this.scene.time.addEvent({
 				delay: 1000,
 				loop: true,
-				callback: () => this.visible && this.particles.push([1220, 580, 'particle_sleep', Phaser.Math.RND.between(0, 3)], 3.5, this.particles.DEAFULT_EFFECTS),
+				callback: () => this.visible && !this.scene.uiOverlay.blockButtons && this.particles.push([1220, 580, 'particle_sleep', Phaser.Math.RND.between(0, 3)], 3.5, this.particles.DEAFULT_EFFECTS),
 			});
 		}
 	}

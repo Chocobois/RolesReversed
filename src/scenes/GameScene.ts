@@ -29,7 +29,7 @@ export class GameScene extends BaseScene {
 	private overworldRoom: OverworldRoom;
 	private gameOverRoom: GameOverRoom;
 
-	private uiOverlay: UIOverlay;
+	public uiOverlay: UIOverlay;
 	public dialogueOverlay: DialogueOverlay;
 	private debugText: Phaser.GameObjects.Text;
 
@@ -39,6 +39,7 @@ export class GameScene extends BaseScene {
 	public musicHighEnergy: Music;
 	public musicDrumLoop: Music;
 	public musicDanger: Music;
+	public musicCritical: Music;
 	public musicStrings: Music;
 	public musicPiano: Music;
 	public musicGuitar: Music;
@@ -96,6 +97,7 @@ export class GameScene extends BaseScene {
 		this.musicHighEnergy = new Music(this, 'm_highenergy', { volume: this.musicVolume });
 		this.musicDrumLoop = new Music(this, 'm_drumloop', { volume: this.musicVolume });
 		this.musicDanger = new Music(this, 'm_danger', { volume: this.musicVolume });
+		this.musicCritical = new Music(this, 'm_critical', { volume: this.musicVolume });
 		this.musicStrings = new Music(this, 'm_strings', { volume: this.musicVolume });
 		this.musicPiano = new Music(this, 'm_piano', { volume: this.musicVolume });
 		this.musicGuitar = new Music(this, 'm_guitar', { volume: this.musicVolume });
@@ -109,6 +111,7 @@ export class GameScene extends BaseScene {
 		this.musicHighEnergy.play();
 		this.musicDrumLoop.play();
 		this.musicDanger.play();
+		this.musicCritical.play();
 		this.musicStrings.play();
 		this.musicPiano.play();
 		this.musicGuitar.play();
@@ -159,6 +162,10 @@ export class GameScene extends BaseScene {
 
 		this.musicHighEnergy.setVolume(isAlive && !isEepy && this.energy > 70 ? this.musicVolume : 0);
 		this.musicDanger.setVolume(isAlive && lowEnergy ? this.musicVolume : 0);
+
+		const darkness = Math.max(-0.15 + 5 / this.energy, 0);
+		this.musicCritical.setVolume(isAlive ? Math.min(darkness, this.musicVolume) : 0);
+		console.log(this.energy, darkness, this.musicVolume);
 	}
 
 	setRoom(state: State) {
@@ -224,6 +231,7 @@ export class GameScene extends BaseScene {
 		this.musicHighEnergy.mute = muted;
 		this.musicDrumLoop.mute = muted;
 		this.musicDanger.mute = muted;
+		this.musicCritical.mute = muted;
 		this.musicStrings.mute = muted;
 		this.musicPiano.mute = muted;
 		this.musicGuitar.mute = muted;
