@@ -35,6 +35,7 @@ export class HeroRoom extends Room {
 	private fryDifficulty: boolean;
 	private bribeFlag: boolean;
 	private pendingDialogue: boolean;
+	private tutorialRead: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -47,10 +48,10 @@ export class HeroRoom extends Room {
 
 		//lumie note: keeping this since it's convenient and i'm very lazy and bad
 		//this only holds the image for the current hero, the actual hero and states gets rotated out in the queue
-		this.heroButton = new Button(scene, 0.2 * scene.W, 0.93 * scene.H);
+		this.heroButton = new Button(scene, 0.13 * scene.W, 0.75 * scene.H);
 		this.add(this.heroButton);
 
-		this.heroImage = scene.add.image(0, 0, 'hero_normal');
+		this.heroImage = scene.add.image(0, 0, 'hero_big');
 		this.heroImage.setOrigin(0.5, 1.0);
 		this.heroButton.add(this.heroImage);
 		this.heroButton.bindInteractive(this.heroImage, false);
@@ -71,6 +72,9 @@ export class HeroRoom extends Room {
 		this.fryDifficulty = false;
 		this.bribeFlag = false;
 		this.pendingDialogue = false;
+		this.tutorialRead = false;
+		this.heroButton.setVisible(false);
+		this.startTutorial();
 	}
 
 	update(time: number, delta: number) {
@@ -80,7 +84,7 @@ export class HeroRoom extends Room {
 		const heroHoldX = 1.0; //+ 0.15 * this.heroButton.holdSmooth;
 		const heroHoldY = 1.0; //- 0.1 * this.heroButton.holdSmooth;
 		const heroSquish = 0.02;
-		if (this.cooldown > 0) {
+		if (this.cooldown > 0 && this.tutorialRead) {
 			if (this.queueFlag == queueState.IDLE || this.queueFlag == queueState.WAITING) {
 				this.cooldown -= delta;
 			}
@@ -107,7 +111,6 @@ export class HeroRoom extends Room {
 				// this.setTimer(3000);
 			}
 		}
-
 		super.setVisible(isShown);
 		if (isShown && this.pendingDialogue) {
 			this.scene.startDialogue(this.heroList[0].intro, (flags) => {});
@@ -128,6 +131,14 @@ export class HeroRoom extends Room {
 		});
 	}
 
+	startTutorial() {
+		this.queueFlag = queueState.CLEARING;
+		this.heroList.push(new Hero(this.scene, 0.13 * this.scene.W, 0.75 * this.scene.H, 'hero_big', 999));
+		this.heroList[0].myState = HeroState.QUEUED;
+		this.setManualTimer(10000);
+		this.pausefx = false;
+	}
+
 	// The player is not looking and the hero may perform an action
 	// lumie note: changing this so that the hero can perform actions so long as you haven't clicked
 	checkHeroSpawn() {
@@ -135,10 +146,10 @@ export class HeroRoom extends Room {
 			return Math.random() < odds;
 		}
 		//if idling state and no cooldown try to push a hero to the queue
-		if (this.cooldown <= 0) {
+		if (this.cooldown <= 0 && this.tutorialRead) {
 			if (this.queueFlag == queueState.IDLE || this.queueFlag == queueState.WAITING) {
 				if (chance(0.8)) {
-					this.heroList.push(new Hero(this.scene, 0.2 * this.scene.W, 0.93 * this.scene.H, 'hero_normal', Math.floor(Math.random() * 4)));
+					this.heroList.push(new Hero(this.scene, 0.15 * this.scene.W, 0.88 * this.scene.H, 'hero_normal', Math.floor(Math.random() * 4)));
 					this.queueFlag = queueState.WAITING;
 
 					//activate immediately if this is the FRONT hero in the queue
@@ -157,6 +168,7 @@ export class HeroRoom extends Room {
 		this.heroList[0].myState = HeroState.IDLE;
 		this.setManualTimer(1000 + 6000 / (1 + this.scene.difficulty));
 		this.pausefx = false;
+		this.roomButton.setNotification(Notification.Question);
 	}
 
 	movementOpportunity() {
@@ -167,7 +179,6 @@ export class HeroRoom extends Room {
 			case queueState.CLEARING:
 				this.activateHero();
 				this.queueFlag = queueState.WAITING;
-
 			case queueState.WAITING:
 				//this scene has an active hero so we don't push to the queue
 				//set the hero to do actions
@@ -227,6 +238,9 @@ export class HeroRoom extends Room {
 
 	onHeroClick() {
 		this.scene.startDialogue(this.heroList[0].dialogue, (flags) => {
+			if (flags.tutorial) {
+				this.tutorialRead = true;
+			}
 			if (flags.talkFailure) {
 				this.scene.endGame();
 				return;
@@ -245,10 +259,10 @@ export class HeroRoom extends Room {
 				this.advanceHeroQueue();
 			}
 		});
-
 	}
 
 	advanceHeroQueue() {
+		this.pendingDialogue = false;
 		this.heroList[0].myState = HeroState.CLEARED;
 		this.heroButton.setVisible(false);
 		if (this.fryDifficulty) {
@@ -265,6 +279,7 @@ export class HeroRoom extends Room {
 			//short cooldown before next hero
 			this.queueFlag = queueState.CLEARING;
 			this.heroList[0].myState = HeroState.QUEUED;
+			this.heroImage.setTexture(this.heroList[0].heroSprite);
 			this.setManualTimer(12000 + 750 / (1 + this.scene.difficulty));
 			this.pausefx = false;
 		} else {

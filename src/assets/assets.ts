@@ -75,6 +75,7 @@ const images: Asset[] = [
 	image('sprites/hero-sk8r', 'hero_skater'),
 	image('sprites/hero-charming', 'hero_charming'),
 	image('sprites/hero-kobold', 'hero_kobold'),
+	image('sprites/hero-big', 'hero_big'),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop'),
 	image('sprites/dragon-sleep', 'dragon_sleep'),
