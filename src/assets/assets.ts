@@ -128,6 +128,7 @@ const audios: Audio[] = [
 	music('bgm_strings', 'm_strings'),
 	music('bgm_piano', 'm_piano'),
 	music('bgm_guitar', 'm_guitar'),
+	music('bgm_gameover', 'm_gameover'),
 
 	// Sounds
 	sound('tree/rustle', 't_rustle', 0.1),

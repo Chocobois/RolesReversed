@@ -42,6 +42,7 @@ export class GameScene extends BaseScene {
 	public musicStrings: Music;
 	public musicPiano: Music;
 	public musicGuitar: Music;
+	public musicGameOver: Music;
 
 	public musicVolume: number;
 
@@ -94,6 +95,7 @@ export class GameScene extends BaseScene {
 		this.musicStrings = new Music(this, 'm_strings', { volume: this.musicVolume });
 		this.musicPiano = new Music(this, 'm_piano', { volume: this.musicVolume });
 		this.musicGuitar = new Music(this, 'm_guitar', { volume: this.musicVolume });
+		this.musicGameOver = new Music(this, 'm_gameover', { volume: this.musicVolume });
 
 		this.uiOverlay.on('muteMusic', this.setMusicMuted, this);
 		this.uiOverlay.on('muteSound', this.setSoundMuted, this);
@@ -176,7 +178,8 @@ export class GameScene extends BaseScene {
 			case State.Overworld:
 				this.updateVolumes([true, false, false, false, false, false]); break;
 			case State.GAMEOVER:
-				this.updateVolumes([false, false, false, false, false, false]); break;
+				this.updateVolumes([false, false, false, false, false, false]);
+				this.musicGameOver.play(); break;
 			default: break;
 		}
 	}
