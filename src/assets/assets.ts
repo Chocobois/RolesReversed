@@ -12,7 +12,7 @@ const images: Asset[] = [
 	image('background/outside-room', 'room_outside'),
 	image('background/overworld-room', 'room_overworld'),
 	image('background/princess-room', 'room_princess'),
-	image('background/princess-room-escaped', 'room_princess-escaped'),
+	image('background/princess-room-escaped', 'room_princess_escaped'),
 	image('background/shop-room', 'room_shop'),
 	image('background/sleep-room', 'room_sleep'),
 	image('background/town-room', 'room_town'),

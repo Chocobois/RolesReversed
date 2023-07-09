@@ -6,38 +6,23 @@ export class ShopItem extends Button {
 	private background: Phaser.GameObjects.Image;
 	private itemContainer: Phaser.GameObjects.Container;
 	private itemImage: Phaser.GameObjects.Image;
-	// private tagImage: Phaser.GameObjects.Image;
 
 	private size: number;
-	private originalY;
 
 	public itemData: ItemData | null;
 
 	constructor(scene: BaseScene, x: number, y: number, size: number) {
 		super(scene, x, y);
 		this.size = size;
-		this.originalY = y;
 		this.itemData = null;
 
 		// Background
 
 		// TODO: Change image name
-		this.background = this.scene.add.image(10, 0, '');
+		this.background = this.scene.add.image(10, 380, 'shop_pole');
 		this.background.setScale(this.size / this.background.width);
-		// this.background.setTint(0xbbbbbb);
-		this.background.setAlpha(0.001);
+		this.background.setTint(0xbbbbbb);
 		this.add(this.background);
-
-		// Tag
-
-		// const ty = 120;
-		// const fontSize = 50;
-
-		// this.tagImage = this.scene.add.image(0, ty, 'item_tag', 0);
-		// this.tagImage.setOrigin(0.5, 0.0);
-		// this.tagImage.setScale(120 / this.tagImage.width);
-		// this.tagImage.setScale(2.2 * this.tagImage.scaleX, 0.6 * this.tagImage.scaleX); // Fix image, then remove this hack here
-		// this.add(this.tagImage);
 
 		// Item
 
@@ -50,9 +35,7 @@ export class ShopItem extends Button {
 
 		// Input
 
-		this.bindInteractive(this.background, true);
-		// const inputPadding = 0 / this.background.scaleX;
-		// if (this.background.input) this.background.input.hitArea.setTo(-inputPadding, -inputPadding, this.background.width + 2 * inputPadding, this.background.height + 2 * inputPadding);
+		this.bindInteractive(this.itemImage, true);
 	}
 
 	update(time: number, delta: number) {
