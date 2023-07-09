@@ -280,9 +280,9 @@ export class HeroRoom extends Room {
 				this.scene.princessRoom.happiness = 0;
 			}
 			if (flags.talkFailure) {
+				this.advance(false);
 				this.scene.addEnergy(-100);
-				this.scene.endGame();
-				return;
+				// this.scene.endGame();
 			} else if (flags.fried) {
 				this.fryDifficulty = true;
 				this.scene.sound.play('FRIED_SOUND', { volume: 0.25 });
