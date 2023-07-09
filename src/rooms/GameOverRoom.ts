@@ -24,6 +24,7 @@ export class GameOverRoom extends Room {
 
 		this.restartText = scene.createText(0, 0, 100, '#FFFFFF', 'Restart');
 		this.restartText.setOrigin(0.5);
+		this.restartText.setStroke('#000', 16);
 		this.restartButton.add(this.restartText);
 		this.restartButton.bindInteractive(this.restartText);
 		this.restartButton.on('click', () => {
