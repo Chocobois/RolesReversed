@@ -68,5 +68,6 @@ export default function buildMacApp() {
 	return {
 		name: 'build-mac-bundle',
 		closeBundle: BuildMacApp,
+		apply: 'build',
 	} as PluginOption;
 }
