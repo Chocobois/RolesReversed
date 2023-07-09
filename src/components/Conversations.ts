@@ -96,6 +96,7 @@ export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 
 export interface Character {
 	sprite: string;
+	spriteTalk?: string;
 	color: Colors;
 	voice: Voices;
 }
@@ -133,6 +134,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -166,6 +168,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -179,6 +182,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -234,6 +238,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -247,6 +252,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -255,11 +261,13 @@ const conversations: { [key in any]: Conversation } = {
 	[DialogueKey.ShopIntroduction]: {
 		leftCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
 		rightCharacter: {
 			sprite: 'dialogue_shopkeeper',
+			spriteTalk: 'dialogue_shopkeeper_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -268,11 +276,13 @@ const conversations: { [key in any]: Conversation } = {
 	[DialogueKey.ShopPurchase]: {
 		leftCharacter: {
 			sprite: 'dialogue_dragon_right',
+			spriteTalk: 'dialogue_dragon_talk_right',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
 		rightCharacter: {
 			sprite: 'dialogue_shopkeeper',
+			spriteTalk: 'dialogue_shopkeeper_talk',
 			color: Colors.Shopkeeper,
 			voice: Voices.Shopkeeper,
 		},
@@ -340,6 +350,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -449,6 +460,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -561,6 +573,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -690,6 +703,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -845,6 +859,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -864,6 +879,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -883,6 +899,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -902,6 +919,7 @@ const conversations: { [key in any]: Conversation } = {
 		},
 		rightCharacter: {
 			sprite: 'dialogue_dragon',
+			spriteTalk: 'dialogue_dragon_talk',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},

@@ -94,6 +94,26 @@ export class DialogueBubble extends Button {
 				}, i * Math.min(speechDelay, 1000));
 			}
 		}
+
+		const currSprite = message.character == LEFT ? this.scene.dialogueOverlay.leftSprite : this.scene.dialogueOverlay.rightSprite;
+
+		if (currChar.spriteTalk) {
+			const blahDuration = 350;
+			const blahCount = Math.ceil((message.text.match(wordSpeechCounter)?.join('').length ?? 0) / 9);
+			for (let i = 0; i < blahCount; i++) {
+				setTimeout(() => {
+					// const timeOffset = this.scene.time.now;
+					if (this.active && currChar.spriteTalk) {
+						// console.debug(this.scene.time.now - timeOffset, `talk ${i} ON`);
+						currSprite.setTexture(currChar.spriteTalk);
+						setTimeout(() => {
+							if (this.active) currSprite.setTexture(currChar.sprite);
+							// console.debug(this.scene.time.now - timeOffset, `talk ${i} OFF`);
+						}, blahDuration / 2);
+					}
+				}, i * blahDuration);
+			}
+		}
 	}
 
 	update(time: number, delta: number) {

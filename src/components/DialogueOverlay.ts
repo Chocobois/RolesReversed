@@ -11,8 +11,8 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 	public shopRoom: ShopRoom;
 
 	private background: Phaser.GameObjects.Rectangle;
-	private leftSprite: Phaser.GameObjects.Image;
-	private rightSprite: Phaser.GameObjects.Image;
+	public leftSprite: Phaser.GameObjects.Image;
+	public rightSprite: Phaser.GameObjects.Image;
 
 	private bubbleContainer: Phaser.GameObjects.Container;
 	private bubbles: (DialogueBubble | ChoiceBubble)[];

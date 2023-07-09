@@ -30,7 +30,7 @@ export class GameScene extends BaseScene {
 	private gameOverRoom: GameOverRoom;
 
 	private uiOverlay: UIOverlay;
-	private dialogueOverlay: DialogueOverlay;
+	public dialogueOverlay: DialogueOverlay;
 	private debugText: Phaser.GameObjects.Text;
 
 	// Music
