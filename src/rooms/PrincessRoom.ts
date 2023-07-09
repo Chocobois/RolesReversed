@@ -3,6 +3,7 @@ import { Room } from './Room';
 import { Button } from '@/components/Button';
 import { Notification } from '@/components/RoomButton';
 import { ItemType, ItemData, shopItems } from './ShopRoom';
+import { DialogueKey } from '@/components/Conversations';
 
 enum PrincessState {
 	Idle = 'Idle',
@@ -34,6 +35,8 @@ export class PrincessRoom extends Room {
 	private wantedItem: ItemData | null; // Item the princess requests
 	private heldItem: ItemData | null; // Item the dragon is holding
 	private activeItem: ItemData | null; // Item the princess is using
+
+	private hasBeenCaughtBefore: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -316,6 +319,15 @@ export class PrincessRoom extends Room {
 
 			if (this.wantedItem) {
 				this.setPrincessState(PrincessState.Begging);
+			}
+
+			if (!this.hasBeenCaughtBefore) {
+				this.hasBeenCaughtBefore = true;
+				this.scene.startDialogue(DialogueKey.PrincessCaughtEscaping, (flags) => {
+					if (flags.killsHerself) {
+						this.setPrincessState(PrincessState.Dead);
+					}
+				});
 			}
 
 			return;
