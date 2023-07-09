@@ -143,7 +143,7 @@ const spritesheets: SpriteSheet[] = [
 /* Audios */
 const audios: Audio[] = [
 	// Music
-	music('title', 'm_main_menu'),
+	music('bgm_intro', 'm_main_menu'),
 	music('bgm_always', 'm_backing'),
 	music('bgm_eepy', 'm_goldpile'),
 	music('bgm_drumkit', 'm_highenergy'),
@@ -164,6 +164,8 @@ const audios: Audio[] = [
 	sound('placeholder/placeholder_fried', 'FRIED_SOUND', 0.1),
 
 	// Sounds: character voices
+	sound('voice/generic', 'v_misc_1'),
+
 	sound('voice/kobl_1', 'v_kobl_1'),
 	sound('voice/kobl_2', 'v_kobl_2'),
 	sound('voice/kobl_3', 'v_kobl_3'),

@@ -37,7 +37,8 @@ export class PrincessRoom extends Room {
 	private heldItem: ItemData | null; // Item the dragon is holding
 	private activeItem: ItemData | null; // Item the princess is using
 
-	private hasBeenCaughtBefore: boolean;
+	private firstTimeBeingCaught: boolean;
+	private firstTimeWantingItem: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -213,7 +214,8 @@ export class PrincessRoom extends Room {
 
 		switch (this.princessState) {
 			case PrincessState.Idle:
-				if (chance(0.05 * (1 + this.scene.difficulty))) {
+				console.log(this.scene.difficulty, 0.05 * (1 + this.scene.difficulty));
+				if (chance(0.02 * (1 + this.scene.difficulty))) {
 					this.setPrincessState(PrincessState.Escaping);
 				} else {
 					this.setPrincessState(PrincessState.Idle); // Resets timer and image
@@ -331,8 +333,8 @@ export class PrincessRoom extends Room {
 				this.setPrincessState(PrincessState.Begging);
 			}
 
-			if (!this.hasBeenCaughtBefore) {
-				this.hasBeenCaughtBefore = true;
+			if (!this.firstTimeBeingCaught) {
+				this.firstTimeBeingCaught = true;
 				this.scene.startDialogue(DialogueKey.PrincessCaughtEscaping, (flags) => {
 					if (flags.killsHerself) {
 						this.setPrincessState(PrincessState.Dead);
@@ -344,6 +346,13 @@ export class PrincessRoom extends Room {
 		}
 
 		if (this.princessState == PrincessState.Begging) {
+			if (!this.firstTimeWantingItem) {
+				this.firstTimeWantingItem = true;
+				this.scene.startDialogue(DialogueKey.PrincessWantItem, (flags) => {
+					this.scene.uiOverlay.unlockOverworld();
+				});
+			}
+
 			if (this.heldItem == this.wantedItem) {
 				this.activeItem = this.heldItem;
 				this.roomButton.setHeldItem(this.activeItem!.image);
