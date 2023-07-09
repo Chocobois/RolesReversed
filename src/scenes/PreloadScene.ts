@@ -36,7 +36,7 @@ export class PreloadScene extends BaseScene {
 
 		// Loading text
 		this.createText(x, y, 48, '#DDDDDD', 'Loading...').setOrigin(0, 1.5);
-		this.createText(this.W, this.H, 32, '#DDDDDD', `${title} ${version}`).setOrigin(1, 1);
+		this.createText(5, 5, 32, '#DDDDDD', `${title} ${version}`).setOrigin(0, 0);
 
 		// Listener
 		this.load.on('progress', (progress: number) => {
