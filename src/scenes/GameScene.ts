@@ -81,7 +81,7 @@ export class GameScene extends BaseScene {
 		this.debugText = this.createText(0, 0, 30, 'white');
 		this.debugText.setStroke('black', 10);
 		this.debugText.setLineSpacing(-10);
-		this.debugText.setVisible(true);
+		this.debugText.setVisible(false);
 
 		this.princessRoom.setRoomButton(this.uiOverlay.princessButton);
 		this.heroRoom.setRoomButton(this.uiOverlay.heroButton);
@@ -115,8 +115,9 @@ export class GameScene extends BaseScene {
 		this.musicStrings.play();
 		this.musicPiano.play();
 		this.musicGuitar.play();
+		this.musicGameOver.play();
 
-		this.updateVolumes([true, false, true, false, true, true]);
+		this.updateVolumes([true, false, true, false, true, true, false]);
 
 		/* Setup */
 
@@ -141,6 +142,7 @@ export class GameScene extends BaseScene {
 		this.shopRoom.update(time, delta);
 		this.townRoom.update(time, delta);
 		this.overworldRoom.update(time, delta);
+		this.gameOverRoom.update(time, delta);
 		//dont update gameOverRoom right now
 
 		this.uiOverlay.update(time, delta);
@@ -182,20 +184,19 @@ export class GameScene extends BaseScene {
 		// prettier-ignore
 		switch (state) {
 			case State.Princess:
-				this.updateVolumes([true, false, true, true, true, true]); break;
+				this.updateVolumes([true, false, true, true, true, true, false]); break;
 			case State.Hero:
-				this.updateVolumes([true, false, true, true, true, true]); break;
+				this.updateVolumes([true, false, true, true, true, true, false]); break;
 			case State.Treasure:
-				this.updateVolumes([true, true, false, false, false, true]); break;
+				this.updateVolumes([true, true, false, false, false, true, false]); break;
 			case State.Shop:
-				this.updateVolumes([true, false, true, true, false, true]); break;
+				this.updateVolumes([true, false, true, true, false, true, false]); break;
 			case State.Town:
-				this.updateVolumes([true, false, true, false, true, false]); break;
+				this.updateVolumes([true, false, true, false, true, false, false]); break;
 			case State.Overworld:
-				this.updateVolumes([true, false, true, false, false, true]); break;
+				this.updateVolumes([true, false, true, false, false, true, false]); break;
 			case State.GAMEOVER:
-				this.updateVolumes([false, false, false, false, false, false]);
-				this.musicGameOver.play(); break;
+				this.updateVolumes([false, false, false, false, false, false, true]); break;
 			default: break;
 		}
 	}
@@ -234,19 +235,21 @@ export class GameScene extends BaseScene {
 		this.musicStrings.mute = muted;
 		this.musicPiano.mute = muted;
 		this.musicGuitar.mute = muted;
+		this.musicGameOver.mute = muted;
 	}
 
 	/**
 	 * @param tracks Backing, GoldPile, DrumLoop, Strings, Piano, Guitar
 	 */
 	updateVolumes(tracks: boolean[]) {
-		if (tracks.length != 6) console.warn('Wrong array length for music track states');
+		if (tracks.length != 7) console.warn('Wrong array length for music track states');
 		this.musicBacking.setVolume(tracks[0] ? this.musicVolume : 0);
 		this.musicGoldPile.setVolume(tracks[1] ? this.musicVolume : 0);
 		this.musicDrumLoop.setVolume(tracks[2] ? this.musicVolume : 0);
 		this.musicStrings.setVolume(tracks[3] ? this.musicVolume : 0);
 		this.musicPiano.setVolume(tracks[4] ? this.musicVolume : 0);
 		this.musicGuitar.setVolume(tracks[5] ? this.musicVolume : 0);
+		this.musicGameOver.setVolume(tracks[6] ? this.musicVolume : 0);
 	}
 
 	setSoundMuted(muted: boolean) {

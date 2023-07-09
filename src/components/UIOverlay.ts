@@ -96,7 +96,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.overworldButton.on('click', () => {
 			this.emit('changeRoom', State.Overworld);
 		});
-		this.overworldButton.setVisible(false);
+		this.overworldButton.enabled = false;
 		this.homeButtons.add(this.overworldButton);
 
 		/* Energy */
@@ -182,7 +182,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.treasureButton.setVisible(true);
 	}
 	unlockOverworld() {
-		this.overworldButton.setVisible(true);
+		this.overworldButton.enabled = true;
 		this.overworldButton.makeBouncy();
 	}
 }

@@ -1,12 +1,17 @@
 import { LEFT, RIGHT } from 'phaser';
 
 export enum DialogueKey {
+	GoldIntroduction,
+	GoldPanicAttack,
+
 	PrincessIntroduction,
 	PrincessWantItem,
 	PrincessCaughtEscaping,
+
 	HeroIntroduction,
 	HeroShout,
 	HeroBrave,
+
 	ShopIntroduction,
 	ShopPurchase,
 
@@ -66,6 +71,8 @@ enum Sprites {
 	HeroNormalBurnt = 'hero_normal_burnt',
 	HeroSkaterBurnt = 'hero_skater_burnt',
 	HeroBig = 'hero_big',
+
+	Gold = 'dialogue_goldpile',
 }
 
 enum Voices {
@@ -73,6 +80,7 @@ enum Voices {
 	Princess,
 	Shopkeeper,
 	Hero,
+	Gold,
 }
 
 export interface VoiceClipData {
@@ -124,6 +132,15 @@ export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 		delay: 100,
 		soundsPerWord: 0.5,
 	},
+	[Voices.Gold]: {
+		prefix: 'v_kobl_',
+		volume: 0.0,
+		count: 4,
+		basePitch: 1,
+		pitchVar: 0.12,
+		preferred: [2, 3, 4, 1],
+		delay: 140,
+	},
 };
 
 export interface Character {
@@ -140,10 +157,28 @@ const Characters: { [key: string]: Character } = {
 		color: Colors.Dragon,
 		voice: Voices.Dragon,
 	},
+	DragonShopkeeper: {
+		sprite: Sprites.DragonShopkeeper,
+		spriteTalk: Sprites.DragonShopkeeperTalk,
+		color: Colors.Dragon,
+		voice: Voices.Dragon,
+	},
 	Princess: {
 		sprite: Sprites.Princess,
 		color: Colors.Princess,
 		voice: Voices.Princess,
+	},
+	Shopkeeper: {
+		sprite: Sprites.Shopkeeper,
+		spriteTalk: Sprites.ShopkeeperTalk,
+		color: Colors.Shopkeeper,
+		voice: Voices.Shopkeeper,
+	},
+	Gold: {
+		sprite: Sprites.Gold,
+		spriteTalk: Sprites.Gold,
+		color: Colors.Gold,
+		voice: Voices.Gold,
 	},
 };
 
@@ -172,6 +207,69 @@ export interface Conversation {
 
 // const conversations: { [key in DialogueKey]: Conversation } = {
 const conversations: { [key in any]: Conversation } = {
+	[DialogueKey.GoldIntroduction]: {
+		leftCharacter: Characters.Gold,
+		rightCharacter: Characters.Dragon,
+		messages: [
+			// {
+			// 	character: RIGHT,
+			// 	rightSprite: Sprites.DragonBlush,
+			// 	text: 'Gold',
+			// },
+			// {
+			// 	character: LEFT,
+			// 	text: '*gold noises*',
+			// },
+			// {
+			// 	character: RIGHT,
+			// 	rightSprite: Sprites.DragonBlush,
+			// 	text: 'Gold',
+			// },
+			// {
+			// 	character: LEFT,
+			// 	text: '*gold noises*',
+			// },
+		],
+	},
+	[DialogueKey.GoldPanicAttack]: {
+		leftCharacter: Characters.Gold,
+		rightCharacter: Characters.Dragon,
+		messages: [
+			{
+				character: RIGHT,
+				rightSprite: Sprites.DragonAngry,
+				text: '...!',
+			},
+			{
+				character: RIGHT,
+				rightSprite: Sprites.DragonAngry,
+				text: 'My gold... My precious gold.',
+			},
+			{
+				character: RIGHT,
+				rightSprite: Sprites.DragonAngry,
+				text: 'How could I be so careless, leaving you to dwindle?',
+			},
+			{
+				character: LEFT,
+				rightSprite: Sprites.DragonAngry,
+				text: '*gold noises*',
+			},
+			{
+				character: RIGHT,
+				text: 'Phew...',
+			},
+			{
+				character: RIGHT,
+				text: 'I need a moment to recover.',
+			},
+			{
+				character: LEFT,
+				text: '*gold noises*',
+			},
+		],
+	},
+
 	[DialogueKey.PrincessIntroduction]: {
 		leftCharacter: Characters.Princess,
 		rightCharacter: Characters.Dragon,
@@ -261,35 +359,36 @@ const conversations: { [key in any]: Conversation } = {
 				text: 'Whoopsie! You caught me.',
 			},
 			{
-				character: LEFT,
-				rightSprite: Sprites.DragonAngry,
-				text: 'I was just... stretching my calves.',
-			},
-			{
 				character: RIGHT,
 				rightSprite: Sprites.DragonAngry,
 				text: 'What are you doing?!',
 			},
 			{
 				character: LEFT,
+				rightSprite: Sprites.DragonAngry,
+				text: 'I was just... stretching my calves.',
+			},
+			{
+				character: LEFT,
 				leftSprite: Sprites.PrincessPout,
 				rightSprite: Sprites.DragonAngry,
-				text: "... I'm bored!",
+				text: "No... Really, I'm bored!",
 			},
 			{
 				character: LEFT,
 				leftSprite: Sprites.PrincessPout,
 				text: 'I thought being captured would be more exciting.',
 			},
-
 			{
 				character: RIGHT,
+				leftSprite: Sprites.PrincessPout,
 				rightSprite: Sprites.Dragon,
 				text: '...',
 			},
 			{
 				character: RIGHT,
-				text: "I'll try not to ignore you.",
+				leftSprite: Sprites.PrincessPout,
+				text: "I'll try to entertain you more.",
 			},
 		],
 	},
@@ -426,7 +525,7 @@ const conversations: { [key in any]: Conversation } = {
 						],
 					},
 					{
-						text: 'Kill',
+						text: 'Burn',
 						color: Colors.Red,
 						messages: [
 							{
@@ -463,33 +562,44 @@ const conversations: { [key in any]: Conversation } = {
 		messages: [],
 	},
 	[DialogueKey.ShopIntroduction]: {
-		leftCharacter: {
-			sprite: Sprites.DragonShopkeeper,
-			spriteTalk: Sprites.DragonShopkeeperTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		rightCharacter: {
-			sprite: Sprites.Shopkeeper,
-			spriteTalk: Sprites.ShopkeeperTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		messages: [],
+		leftCharacter: Characters.DragonShopkeeper,
+		rightCharacter: Characters.Shopkeeper,
+		messages: [
+			{
+				character: RIGHT,
+				text: 'Welcome to the Kobold Commerce!',
+			},
+			{
+				character: RIGHT,
+				text: "Oh! I haven't seen you around here.",
+			},
+			{
+				character: LEFT,
+				text: "... I don't go shopping very often.",
+			},
+			{
+				character: LEFT,
+				leftSprite: Sprites.DragonShopkeeperAngry,
+				text: 'I HATE spending my precious gold. It hurts my pride.',
+			},
+			{
+				character: RIGHT,
+				leftSprite: Sprites.DragonShopkeeperAngry,
+				text: "I like gold too! That's why I sell these wares.",
+			},
+			{
+				character: LEFT,
+				text: "Alas, it's what the princess wishes for. I shall buy something.",
+			},
+			{
+				character: LEFT,
+				text: '... What was it she wanted again?',
+			},
+		],
 	},
 	[DialogueKey.ShopPurchase]: {
-		leftCharacter: {
-			sprite: Sprites.DragonShopkeeper,
-			spriteTalk: Sprites.DragonShopkeeperTalk,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		rightCharacter: {
-			sprite: Sprites.Shopkeeper,
-			spriteTalk: Sprites.ShopkeeperTalk,
-			color: Colors.Shopkeeper,
-			voice: Voices.Shopkeeper,
-		},
+		leftCharacter: Characters.DragonShopkeeper,
+		rightCharacter: Characters.Shopkeeper,
 		messages: [
 			{
 				character: RIGHT,
@@ -506,7 +616,6 @@ const conversations: { [key in any]: Conversation } = {
 			{
 				character: RIGHT,
 				text: "Yaas queen, that's right. Buy it.",
-				voice: Voices.Shopkeeper,
 				choice: [
 					{
 						text: 'Refuse',
@@ -630,7 +739,7 @@ const conversations: { [key in any]: Conversation } = {
 						],
 					},
 					{
-						text: 'Kill',
+						text: 'Burn',
 						color: Colors.Red,
 						messages: [
 							{
@@ -737,7 +846,7 @@ const conversations: { [key in any]: Conversation } = {
 						],
 					},
 					{
-						text: 'Kill',
+						text: 'Burn',
 						color: Colors.Red,
 						messages: [
 							{
@@ -866,7 +975,7 @@ const conversations: { [key in any]: Conversation } = {
 						],
 					},
 					{
-						text: 'Kill',
+						text: 'Burn',
 						color: Colors.Red,
 						messages: [
 							{
@@ -920,8 +1029,6 @@ const conversations: { [key in any]: Conversation } = {
 			{
 				character: RIGHT,
 				text: '...',
-				color: Colors.Shopkeeper,
-				voice: Voices.Shopkeeper,
 				choice: [
 					{
 						text: 'Intimidate',
@@ -1013,7 +1120,7 @@ const conversations: { [key in any]: Conversation } = {
 						],
 					},
 					{
-						text: 'Kill',
+						text: 'Burn',
 						color: Colors.Red,
 						messages: [
 							{
@@ -1119,16 +1226,8 @@ const conversations: { [key in any]: Conversation } = {
 		],
 	},
 	[DialogueKey.BurgerInit]: {
-		leftCharacter: {
-			sprite: Sprites.DragonShopkeeper,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		rightCharacter: {
-			sprite: Sprites.Shopkeeper,
-			color: Colors.Shopkeeper,
-			voice: Voices.Shopkeeper,
-		},
+		leftCharacter: Characters.DragonShopkeeper,
+		rightCharacter: Characters.Shopkeeper,
 		messages: [
 			{
 				character: RIGHT,
@@ -1173,16 +1272,8 @@ const conversations: { [key in any]: Conversation } = {
 		],
 	},
 	[DialogueKey.BallInit]: {
-		leftCharacter: {
-			sprite: Sprites.DragonShopkeeper,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		rightCharacter: {
-			sprite: Sprites.Shopkeeper,
-			color: Colors.Shopkeeper,
-			voice: Voices.Shopkeeper,
-		},
+		leftCharacter: Characters.DragonShopkeeper,
+		rightCharacter: Characters.Shopkeeper,
 		messages: [
 			{
 				character: RIGHT,
@@ -1227,16 +1318,8 @@ const conversations: { [key in any]: Conversation } = {
 		],
 	},
 	[DialogueKey.BookInit]: {
-		leftCharacter: {
-			sprite: Sprites.DragonShopkeeper,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		rightCharacter: {
-			sprite: Sprites.Shopkeeper,
-			color: Colors.Shopkeeper,
-			voice: Voices.Shopkeeper,
-		},
+		leftCharacter: Characters.DragonShopkeeper,
+		rightCharacter: Characters.Shopkeeper,
 		messages: [
 			{
 				character: RIGHT,
@@ -1293,16 +1376,8 @@ const conversations: { [key in any]: Conversation } = {
 		],
 	},
 	[DialogueKey.CakeInit]: {
-		leftCharacter: {
-			sprite: Sprites.DragonShopkeeper,
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		rightCharacter: {
-			sprite: Sprites.Shopkeeper,
-			color: Colors.Shopkeeper,
-			voice: Voices.Shopkeeper,
-		},
+		leftCharacter: Characters.DragonShopkeeper,
+		rightCharacter: Characters.Shopkeeper,
 		messages: [
 			{
 				character: RIGHT,
