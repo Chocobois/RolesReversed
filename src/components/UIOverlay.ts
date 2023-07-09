@@ -46,6 +46,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		const buttonSize = 35;
 		this.muteMusicButton = new MiniButton(scene, scene.W - 7 * buttonSize, 1.5 * buttonSize, 'music').on('click', () => {
 			this.muteMusicButton.toggle();
+			this.scene.sound.play('s_button');
 			this.emit('muteMusic', !this.muteMusicButton.active);
 		});
 		this.muteSoundButton = new MiniButton(scene, scene.W - 4.2 * buttonSize, 1.5 * buttonSize, 'audio').on('click', () => {
@@ -73,6 +74,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		this.heroButton = new RoomButton(scene, x1, 0, 'button_outside', State.Hero, 'Tower');
 		this.heroButton.on('click', () => {
+			this.scene.sound.play('s_button', { volume: 0.3 });
 			this.emit('changeRoom', State.Hero);
 		});
 		this.heroButton.setVisible(false);
@@ -80,6 +82,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		this.princessButton = new RoomButton(scene, x2, 0, 'button_princess', State.Princess, 'Bedroom');
 		this.princessButton.on('click', () => {
+			this.scene.sound.play('s_button', { volume: 0.3 });
 			this.emit('changeRoom', State.Princess);
 		});
 		this.princessButton.setVisible(false);
@@ -87,6 +90,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		this.treasureButton = new RoomButton(scene, x3, 0, 'button_sleep', State.Treasure, 'Gold pile');
 		this.treasureButton.on('click', () => {
+			this.scene.sound.play('s_button', { volume: 0.3 });
 			this.emit('changeRoom', State.Treasure);
 		});
 		this.treasureButton.setVisible(false);
@@ -94,6 +98,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		this.overworldButton = new RoomButton(scene, x4, 0, 'button_overworld', State.Overworld, 'Overworld');
 		this.overworldButton.on('click', () => {
+			this.scene.sound.play('s_button', { volume: 0.3 });
 			this.emit('changeRoom', State.Overworld);
 		});
 		this.overworldButton.enabled = false;
@@ -184,5 +189,6 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	unlockOverworld() {
 		this.overworldButton.enabled = true;
 		this.overworldButton.makeBouncy();
+		this.scene.sound.play('s_sparkle', { volume: 0.3 });
 	}
 }
