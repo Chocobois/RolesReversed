@@ -9,11 +9,13 @@ export class GameOverRoom extends Room {
 	public background: Phaser.GameObjects.Image;
 	public restartText: Phaser.GameObjects.Text;
 	public restartButton: Button;
+	public musicPlaying: boolean;
 
 	constructor(scene: GameScene) {
 		super(scene);
 		this.scene = scene;
 		this.scene.add.existing(this);
+		this.musicPlaying = false;
 
 		this.background = scene.add.image(scene.CX, scene.CY, 'game_over');
 		this.add(this.background);
@@ -28,9 +30,18 @@ export class GameOverRoom extends Room {
 		this.restartButton.add(this.restartText);
 		this.restartButton.bindInteractive(this.restartText);
 		this.restartButton.on('click', () => {
+			this.scene.sound.stopByKey('s_gameover');
+			this.musicPlaying = false;
+			console.log('Stopping gameover music');
 			this.scene.scene.start('TitleScene');
 		});
 	}
 
-	update(time: number, delta: number) {}
+	update(time: number, delta: number) {
+		if (this.visible && !this.musicPlaying) {
+			this.scene.sound.play('s_gameover', { volume: 0.25 });
+			this.musicPlaying = true;
+			console.log('Playing gameover music');
+		}
+	}
 }

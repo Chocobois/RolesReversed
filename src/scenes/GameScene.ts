@@ -43,7 +43,6 @@ export class GameScene extends BaseScene {
 	public musicStrings: Music;
 	public musicPiano: Music;
 	public musicGuitar: Music;
-	public musicGameOver: Music;
 
 	public musicVolume: number;
 	public musicGlobalMuted: boolean;
@@ -101,7 +100,6 @@ export class GameScene extends BaseScene {
 		this.musicStrings = new Music(this, 'm_strings', { volume: this.musicVolume });
 		this.musicPiano = new Music(this, 'm_piano', { volume: this.musicVolume });
 		this.musicGuitar = new Music(this, 'm_guitar', { volume: this.musicVolume });
-		this.musicGameOver = new Music(this, 'm_gameover', { volume: this.musicVolume });
 
 		this.uiOverlay.on('muteMusic', this.setMusicMuted, this);
 		this.uiOverlay.on('muteSound', this.setSoundMuted, this);
@@ -115,7 +113,6 @@ export class GameScene extends BaseScene {
 		this.musicStrings.play();
 		this.musicPiano.play();
 		this.musicGuitar.play();
-		this.musicGameOver.play();
 
 		this.updateVolumes([true, false, true, false, true, true, false]);
 
@@ -235,7 +232,6 @@ export class GameScene extends BaseScene {
 		this.musicStrings.mute = muted;
 		this.musicPiano.mute = muted;
 		this.musicGuitar.mute = muted;
-		this.musicGameOver.mute = muted;
 	}
 
 	/**
@@ -249,7 +245,7 @@ export class GameScene extends BaseScene {
 		this.musicStrings.setVolume(tracks[3] ? this.musicVolume : 0);
 		this.musicPiano.setVolume(tracks[4] ? this.musicVolume : 0);
 		this.musicGuitar.setVolume(tracks[5] ? this.musicVolume : 0);
-		this.musicGameOver.setVolume(tracks[6] ? this.musicVolume : 0);
+		// this.musicGameOver.setVolume(tracks[6] ? this.musicVolume : 0);
 	}
 
 	setSoundMuted(muted: boolean) {

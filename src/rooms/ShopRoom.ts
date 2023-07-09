@@ -183,6 +183,7 @@ export class ShopRoom extends Room {
 				if (flags.wantToBuy) {
 					this.scene.addEnergy(-100);
 					this.scene.setHeldItem(itemData);
+					this.scene.sound.play('s_collect');
 					if (itemData.bought == false) {
 						itemData.bought = true;
 					}

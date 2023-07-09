@@ -144,6 +144,9 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 
 		this.bubbleContainer.add(newBubble);
 		this.bubbles.push(newBubble);
+
+		this.scene.sound.play('s_paper', { volume: 0.4 });
+		if (this.currentMessage?.text == '*gold noises*') this.scene.sound.play('s_sparkle', { volume: 0.4 });
 	}
 
 	addChoiceBubbles(choices: Choice[]) {

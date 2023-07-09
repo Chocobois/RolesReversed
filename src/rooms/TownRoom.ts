@@ -79,7 +79,7 @@ export class Building extends Button {
 				this.buildingCooldown = this.defaultBuildingHP * 6000;
 				this.scene.addEnergy(10);
 
-				this.scene.sound.play('DEMO_SOUND', { volume: 0.05 });
+				this.scene.sound.play('DEMO_SOUND', { volume: 0.1 });
 				this.exploder.explode(15);
 			}
 		}

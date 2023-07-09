@@ -201,7 +201,7 @@ export class TitleScene extends BaseScene {
 	}
 
 	onBar(bar: number) {
-		console.log(bar);
+		// console.log(bar);
 		if (bar >= 8) {
 			this.title.setVisible(true);
 		}
