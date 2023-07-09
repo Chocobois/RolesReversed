@@ -92,6 +92,9 @@ export class PrincessRoom extends Room {
 		const princessSquish = this.princessState != PrincessState.Dead ? 0.02 : 0;
 		this.princessButton.setScale((1.0 + princessSquish * Math.sin(time / 200)) * princessHoldX, (1.0 + princessSquish * Math.sin(-time / 200)) * princessHoldY);
 
+		this.speechBubbleBackground.setOrigin(0.5, 0.5 + princessSquish * Math.sin(time / 200));
+		this.speechBubbleItem.setOrigin(0.5, 0.5 + princessSquish * Math.sin(time / 200));
+
 		/* Moods */
 
 		if (this.visible) {

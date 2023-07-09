@@ -57,10 +57,11 @@ export class RoomButton extends Button {
 	}
 
 	update(time: number, delta: number) {
-		const holdX = 1.0 + 0.15 * this.holdSmooth;
-		const holdY = 1.0 - 0.1 * this.holdSmooth;
+		const holdX = this.enabled ? 1.0 + 0.15 * this.holdSmooth : 1;
+		const holdY = this.enabled ? 1.0 - 0.1 * this.holdSmooth : 1;
 		const buttonSquish = -0.01;
 		this.setScale((1.0 + buttonSquish * Math.sin(time / 200)) * holdX, (1.0 + buttonSquish * Math.sin(-time / 200)) * holdY);
+		this.image.setTint(this.enabled ? 0xffffff : 0x777777);
 
 		this.notification.setOrigin(0.5);
 
@@ -127,32 +128,27 @@ export class RoomButton extends Button {
 	}
 
 	onOut(pointer: Phaser.Input.Pointer, event: Phaser.Types.Input.EventData) {
-		if (this.tooltip.active) {
+		if (this.tooltip && this.tooltip.active) {
 			this.tooltip.fade(150, 1, 0, () => {
 				this.tooltip.destroy();
 			});
 		}
 
-		// Code inherited from Button.ts:
-		this.hover = false;
-		this.hold = false;
+		super.onOut(pointer, event);
 	}
 
 	onOver(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
-		if (this.label) this.spawnTooltip();
-
-		// Code inherited from Button.ts:
-		this.hover = true;
+		if (this.enabled) {
+			if (this.label) this.spawnTooltip();
+		}
+		super.onOver(pointer, localX, localY, event);
 	}
 
 	onUp(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
-		if (this.label) this.spawnTooltip(TooltipStyle.Light);
-
-		// Code inherited from Button.ts:
-		if (this.hold && !this.blocked) {
-			this.hold = false;
-			this.emit('click');
+		if (this.enabled) {
+			if (this.label) this.spawnTooltip(TooltipStyle.Light);
 		}
+		super.onUp(pointer, localX, localY, event);
 	}
 
 	spawnTooltip(styleOverride?: TooltipStyle) {

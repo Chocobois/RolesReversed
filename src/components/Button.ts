@@ -119,13 +119,17 @@ export class Button extends Phaser.GameObjects.Container {
 	onDown(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
 		this.hold = true;
 		this.blocked = false;
-		this.emit("down");
+		if (this.enabled) {
+			this.emit('down');
+		}
 	}
 
 	onUp(pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) {
 		if (this.hold && !this.blocked) {
 			this.hold = false;
-			this.emit('click');
+			if (this.enabled) {
+				this.emit('click');
+			}
 		}
 	}
 
