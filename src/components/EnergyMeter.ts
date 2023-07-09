@@ -15,7 +15,6 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 	private border: RoundRectangle;
 	private background: RoundRectangle;
 	private foreground: RoundRectangle;
-	private text: Phaser.GameObjects.Text;
 
 	constructor(scene: GameScene, roomButton: RoomButton) {
 		super(scene);
@@ -40,17 +39,9 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 
 		this.foreground = new RoundRectangle(scene, 0, 0, this.width, this.height, radius - border / 2, 0xffaa00);
 		this.add(this.foreground);
-
-		// this.text = scene.createText(0, 0, fontsize, 'gold', '100/100');
-		// this.text.setOrigin(0.5);
-		// this.text.setWordWrapWidth(this.width - padding);
-		// this.text.setVisible(false);
-		// this.add(this.text);
 	}
 
 	update(time: number, delta: number) {
-		// this.text.setText(`Gold: ${energy.toString()} / 100`);
-
 		let ratio = this.scene.energy / this.scene.maxEnergy;
 		this.foreground.setWidth(this.background.width * ratio);
 		this.foreground.x = this.background.x - this.background.width / 2 + this.foreground.width / 2;

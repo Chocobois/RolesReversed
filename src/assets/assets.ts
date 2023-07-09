@@ -35,6 +35,7 @@ const images: Asset[] = [
 	image('ui/notification-dead', 'button_notification_dead'),
 	image('ui/speechbubble-small', 'speechbubble_small'),
 	image('ui/down_arrow', 'down_arrow'),
+	image('ui/screen_gradient', 'screen_gradient'),
 
 	// Sprites
 	image('sprites/princess', 'princess_default'),
