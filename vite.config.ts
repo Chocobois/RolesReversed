@@ -5,10 +5,12 @@ import checker from 'vite-plugin-checker';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import getGitVersion from './automation/git-version';
 import neuBuild from './automation/neu-build';
-import buildMacApp from './automation/mac-bundle';
 import buildWinApp from './automation/win-bundle';
+import buildMacApp from './automation/mac-bundle';
+import buildLinuxApp from './automation/linux-bundle';
 
 import { title, team, description } from './game.json';
+import buildCleanup from './automation/build-cleanup';
 
 const CheckerConfig = {
 	terminal: true,
@@ -31,22 +33,28 @@ export default () => {
 				...CheckerConfig,
 			}),
 			neuBuild(),
-			buildMacApp(),
 			buildWinApp(),
+			buildMacApp(),
+			buildLinuxApp(),
 			zip({
-				inDir: './dist/unpacked',
+				inDir: './dist/web',
 				outDir: './dist',
 				outFileName: 'game-web.zip',
 			}),
 			zip({
-				inDir: `./dist/${title}`,
+				inDir: `./dist/win`,
 				outDir: './dist',
-				pathPrefix: `${title}`,
 				outFileName: 'game-win.zip',
 			}),
+			zip({
+				inDir: `./dist/linux`,
+				outDir: './dist',
+				outFileName: 'game-linux.zip',
+			}),
+			buildCleanup(),
 		],
 		build: {
-			outDir: '../dist/unpacked',
+			outDir: '../dist/web',
 			chunkSizeWarningLimit: 4096,
 			assetsInlineLimit: 0,
 			target: 'ES2022',

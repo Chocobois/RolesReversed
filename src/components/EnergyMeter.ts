@@ -15,12 +15,14 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 	private border: RoundRectangle;
 	private background: RoundRectangle;
 	private foreground: RoundRectangle;
+	private text: Phaser.GameObjects.Text;
 
 	constructor(scene: GameScene, roomButton: RoomButton) {
 		super(scene);
 		this.scene = scene;
 		this.roomButton = roomButton;
 		this.scene.add.existing(this);
+		this.text = scene.createText(this.width / 2 - 50 / 2, this.height / 2 - 13, 18, '#FFFFFFAA', 'PRIDE');
 
 		// const fontsize = 60;
 		const radius = 14;
@@ -39,6 +41,8 @@ export class EnergyMeter extends Phaser.GameObjects.Container {
 
 		this.foreground = new RoundRectangle(scene, 0, 0, this.width, this.height, radius - border / 2, 0xffaa00);
 		this.add(this.foreground);
+
+		this.add(this.text);
 	}
 
 	update(time: number, delta: number) {

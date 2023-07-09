@@ -87,11 +87,6 @@ export class TitleScene extends BaseScene {
 		this.tap.setStroke('#FFF', 20);
 		this.tap.setPadding(2 * 10);
 
-		// this.version = this.createText(this.W, this.H, 40, "#000", version);
-		// this.version.setOrigin(1, 1);
-		// this.version.setAlpha(-1);
-		// this.version.setStroke("#FFF", 10*4);
-		// this.version.setPadding(2*40*4);
 
 		this.credits = this.add.container(this.W - 520, this.H);
 		this.credits.setVisible(false);
@@ -111,9 +106,17 @@ export class TitleScene extends BaseScene {
 		credits2.setLineSpacing(-18);
 		this.credits.add(credits2);
 
+		this.version = this.createText(4, this.H, 30, '#000', version);
+		this.version.setOrigin(0, 1);
+		this.version.setAlpha(0);
+		this.version.setStroke('#FFF', 6);
+		this.version.setLineSpacing(-18);
+		this.version.setPadding(2);
+		this.version.setVisible(false);
+
 		// Music
 		if (!this.musicTitle) {
-			this.musicTitle = new Music(this, 'm_main_menu', { volume: 0.0 });
+			this.musicTitle = new Music(this, 'm_main_menu', { volume: 0.4 });
 			this.musicTitle.on('bar', this.onBar, this);
 			this.musicTitle.on('beat', this.onBeat, this);
 
@@ -153,6 +156,9 @@ export class TitleScene extends BaseScene {
 
 			if (this.credits.visible) {
 				this.credits.alpha += 0.02 * (1 - this.credits.alpha);
+			}
+			if (this.version.visible) {
+				this.version.alpha += 0.02 * (1 - this.version.alpha);
 			}
 		} else {
 			this.tap.alpha += 0.01 * (1 - this.tap.alpha);
@@ -204,6 +210,7 @@ export class TitleScene extends BaseScene {
 		if (bar >= 4) {
 			this.subtitle.setVisible(true);
 			this.credits.setVisible(true);
+			this.version.setVisible(true);
 		}
 	}
 
