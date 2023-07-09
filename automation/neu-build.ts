@@ -9,7 +9,7 @@ export default function neuBuild(): PluginOption {
 		closeBundle() {
 			console.log('Building standalone app');
 			WriteNeuConfig();
-			execSync('neu build --release');
+			execSync('neu build');
 		},
 	};
 }

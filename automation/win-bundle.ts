@@ -7,9 +7,10 @@ const BuildMacApp = () => {
 	const appId = title.toLowerCase().replace(/\s/gi, '-');
 	const buildName = `${teamId}-${appId}`;
 
-	const winDir = `./dist/${title}`;
+	const winDir = `./dist/win/${title}`;
 	const buildPath = `./dist/${buildName}/`;
 
+	mkdirSync('./dist/win');
 	mkdirSync(winDir);
 	copyFileSync(`${buildPath}/${buildName}-win_x64.exe`, `${winDir}/${title}.exe`);
 	copyFileSync(`${buildPath}/resources.neu`, `${winDir}/resources.neu`);

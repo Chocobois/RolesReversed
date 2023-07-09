@@ -40,7 +40,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/unpacked
+          publish_dir: ./dist/web
 
       - name: Create release
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -53,6 +53,7 @@ jobs:
             ./dist/game-web.zip
             ./dist/game-win.zip
             ./dist/game-mac.dmg
+            ./dist/game-linux.zip
 
       - name: Upload to Itch
         uses: Ayowel/butler-to-itch@v1.0.0
@@ -64,6 +65,7 @@ jobs:
             ./dist/game-web.zip
             ./dist/game-win.zip
             ./dist/game-mac.dmg
+            ./dist/game-linux.zip
           auto_channel: true
           butler_version: "latest"
           # unsupported
