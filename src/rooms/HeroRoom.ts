@@ -234,16 +234,18 @@ export class HeroRoom extends Room {
 				this.fryDifficulty = true;
 				this.scene.sound.play('FRIED_SOUND', { volume: 0.25 });
 				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
+				this.advanceHeroQueue();
 				//this.scene.difficulty += this.heroList[0].reputation;
 			} else if (flags.payBribe) {
 				this.bribeFlag = true;
 				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
+				this.advanceHeroQueue();
 			} else {
 				this.scene.sound.play('HIT_SOUND', { volume: 0.1 });
+				this.advanceHeroQueue();
 			}
 		});
-		this.advanceHeroQueue();
-		//this.currentHero = null;
+
 	}
 
 	advanceHeroQueue() {
