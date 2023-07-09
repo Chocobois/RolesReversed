@@ -12,7 +12,6 @@ export class ChoiceBubble extends Button {
 	private background: RoundRectangle;
 	private text: Phaser.GameObjects.Text;
 
-	public smoothY: number;
 	public isLatestMessage: boolean;
 
 	constructor(scene: GameScene, x: number, y: number, width: number, choice: Choice) {
@@ -21,7 +20,7 @@ export class ChoiceBubble extends Button {
 		this.scene.add.existing(this);
 
 		this.width = width;
-		const fontsize = 60;
+		const fontsize = 50;
 		const padding = fontsize;
 		const radius = 48;
 		const border = 20;
@@ -43,14 +42,12 @@ export class ChoiceBubble extends Button {
 		this.border.setHeight(this.height);
 		this.background.setHeight(this.height - border);
 
-		this.smoothY = this.y;
 		this.isLatestMessage = true;
 
 		this.bindInteractive(this.border, false);
 	}
 
 	update(time: number, delta: number) {
-		this.y += (this.smoothY - this.y) / 10;
 		let bounce = this.enabled ? 0.02 : 0;
 		let squish = this.enabled ? 0.1 : 0;
 		this.setScale(1.0 - squish * this.holdSmooth + bounce * Math.sin(time / 100));

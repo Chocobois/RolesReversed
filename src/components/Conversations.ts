@@ -1,6 +1,7 @@
 export enum DialogueKey {
 	PrincessIntroduction,
 	PrincessWantItem,
+	PrincessCaughtEscaping,
 	HeroIntroduction,
 	HeroBrave,
 	ShopIntroduction,
@@ -86,6 +87,59 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 		spriteLeft: 'dialogue_dragon',
 		spriteRight: 'dialogue_dragon',
 		messages: [],
+	},
+	[DialogueKey.PrincessCaughtEscaping]: {
+		spriteLeft: 'dialogue_princess',
+		spriteRight: 'dialogue_dragon',
+		messages: [
+			{
+				left: true,
+				text: 'Haha whoopsie! You caught me.',
+				color: Colors.Princess,
+			},
+			{
+				left: true,
+				text: 'I was just... stretching my calves on the windowsill.',
+				color: Colors.Princess,
+				choice: [
+					{
+						text: 'Scold',
+						color: Colors.Red,
+						messages: [
+							{
+								right: true,
+								text: "I'm very disappointed in you...",
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: '...',
+								color: Colors.Princess,
+								flags: {
+									killsHerself: true,
+								},
+							},
+						],
+					},
+					{
+						text: 'Forgive',
+						color: Colors.Green,
+						messages: [
+							{
+								right: true,
+								text: "It's ok. Now don't do it again.",
+								color: Colors.Dragon,
+							},
+							{
+								left: true,
+								text: 'I promiiise~',
+								color: Colors.Princess,
+							},
+						],
+					},
+				],
+			},
+		],
 	},
 	[DialogueKey.HeroIntroduction]: {
 		spriteLeft: 'dialogue_hero',

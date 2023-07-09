@@ -13,9 +13,9 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 	private leftSprite: Phaser.GameObjects.Image;
 	private rightSprite: Phaser.GameObjects.Image;
 
-	private bubbleWidth: number;
+	private bubbleContainer: Phaser.GameObjects.Container;
 	private bubbles: (DialogueBubble | ChoiceBubble)[];
-	private bubbleSpawnX: number;
+	private bubbleY: number;
 	private bubbleSpawnY: number;
 	private bubbleSpacing: number;
 
@@ -43,10 +43,12 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 		this.rightSprite.setOrigin(1, 1);
 		this.add(this.rightSprite);
 
-		this.bubbleWidth = 900;
+		this.bubbleY = 0;
+		this.bubbleSpawnY = 0.75 * this.scene.H;
+		this.bubbleContainer = scene.add.container(scene.CX, this.bubbleY);
+		this.add(this.bubbleContainer);
+		this.bubbleContainer.width = 800;
 		this.bubbles = [];
-		this.bubbleSpawnX = scene.CX;
-		this.bubbleSpawnY = 0.75 * scene.H;
 		this.bubbleSpacing = 30;
 
 		this.hasActiveChoice = false;
@@ -62,6 +64,8 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 		this.bubbles.forEach((bubble) => {
 			bubble.update(time, delta);
 		});
+
+		this.bubbleContainer.y += (this.bubbleY - this.bubbleContainer.y) / 10;
 	}
 
 	startDialogue(key: DialogueKey, callback: (flags: { [key: string]: any }) => void) {
@@ -99,32 +103,32 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 
 	addSpeechBubble(message: Message) {
 		// Spawn new speech bubble
-		let newBubble = new DialogueBubble(this.scene, this.bubbleSpawnX, this.bubbleSpawnY, this.bubbleWidth, message);
+		let newBubble = new DialogueBubble(this.scene, 0, this.bubbleSpawnY - this.bubbleY, this.bubbleContainer.width, message);
 
 		if (message.flags) {
 			Object.assign(this.flags, message.flags);
 		}
 
+		this.bubbleY -= newBubble.height + this.bubbleSpacing;
+
 		// Move all previous bubbles upwards
 		this.bubbles.forEach((bubble) => {
-			bubble.smoothY -= newBubble.height + this.bubbleSpacing;
 			bubble.isLatestMessage = false;
 		});
 		newBubble.y += newBubble.height / 2;
-		newBubble.smoothY -= newBubble.height / 2;
 
-		this.add(newBubble);
+		this.bubbleContainer.add(newBubble);
 		this.bubbles.push(newBubble);
 	}
 
 	addChoiceBubbles(choices: Choice[]) {
 		let gap = 50;
-		let width = (this.bubbleWidth - 20 - gap * (choices.length - 1)) / choices.length;
+		let width = (this.bubbleContainer.width - 20 - gap * (choices.length - 1)) / choices.length;
 
 		let newChoiceBubbles = choices.map((choice) => {
 			// Spawn new choice bubble
-			let newBubble = new ChoiceBubble(this.scene, this.bubbleSpawnX, this.bubbleSpawnY, width, choice);
-			this.add(newBubble);
+			let newBubble = new ChoiceBubble(this.scene, 0, this.bubbleSpawnY - this.bubbleY, width, choice);
+			this.bubbleContainer.add(newBubble);
 
 			newBubble.on('click', () => {
 				if (newBubble.enabled && this.hasActiveChoice) {
@@ -137,9 +141,10 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 			return newBubble;
 		});
 
+		this.bubbleY -= newChoiceBubbles[0].height + this.bubbleSpacing;
+
 		// Move all previous bubbles upwards
 		this.bubbles.forEach((bubble) => {
-			bubble.smoothY -= newChoiceBubbles[0].height + this.bubbleSpacing;
 			bubble.isLatestMessage = false;
 		});
 
@@ -148,7 +153,6 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 			if (index == 1) bubble.x += width / 2 + gap / 2;
 
 			bubble.y += bubble.height / 2;
-			bubble.smoothY -= bubble.height / 2;
 			this.bubbles.push(bubble);
 		});
 	}

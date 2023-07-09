@@ -15,7 +15,6 @@ export class DialogueBubble extends Button {
 	private tailBorder: Triangle;
 	private tailFill: Triangle;
 
-	public smoothY: number;
 	public isLatestMessage: boolean;
 
 	constructor(scene: GameScene, x: number, y: number, width: number, message: Message) {
@@ -24,7 +23,7 @@ export class DialogueBubble extends Button {
 		this.scene.add.existing(this);
 
 		this.width = width;
-		const fontsize = 60;
+		const fontsize = 50;
 		const padding = fontsize;
 		const radius = 48;
 		const border = 20;
@@ -71,7 +70,6 @@ export class DialogueBubble extends Button {
 		this.background.setHeight(this.height - border);
 		this.continueIcon.y = this.height / 2 - padding / 2;
 
-		this.smoothY = this.y;
 		this.isLatestMessage = true;
 
 		if (message.voice) {
@@ -96,7 +94,6 @@ export class DialogueBubble extends Button {
 	}
 
 	update(time: number, delta: number) {
-		this.y += (this.smoothY - this.y) / 10;
 		this.continueIcon.setVisible(this.isLatestMessage);
 		this.continueIcon.setOrigin(0.5, 0.7 + 0.1 * Math.sin(time / 100));
 	}
