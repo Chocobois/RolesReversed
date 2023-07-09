@@ -120,13 +120,14 @@ const spritesheets: SpriteSheet[] = [
 const audios: Audio[] = [
 	// Music
 	music('title', 'm_main_menu'),
-	music('first', 'm_first'),
-	music('princess', 'm_princess'),
-	music('invader', 'm_invader'),
-	music('treasure', 'm_treasure'),
-	music('shop', 'm_shop'),
-	music('town', 'm_town'),
-	music('overworld', 'm_overworld'),
+	music('bgm_always', 'm_backing'),
+	music('bgm_eepy', 'm_goldpile'),
+	music('bgm_drumkit', 'm_highenergy'),
+	music('bgm_drumloop', 'm_drumloop'),
+	music('bgm_watchout', 'm_danger'),
+	music('bgm_strings', 'm_strings'),
+	music('bgm_piano', 'm_piano'),
+	music('bgm_guitar', 'm_guitar'),
 
 	// Sounds
 	sound('tree/rustle', 't_rustle', 0.1),
