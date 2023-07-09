@@ -222,7 +222,7 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.HeroIntroduction]: {
 		leftCharacter: {
-			sprite: 'dialogue_hero',
+			sprite: 'hero_charming',
 			color: Colors.Hero,
 			voice: Voices.Hero,
 		},
@@ -235,7 +235,7 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.HeroBrave]: {
 		leftCharacter: {
-			sprite: 'dialogue_hero',
+			sprite: 'hero_charming',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -328,14 +328,14 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.KnightText]: {
 		leftCharacter: {
-			sprite: 'dialogue_dragon_right',
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		rightCharacter: {
-			sprite: 'dialogue_hero',
+			sprite: 'hero_charming',
 			color: Colors.RageKnight,
 			voice: Voices.Hero,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_dragon',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
 		},
 		messages: [
 			{
@@ -437,14 +437,14 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.sk8rText]: {
 		leftCharacter: {
-			sprite: 'dialogue_dragon_right',
-			color: Colors.Dragon,
-			voice: Voices.Dragon,
-		},
-		rightCharacter: {
 			sprite: 'hero_skater',
 			color: Colors.Hero,
 			voice: Voices.Hero,
+		},
+		rightCharacter: {
+			sprite: 'dialogue_dragon',
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
 		},
 		messages: [
 			{
@@ -549,12 +549,12 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.SquireText]: {
 		leftCharacter: {
-			sprite: 'dialogue_hero',
+			sprite: 'hero_normal',
 			color: Colors.CowardKnight,
 			voice: Voices.Hero,
 		},
 		rightCharacter: {
-			sprite: 'dialogue_dragon_right',
+			sprite: 'dialogue_dragon',
 			color: Colors.Dragon,
 			voice: Voices.Dragon,
 		},
@@ -833,7 +833,7 @@ const conversations: { [key in any]: Conversation } = {
 	},
 	[DialogueKey.KnightIntro]: {
 		leftCharacter: {
-			sprite: 'hero_sleazy',
+			sprite: 'hero_charming',
 			color: Colors.Valentine,
 			voice: Voices.Hero,
 		},

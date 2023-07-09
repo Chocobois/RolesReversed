@@ -38,7 +38,7 @@ export class Hero extends Phaser.GameObjects.Container {
 				this.dialogue = DialogueKey.KnightText;
 				this.intro = DialogueKey.KnightIntro;
 				this.patience = 3000;
-				this.heroSprite = 'hero_sleazy';
+				this.heroSprite = 'hero_charming';
 				break;
 			case 1:
 				this.bribeAmount = 5000;
