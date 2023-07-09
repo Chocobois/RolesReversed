@@ -42,6 +42,7 @@ export class GameScene extends BaseScene {
 	public musicStrings: Music;
 	public musicPiano: Music;
 	public musicGuitar: Music;
+	public musicGameOver: Music;
 
 	public musicVolume: number;
 
@@ -87,15 +88,16 @@ export class GameScene extends BaseScene {
 
 		/* Music */
 
-		const baseVolume = 0.3;
-		this.musicBacking = new Music(this, 'm_backing', { volume: baseVolume });
-		this.musicGoldPile = new Music(this, 'm_goldpile', { volume: baseVolume });
-		this.musicHighEnergy = new Music(this, 'm_highenergy', { volume: baseVolume });
-		this.musicDrumLoop = new Music(this, 'm_drumloop', { volume: baseVolume });
-		this.musicDanger = new Music(this, 'm_danger', { volume: baseVolume });
-		this.musicStrings = new Music(this, 'm_strings', { volume: baseVolume });
-		this.musicPiano = new Music(this, 'm_piano', { volume: baseVolume });
-		this.musicGuitar = new Music(this, 'm_guitar', { volume: baseVolume });
+		this.musicVolume = 0.25;
+		this.musicBacking = new Music(this, 'm_backing', { volume: this.musicVolume });
+		this.musicGoldPile = new Music(this, 'm_goldpile', { volume: this.musicVolume });
+		this.musicHighEnergy = new Music(this, 'm_highenergy', { volume: this.musicVolume });
+		this.musicDrumLoop = new Music(this, 'm_drumloop', { volume: this.musicVolume });
+		this.musicDanger = new Music(this, 'm_danger', { volume: this.musicVolume });
+		this.musicStrings = new Music(this, 'm_strings', { volume: this.musicVolume });
+		this.musicPiano = new Music(this, 'm_piano', { volume: this.musicVolume });
+		this.musicGuitar = new Music(this, 'm_guitar', { volume: this.musicVolume });
+		this.musicGameOver = new Music(this, 'm_gameover', { volume: this.musicVolume });
 
 		this.uiOverlay.on('muteMusic', this.setMusicMuted, this);
 		this.uiOverlay.on('muteSound', this.setSoundMuted, this);
@@ -108,6 +110,8 @@ export class GameScene extends BaseScene {
 		this.musicStrings.play();
 		this.musicPiano.play();
 		this.musicGuitar.play();
+
+		this.updateVolumes([true, false, true, false, true, true]);
 
 		/* Setup */
 
@@ -141,6 +145,12 @@ export class GameScene extends BaseScene {
 		debugText += this.heroRoom.getDebugText() + '\n';
 		debugText += this.treasureRoom.getDebugText() + '\n';
 		this.debugText.setText(debugText);
+
+		const isAlive = this.state != State.GAMEOVER;
+		const isEepy = this.state == State.Treasure;
+
+		this.musicHighEnergy.setVolume(isAlive && !isEepy && this.energy > 70 ? this.musicVolume : 0);
+		this.musicDanger.setVolume(isAlive && this.energy < 30 ? this.musicVolume : 0);
 	}
 
 	setRoom(state: State) {
@@ -154,6 +164,26 @@ export class GameScene extends BaseScene {
 		this.townRoom.setVisible(state == State.Town);
 		this.overworldRoom.setVisible(state == State.Overworld);
 		this.gameOverRoom.setVisible(state == State.GAMEOVER);
+
+		// prettier-ignore
+		switch (state) {
+			case State.Princess:
+				this.updateVolumes([true, false, false, true, true]); break;
+			case State.Hero:
+				this.updateVolumes([true, false, true, true, true, false]); break;
+			case State.Treasure:
+				this.updateVolumes([true, true, false, false, true]); break;
+			case State.Shop:
+				this.updateVolumes([true, false, false, true, false, false]); break;
+			case State.Town:
+				this.updateVolumes([true, false, true, true, true, false]); break;
+			case State.Overworld:
+				this.updateVolumes([true, false, false, false, false, false]); break;
+			case State.GAMEOVER:
+				this.updateVolumes([false, false, false, false, false, false]);
+				this.musicGameOver.play(); break;
+			default: break;
+		}
 	}
 
 	startDialogue(key: DialogueKey, callback?: (flags: { [key: string]: any }) => void) {
@@ -191,6 +221,18 @@ export class GameScene extends BaseScene {
 		this.musicStrings.mute = muted;
 		this.musicPiano.mute = muted;
 		this.musicGuitar.mute = muted;
+	}
+
+	/**
+	 * @param tracks Backing, GoldPile, DrumLoop, Strings, Piano, Guitar
+	 */
+	updateVolumes(tracks: boolean[]) {
+		this.musicBacking.setVolume(tracks[0] ? this.musicVolume : 0);
+		this.musicGoldPile.setVolume(tracks[1] ? this.musicVolume : 0);
+		this.musicDrumLoop.setVolume(tracks[2] ? this.musicVolume : 0);
+		this.musicStrings.setVolume(tracks[3] ? this.musicVolume : 0);
+		this.musicPiano.setVolume(tracks[4] ? this.musicVolume : 0);
+		this.musicGuitar.setVolume(tracks[5] ? this.musicVolume : 0);
 	}
 
 	setSoundMuted(muted: boolean) {

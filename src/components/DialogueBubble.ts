@@ -76,7 +76,7 @@ export class DialogueBubble extends Button {
 		if (message.voice) {
 			const voiceData = VoiceClips[message.voice];
 			const speechDelay = voiceData.delay ?? defaultDelay;
-			const speechTimes = Math.ceil((message.text.match(wordSpeechCounter)?.length ?? 0) * soundsPerWord);
+			const speechTimes = Math.ceil(0.5 + (message.text.match(wordSpeechCounter)?.length ?? 0) * soundsPerWord);
 			// console.log(speechTimes, message.text);
 
 			for (let i = 0; i < speechTimes; i++) {
