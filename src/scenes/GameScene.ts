@@ -117,10 +117,12 @@ export class GameScene extends BaseScene {
 	}
 
 	update(time: number, delta: number) {
-		if (this.state == State.Treasure) {
-			this.addEnergy(4 * (delta / 1000));
-		} else {
-			this.addEnergy(-1 * (delta / 1000));
+		if (!this.dialogueOverlay.visible) {
+			if (this.state == State.Treasure) {
+				this.addEnergy(4 * (delta / 1000));
+			} else {
+				this.addEnergy(-1 * (delta / 1000));
+			}
 		}
 
 		this.princessRoom.update(time, delta);
