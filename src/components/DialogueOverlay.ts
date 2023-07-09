@@ -119,6 +119,14 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 			}
 		}
 
+		if (!message.voice) {
+			if (message.character == LEFT) {
+				message.voice = this.currentConversation.leftCharacter.voice;
+			} else {
+				message.voice = this.currentConversation.rightCharacter.voice;
+			}
+		}
+
 		// Spawn new speech bubble
 		let newBubble = new DialogueBubble(this.scene, 0, this.bubbleSpawnY - this.bubbleY, this.bubbleContainer.width, message, this.currentConversation);
 

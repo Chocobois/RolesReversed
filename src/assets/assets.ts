@@ -9,7 +9,6 @@ const images: Asset[] = [
 	image('titlescreen/foreground', 'title_foreground'),
 	image('titlescreen/background', 'title_background'),
 	image('titlescreen/skybackground', 'title_skybackground'),
-	image('titlescreen/full-title', 'title_fullimage'),
 
 	// Background images, static
 	image('background/outside-room', 'room_outside'),
@@ -128,6 +127,7 @@ const images: Asset[] = [
 	image('placeholder/placeholder_building_3', 'BLDG_3'),
 
 	image('placeholder/placeholder_expl', 'EXPL'),
+	image('sprites/particle-sparkle', 'particle_sparkle'),
 ];
 
 /* Spritesheets */ /* prettier-ignore */
