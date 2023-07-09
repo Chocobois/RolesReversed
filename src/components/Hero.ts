@@ -1,7 +1,7 @@
 import { BaseScene } from "../scenes/BaseScene";
 import { Button } from '@/components/Button';
 import HeroState from '@/components/HeroState';
-
+//[]
 const DIALOGUE_0 = ["Surrender the princess, fiend.", "Meet your demise, lizard!", "My courage does not falter!", "I am above temptation.", "Disgusting beast!", "My flesh, it burns!"];
 const DIALOGUE_1 = ["Bring m-me the princess!", "T-Take that!", "I-I'll be back! You'll see!", "M-maybe if... no, I can't!", "W-what are you talking about!", "N-no, please - GYAAHHHH! "];
 const DIALOGUE_2 = ["Give me that fine girl, lowly creature.", "Poor and pathetic creature!", "I am flawlessly equipped.", "How...opulent... but this is temporary.", "I can get better for pocket change.", "Water, somebody- AAAHHH!"];
