@@ -40,6 +40,7 @@ export interface Message {
 	color: Colors;
 	voice?: Voices;
 	choice?: Choice[];
+	flags?: { [key: string]: any };
 }
 
 export interface Choice {
@@ -140,6 +141,9 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								right: true,
 								text: 'Go home and rest.',
 								color: Colors.Shopkeeper,
+								flags: {
+									wantToBuy: false,
+								},
 							},
 						],
 					},
@@ -156,6 +160,9 @@ const conversations: { [key in DialogueKey]: Conversation } = {
 								right: true,
 								text: 'Thank you~',
 								color: Colors.Shopkeeper,
+								flags: {
+									wantToBuy: true,
+								},
 							},
 						],
 					},

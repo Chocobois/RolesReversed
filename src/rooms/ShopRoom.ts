@@ -160,8 +160,8 @@ export class ShopRoom extends Room {
 
 	selectItem(itemData: ItemData | null) {
 		if (itemData) {
-			this.scene.startDialogue(DialogueKey.ShopPurchase, (success: boolean) => {
-				if (success) {
+			this.scene.startDialogue(DialogueKey.ShopPurchase, (flags) => {
+				if (flags.wantToBuy) {
 					this.scene.addEnergy(-50);
 					this.scene.setHeldItem(itemData);
 				}

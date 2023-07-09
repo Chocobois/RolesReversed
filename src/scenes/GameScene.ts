@@ -148,7 +148,7 @@ export class GameScene extends BaseScene {
 		this.gameOverRoom.setVisible(state == State.GAMEOVER);
 	}
 
-	startDialogue(key: DialogueKey, callback: (success: boolean) => void) {
+	startDialogue(key: DialogueKey, callback: (flags: { [key: string]: any }) => void) {
 		this.dialogueOverlay.startDialogue(key, callback);
 	}
 
