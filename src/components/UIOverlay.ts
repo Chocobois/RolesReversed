@@ -21,6 +21,9 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 	private energyMeter: EnergyMeter;
 
+	private darknessOverlay: Phaser.GameObjects.Image;
+	private blockButtons: boolean;
+
 	constructor(scene: GameScene) {
 		super(scene, 0, 0);
 		this.scene = scene;
@@ -92,6 +95,16 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.energyMeter = new EnergyMeter(scene, this.treasureButton);
 		this.treasureButton.add(this.energyMeter);
 		this.treasureButton.moveDown(this.energyMeter);
+
+		/* Darkness */
+
+		this.darknessOverlay = scene.add.image(-this.homeButtons.x, -this.homeButtons.y, 'screen_gradient');
+		scene.fitToScreen(this.darknessOverlay);
+		this.darknessOverlay.setOrigin(0);
+		this.darknessOverlay.setTint(0x330000);
+		this.homeButtons.add(this.darknessOverlay);
+
+		this.homeButtons.bringToTop(this.treasureButton);
 	}
 
 	update(time: number, delta: number) {
@@ -101,6 +114,14 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.overworldButton.update(time, delta);
 
 		this.energyMeter.update(time, delta);
+
+		let darkness = Math.max(1 - this.scene.energy / 30, 0);
+		this.darknessOverlay.setAlpha(darkness * (1 - 0.1 * Math.abs(Math.sin(time / 200))));
+
+		let buttonAlpha = this.blockButtons ? 0.4 : 1 - 0.25 * darkness;
+		this.princessButton.setAlpha(buttonAlpha);
+		this.heroButton.setAlpha(buttonAlpha);
+		this.overworldButton.setAlpha(buttonAlpha);
 
 		// Don't show the top right buttons on the game over screen
 		const hideButtons = this.scene.state == State.GAMEOVER ? 0 : 1;
@@ -118,5 +139,23 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.heroButton.setRoom(state);
 		this.treasureButton.setRoom(state);
 		this.overworldButton.setRoom(state);
+	}
+
+	triggerPanicAttack() {
+		if (!this.blockButtons) {
+			this.blockButtons = true;
+			this.princessButton.enabled = false;
+			this.heroButton.enabled = false;
+			this.overworldButton.enabled = false;
+		}
+	}
+
+	clearPanicAttack() {
+		if (this.blockButtons) {
+			this.blockButtons = false;
+			this.princessButton.enabled = true;
+			this.heroButton.enabled = true;
+			this.overworldButton.enabled = true;
+		}
 	}
 }

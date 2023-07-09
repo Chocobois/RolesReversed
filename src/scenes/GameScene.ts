@@ -104,7 +104,7 @@ export class GameScene extends BaseScene {
 		this.maxEnergy = 100;
 		this.energy = 50;
 		this.difficulty = 0;
-		this.setRoom(State.Princess);
+		this.setRoom(State.Treasure);
 	}
 
 	update(time: number, delta: number) {
@@ -152,6 +152,12 @@ export class GameScene extends BaseScene {
 
 	addEnergy(increment: number) {
 		this.energy = Math.min(Math.max(this.energy + increment, 0), 100);
+
+		if (this.energy == 0) {
+			this.uiOverlay.triggerPanicAttack();
+		} else if (this.energy > 30) {
+			this.uiOverlay.clearPanicAttack();
+		}
 	}
 
 	setHeldItem(itemData: ItemData) {
