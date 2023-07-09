@@ -45,6 +45,7 @@ export class GameScene extends BaseScene {
 	public musicGameOver: Music;
 
 	public musicVolume: number;
+	public musicGlobalMuted: boolean;
 
 	//placeholder for now
 	public difficulty: number;
@@ -89,6 +90,7 @@ export class GameScene extends BaseScene {
 		/* Music */
 
 		this.musicVolume = 0.25;
+		this.musicGlobalMuted = false;
 		this.musicBacking = new Music(this, 'm_backing', { volume: this.musicVolume });
 		this.musicGoldPile = new Music(this, 'm_goldpile', { volume: this.musicVolume });
 		this.musicHighEnergy = new Music(this, 'm_highenergy', { volume: this.musicVolume });
@@ -148,9 +150,13 @@ export class GameScene extends BaseScene {
 
 		const isAlive = this.state != State.GAMEOVER;
 		const isEepy = this.state == State.Treasure;
+		const lowEnergy = this.energy < 30;
+
+		this.musicDrumLoop.mute = lowEnergy ? true : this.musicGlobalMuted;
+		this.musicStrings.mute = lowEnergy ? true : this.musicGlobalMuted;
 
 		this.musicHighEnergy.setVolume(isAlive && !isEepy && this.energy > 70 ? this.musicVolume : 0);
-		this.musicDanger.setVolume(isAlive && this.energy < 30 ? this.musicVolume : 0);
+		this.musicDanger.setVolume(isAlive && lowEnergy ? this.musicVolume : 0);
 	}
 
 	setRoom(state: State) {
@@ -176,9 +182,9 @@ export class GameScene extends BaseScene {
 			case State.Shop:
 				this.updateVolumes([true, false, true, true, false, true]); break;
 			case State.Town:
-				this.updateVolumes([true, false, true, true, true, true]); break;
+				this.updateVolumes([true, false, true, false, true, false]); break;
 			case State.Overworld:
-				this.updateVolumes([true, false, true, false, false, false]); break;
+				this.updateVolumes([true, false, true, false, false, true]); break;
 			case State.GAMEOVER:
 				this.updateVolumes([false, false, false, false, false, false]);
 				this.musicGameOver.play(); break;
@@ -210,6 +216,7 @@ export class GameScene extends BaseScene {
 	}
 
 	setMusicMuted(muted: boolean) {
+		this.musicGlobalMuted = muted;
 		this.musicBacking.mute = muted;
 		this.musicGoldPile.mute = muted;
 		this.musicHighEnergy.mute = muted;
