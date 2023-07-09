@@ -70,6 +70,8 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 	}
 
 	startDialogue(key: DialogueKey, callback?: (flags: { [key: string]: any }) => void) {
+		//pauses certain functions while dialogue is on screen
+		this.scene.dialogueFlag = true;
 		this.setVisible(true);
 
 		this.callback = callback;
@@ -100,6 +102,7 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 					this.callback(this.flags);
 				}
 				this.hide();
+				this.scene.dialogueFlag = false;
 			}
 		}
 	}

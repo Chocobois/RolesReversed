@@ -48,6 +48,7 @@ export class GameScene extends BaseScene {
 
 	//placeholder for now
 	public difficulty: number;
+	public dialogueFlag: boolean;
 
 	constructor() {
 		super({ key: 'GameScene' });
@@ -204,9 +205,6 @@ export class GameScene extends BaseScene {
 	}
 
 	endGame() {
-		if (this.state != State.GAMEOVER) {
-			this.sound.play('GAME_OVER_SOUND');
-		}
 		this.setRoom(State.GAMEOVER);
 		this.uiOverlay.setVisible(false);
 	}
