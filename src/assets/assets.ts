@@ -163,6 +163,8 @@ const audios: Audio[] = [
 	sound('placeholder/placeholder_fried', 'FRIED_SOUND', 0.1),
 
 	// Sounds: character voices
+	sound('voice/generic', 'v_misc_1'),
+
 	sound('voice/kobl_1', 'v_kobl_1'),
 	sound('voice/kobl_2', 'v_kobl_2'),
 	sound('voice/kobl_3', 'v_kobl_3'),

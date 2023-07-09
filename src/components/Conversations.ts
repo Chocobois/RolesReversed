@@ -89,7 +89,7 @@ export interface VoiceClipData {
 export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 	[Voices.Dragon]: {
 		prefix: 'v_dragn_',
-		volume: 0.6,
+		volume: 0.5,
 		count: 8,
 		basePitch: 1.2,
 		pitchVar: 0.2,
@@ -98,13 +98,13 @@ export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 		soundsPerWord: 0.22,
 	},
 	[Voices.Princess]: {
-		prefix: 'v_kobl_',
+		prefix: 'v_misc_',
 		volume: 0.5,
-		count: 4,
-		pitchVar: 0.12,
-		preferred: [2, 3, 4, 1],
-		delay: 140,
-		soundsPerWord: 0.4,
+		count: 1,
+		basePitch: 1.4,
+		pitchVar: 0.1,
+		delay: 95,
+		soundsPerWord: 0.5,
 	},
 	[Voices.Shopkeeper]: {
 		prefix: 'v_kobl_',
@@ -116,12 +116,13 @@ export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 		delay: 140,
 	},
 	[Voices.Hero]: {
-		prefix: 'v_kobl_',
+		prefix: 'v_misc_',
 		volume: 0.5,
-		count: 4,
-		pitchVar: 0.12,
-		preferred: [2, 3, 4, 1],
-		delay: 140,
+		count: 1,
+		basePitch: 0.6,
+		pitchVar: 0.03,
+		delay: 100,
+		soundsPerWord: 0.5,
 	},
 };
 
