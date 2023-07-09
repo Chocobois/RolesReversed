@@ -19,12 +19,6 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	public treasureButton: RoomButton;
 	public overworldButton: RoomButton;
 
-	public overworldButtons: Phaser.GameObjects.Container;
-	public castleButton: RoomButton;
-	public shopButton: RoomButton;
-	public townButton: RoomButton;
-	public otherButton: RoomButton;
-
 	private energyMeter: EnergyMeter;
 
 	constructor(scene: GameScene) {
@@ -44,8 +38,6 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		this.homeButtons = scene.add.container(scene.CX, y);
 		this.add(this.homeButtons);
-		this.overworldButtons = scene.add.container(scene.CX, y);
-		this.add(this.overworldButtons);
 
 		/* Volume buttons */
 		const buttonSize = 35;
@@ -95,32 +87,6 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		});
 		this.homeButtons.add(this.overworldButton);
 
-		/* Overworld buttons */
-
-		this.shopButton = new RoomButton(scene, x1, 0, 'button_shop', State.Shop, 'Shop');
-		this.shopButton.on('click', () => {
-			this.emit('changeRoom', State.Shop);
-		});
-		this.overworldButtons.add(this.shopButton);
-
-		this.townButton = new RoomButton(scene, x2, 0, 'button_town', State.Town, 'Town 1');
-		this.townButton.on('click', () => {
-			this.emit('changeRoom', State.Town);
-		});
-		this.overworldButtons.add(this.townButton);
-
-		this.otherButton = new RoomButton(scene, x3, 0, 'button_town', State.Town, 'Town 2');
-		this.otherButton.on('click', () => {
-			this.emit('changeRoom', State.Town);
-		});
-		this.overworldButtons.add(this.otherButton);
-
-		this.castleButton = new RoomButton(scene, x4, 0, 'button_home', State.Princess, 'Back home');
-		this.castleButton.on('click', () => {
-			this.emit('changeRoom', State.Princess);
-		});
-		this.overworldButtons.add(this.castleButton);
-
 		/* Energy */
 
 		this.energyMeter = new EnergyMeter(scene, this.treasureButton);
@@ -133,10 +99,6 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.heroButton.update(time, delta);
 		this.treasureButton.update(time, delta);
 		this.overworldButton.update(time, delta);
-		this.castleButton.update(time, delta);
-		this.shopButton.update(time, delta);
-		this.townButton.update(time, delta);
-		this.otherButton.update(time, delta);
 
 		this.energyMeter.update(time, delta);
 
@@ -149,7 +111,6 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 	setRoom(state: State) {
 		this.homeButtons.setVisible(true);
-		this.overworldButtons.setVisible(false);
 		// this.homeButtons.setVisible(state == State.Princess || state == State.Hero || state == State.Treasure || state == State.Overworld);
 		// this.overworldButtons.setVisible(state == State.Shop || state == State.Town);
 
@@ -157,9 +118,5 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 		this.heroButton.setRoom(state);
 		this.treasureButton.setRoom(state);
 		this.overworldButton.setRoom(state);
-		this.castleButton.setRoom(state);
-		this.shopButton.setRoom(state);
-		this.townButton.setRoom(state);
-		this.otherButton.setRoom(state);
 	}
 }
