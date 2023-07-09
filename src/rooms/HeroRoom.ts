@@ -77,8 +77,8 @@ export class HeroRoom extends Room {
 		if (this.scene.dialogueFlag) {
 			return;
 		}
-		const heroHoldX = 1.0 + 0.15 * this.heroButton.holdSmooth;
-		const heroHoldY = 1.0 - 0.1 * this.heroButton.holdSmooth;
+		const heroHoldX = 1.0; //+ 0.15 * this.heroButton.holdSmooth;
+		const heroHoldY = 1.0; //- 0.1 * this.heroButton.holdSmooth;
 		const heroSquish = 0.02;
 		if (this.cooldown > 0) {
 			if (this.queueFlag == queueState.IDLE || this.queueFlag == queueState.WAITING) {

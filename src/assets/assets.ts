@@ -130,7 +130,6 @@ const audios: Audio[] = [
 
 	// Sounds
 	sound('tree/rustle', 't_rustle', 0.1),
-	sound('placeholder/gameover_sound', 'GAME_OVER_SOUND', 0.1),
 	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.1),
 	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
 	sound('placeholder/explosion_placeholder', 'EXPL_SOUND', 0.1),
