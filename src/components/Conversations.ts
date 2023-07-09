@@ -555,6 +555,7 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
+								rightSprite: Sprites.DragonBlush,
 								text: "Hey there, uh, good-lookin'. I like your... armor?",
 							},
 							{
@@ -567,6 +568,7 @@ const conversations: { [key in any]: Conversation } = {
 							},
 							{
 								character: RIGHT,
+								rightSprite: Sprites.DragonAngry,
 								text: 'Ugh, I need a shower.',
 								flags: {
 									talkFailure: false,
@@ -776,6 +778,7 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
+								rightSprite: Sprites.DragonBlush,
 								text: 'You know, I have a soft spot for rough guys like you. How about we take this behind the lake?',
 							},
 							{
@@ -784,6 +787,7 @@ const conversations: { [key in any]: Conversation } = {
 							},
 							{
 								character: RIGHT,
+								rightSprite: Sprites.DragonAngry,
 								text: 'Hrrrk!',
 								flags: {
 									talkFailure: true,
@@ -1004,15 +1008,17 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
-								text: "How's Sir Shakes-a-lot say to putting this big scary dragon business aside? I'll show you how to really handle a sword.",
+								rightSprite: Sprites.DragonBlush,
+								text: "What does Sir Shakes-a-lot say to putting this big scary dragon business aside? I'll show you how to really handle a sword.",
 							},
 							{
 								character: LEFT,
+								rightSprite: Sprites.DragonBlush,
 								text: "T-there's nothing I could learn from you. You can't even hold a sword!",
 							},
 							{
 								character: RIGHT,
-								text: "I didn't think anyone could be that thick.",
+								text: "I didn't think anyone could be that dumb.",
 							},
 							{
 								character: LEFT,
@@ -1152,21 +1158,25 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
+								rightSprite: Sprites.DragonBlush,
 								text: "A warrior of love, you say? Well, then, why don't you take this big, bad dragon's heart behind the castle this evening?",
 								color: Colors.Dragon,
 							},
 							{
 								character: LEFT,
+								rightSprite: Sprites.DragonBlush,
 								text: 'A battle of romance, you propose? Well, those lustrous scales and broad wings are quite impressive. I shall not turn this challenge down!',
 								color: Colors.Valentine,
 							},
 							{
 								character: RIGHT,
+								rightSprite: Sprites.DragonBlush,
 								text: 'Do try to keep pace, lover boy.',
 								color: Colors.Dragon,
 							},
 							{
 								character: LEFT,
+								rightSprite: Sprites.DragonBlush,
 								text: 'Prepare to be utterly ravished, on my honor as a knight!',
 								color: Colors.Valentine,
 							},
