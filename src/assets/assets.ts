@@ -127,6 +127,7 @@ const images: Asset[] = [
 	image('placeholder/placeholder_building_3', 'BLDG_3'),
 
 	image('placeholder/placeholder_expl', 'EXPL'),
+	image('sprites/particle-sparkle', 'particle_sparkle'),
 ];
 
 /* Spritesheets */ /* prettier-ignore */
