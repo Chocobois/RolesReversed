@@ -65,8 +65,8 @@ const Data = {
 		offset: 0,
 		bpm: 170,
 		loop: false,
-		start: 0,
-		end: 1993439 / 44100,
+		// start: 0,
+		// end: 1993439 / 44100,
 	},
 };
 
