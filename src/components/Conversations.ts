@@ -97,7 +97,7 @@ export interface VoiceClipData {
 export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 	[Voices.Dragon]: {
 		prefix: 'v_dragn_',
-		volume: 0.6,
+		volume: 0.5,
 		count: 8,
 		basePitch: 1.2,
 		pitchVar: 0.2,
@@ -106,13 +106,13 @@ export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 		soundsPerWord: 0.22,
 	},
 	[Voices.Princess]: {
-		prefix: 'v_kobl_',
+		prefix: 'v_misc_',
 		volume: 0.5,
-		count: 4,
-		pitchVar: 0.12,
-		preferred: [2, 3, 4, 1],
-		delay: 140,
-		soundsPerWord: 0.4,
+		count: 1,
+		basePitch: 1.4,
+		pitchVar: 0.1,
+		delay: 95,
+		soundsPerWord: 0.5,
 	},
 	[Voices.Shopkeeper]: {
 		prefix: 'v_kobl_',
@@ -124,12 +124,13 @@ export const VoiceClips: { [key in Voices]: VoiceClipData } = {
 		delay: 140,
 	},
 	[Voices.Hero]: {
-		prefix: 'v_kobl_',
+		prefix: 'v_misc_',
 		volume: 0.5,
-		count: 4,
-		pitchVar: 0.12,
-		preferred: [2, 3, 4, 1],
-		delay: 140,
+		count: 1,
+		basePitch: 0.6,
+		pitchVar: 0.03,
+		delay: 100,
+		soundsPerWord: 0.5,
 	},
 	[Voices.Gold]: {
 		prefix: 'v_kobl_',
@@ -391,31 +392,15 @@ const conversations: { [key in any]: Conversation } = {
 		messages: [
 			{
 				character: RIGHT,
-				text: 'What in heavens is all the racket about.',
+				text: 'What in heavens is all the racket about...?',
 			},
 			{
 				character: LEFT,
-				text: 'Any honorable knight must introduce himself.',
+				text: 'Be warned, dragon!',
 			},
 			{
 				character: LEFT,
-				text: 'Alas, you can only hear me from this castle wall.',
-			},
-			{
-				character: RIGHT,
-				text: "And why shouldn't I just leave you to tilt at windmills?",
-			},
-			{
-				character: LEFT,
-				text: "Like protecting castles, sparring, and pillaging our enemies, whisking away the princess is one of a knight's duties!",
-			},
-			{
-				character: RIGHT,
-				text: "Doesn't sound too different from a dragon's life if you ask me.",
-			},
-			{
-				character: LEFT,
-				text: 'I detest the comparison, scaly-snout! Be warned, that should you idle too long, I will abduct the fair maiden!',
+				text: "I know you're keeping a princess! And should you idle too long, I will abduct the fair maiden!",
 			},
 			{
 				character: LEFT,
@@ -430,28 +415,20 @@ const conversations: { [key in any]: Conversation } = {
 				text: "Most certainly not! But laying claim to damsels in distress is one of a knight's sacred provisions.",
 			},
 			{
-				character: RIGHT,
-				text: 'That is actually vile. I should incinerate you on the spot.',
-			},
-			{
-				character: LEFT,
-				text: 'It true that you may do so, dragon. But why not engage in a battle of wits?',
-			},
-			{
 				character: LEFT,
 				text: 'My brethren will arrive regularly to challenge you. Some may be cowardly, some brave, some greedy, and some noble.',
 			},
 			{
 				character: RIGHT,
-				text: 'You can try to scare the weakhearted, bribe the shallow-hearted with your gold, or even seduce those tempted by your draconic nature!',
+				text: 'So what? I will just use their weakness against them.',
+			},
+			{
+				character: LEFT,
+				text: 'Beware, misjudge their weakness, and they shall use the opportunity to strike!',
 			},
 			{
 				character: RIGHT,
-				text: 'But beware, misjudge their weakness, and they shall use the opportunity to strike!',
-			},
-			{
-				character: RIGHT,
-				text: "Well then, let's try this.",
+				text: "Well then, let's try this...",
 				choice: [
 					{
 						text: 'Intimidate',
@@ -515,7 +492,7 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
-								text: "Hey there, uh, good-lookin'. I like your... big sword?",
+								text: "Hey there, uh, good-lookin'. I like your... armor?",
 							},
 							{
 								character: LEFT,

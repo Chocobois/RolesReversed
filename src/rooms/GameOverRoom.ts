@@ -1,7 +1,8 @@
 import { Button } from '@/components/Button';
 import { GameScene } from '../scenes/GameScene';
+import { Room } from './Room';
 
-export class GameOverRoom extends Phaser.GameObjects.Container {
+export class GameOverRoom extends Room {
 	//we can add restart buttons and such here
 	public scene: GameScene;
 
@@ -10,7 +11,7 @@ export class GameOverRoom extends Phaser.GameObjects.Container {
 	public restartButton: Button;
 
 	constructor(scene: GameScene) {
-		super(scene, 0, 0);
+		super(scene);
 		this.scene = scene;
 		this.scene.add.existing(this);
 
@@ -23,10 +24,10 @@ export class GameOverRoom extends Phaser.GameObjects.Container {
 
 		this.restartText = scene.createText(0, 0, 100, '#FFFFFF', 'Restart');
 		this.restartText.setOrigin(0.5);
+		this.restartText.setStroke('#000', 16);
 		this.restartButton.add(this.restartText);
 		this.restartButton.bindInteractive(this.restartText);
 		this.restartButton.on('click', () => {
-			scene.musicGameOver.volume = 0;
 			this.scene.scene.start('TitleScene');
 		});
 	}

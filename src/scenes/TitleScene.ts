@@ -186,10 +186,7 @@ export class TitleScene extends BaseScene {
 			this.subtitle.setVisible(true);
 			this.subtitle.setAlpha(1);
 		} else if (!this.isStarting) {
-			this.sound.play('t_rustle', { volume: 0.3 });
-			// this.sound.play('m_slice', { volume: 0.3 });
-			// this.sound.play('u_attack_button', { volume: 0.5 });
-			// this.select2.play();
+			this.sound.play('s_begin', { volume: 0.6 });
 			this.isStarting = true;
 			this.flash(3000, 0xffffff, 0.6);
 

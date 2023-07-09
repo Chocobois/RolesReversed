@@ -138,6 +138,7 @@ const spritesheets: SpriteSheet[] = [
 	spritesheet('ui/music', 'music', 300, 300),
 	spritesheet('ui/pause', 'pause', 300, 300),
 	spritesheet('sprites/particle-sleep', 'particle_sleep', 70, 70),
+	spritesheet('sprites/explosion_tiny', 'explosion_tiny', 512, 512),
 ];
 
 /* Audios */
@@ -156,6 +157,8 @@ const audios: Audio[] = [
 	music('bgm_gameover', 'm_gameover'),
 
 	// Sounds
+	sound('ui/title_begin', 's_begin', 0.5),
+
 	sound('tree/rustle', 't_rustle', 0.1),
 	sound('placeholder/placeholder_hit', 'HIT_SOUND', 0.1),
 	sound('placeholder/placeholder_capture', 'CAPTURE_SOUND', 0.1),
@@ -164,6 +167,8 @@ const audios: Audio[] = [
 	sound('placeholder/placeholder_fried', 'FRIED_SOUND', 0.1),
 
 	// Sounds: character voices
+	sound('voice/generic', 'v_misc_1'),
+
 	sound('voice/kobl_1', 'v_kobl_1'),
 	sound('voice/kobl_2', 'v_kobl_2'),
 	sound('voice/kobl_3', 'v_kobl_3'),
