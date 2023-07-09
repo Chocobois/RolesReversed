@@ -25,6 +25,8 @@ export class RoomButton extends Button {
 	private label: string | undefined;
 	private gScene: GameScene;
 
+	private isBouncing: boolean;
+
 	constructor(scene: GameScene, x: number, y: number, key: string, room: State, label?: string) {
 		super(scene, x, y);
 		this.gScene = scene;
@@ -49,6 +51,9 @@ export class RoomButton extends Button {
 		this.label = label;
 
 		this.bindInteractive(this.image, false);
+		this.on('click', () => {
+			this.isBouncing = false;
+		});
 		// const inputPadding = 40 / this.image.scaleX;
 		// this.image.input.hitArea.setTo(-inputPadding, -inputPadding, this.image.width+2*inputPadding, this.image.height+2*inputPadding);
 
@@ -60,7 +65,8 @@ export class RoomButton extends Button {
 		const holdX = this.enabled ? 1.0 + 0.15 * this.holdSmooth : 1;
 		const holdY = this.enabled ? 1.0 - 0.1 * this.holdSmooth : 1;
 		const buttonSquish = -0.01;
-		this.setScale((1.0 + buttonSquish * Math.sin(time / 200)) * holdX, (1.0 + buttonSquish * Math.sin(-time / 200)) * holdY);
+		const buttonBounce = this.isBouncing ? 0.2 : 0;
+		this.setScale((1.0 + buttonSquish * Math.sin(time / 200) + buttonBounce * Math.abs(Math.sin(time / 200))) * holdX, (1.0 + buttonSquish * Math.sin(-time / 200) + buttonBounce * Math.abs(Math.sin(time / 200))) * holdY);
 		this.image.setTint(this.enabled ? 0xffffff : 0x777777);
 
 		this.notification.setOrigin(0.5);
@@ -158,5 +164,9 @@ export class RoomButton extends Button {
 		const { x: dx, y: dy } = this.parentContainer ?? { x: 0, y: 0 };
 		this.tooltip = new Tooltip(this.scene, dx + this.x, dy + this.y + 76, `${this.label}`, 36, style);
 		if (!replacing) this.tooltip.fade(70);
+	}
+
+	makeBouncy() {
+		this.isBouncing = true;
 	}
 }

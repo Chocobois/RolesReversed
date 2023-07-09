@@ -143,7 +143,7 @@ const Characters: { [key: string]: Character } = {
 		sprite: Sprites.Princess,
 		color: Colors.Princess,
 		voice: Voices.Princess,
-	}
+	},
 };
 
 export interface Message {
@@ -199,7 +199,56 @@ const conversations: { [key in any]: Conversation } = {
 	[DialogueKey.PrincessWantItem]: {
 		leftCharacter: Characters.Princess,
 		rightCharacter: Characters.Dragon,
-		messages: [],
+		messages: [
+			{
+				character: RIGHT,
+				leftSprite: Sprites.PrincessPout,
+				text: '*sigh* What is it now?',
+			},
+			{
+				character: LEFT,
+				leftSprite: Sprites.PrincessPout,
+				text: 'Waiting for a prince is so boring...!',
+			},
+			{
+				character: LEFT,
+				text: 'Could you buy something for me?',
+				choice: [
+					{
+						text: 'Refuse',
+						color: Colors.Red,
+						messages: [
+							{
+								character: RIGHT,
+								rightSprite: Sprites.DragonAngry,
+								text: 'I would never spend my precious gold on such frivolities.',
+							},
+							{
+								character: LEFT,
+								leftSprite: Sprites.PrincessPout,
+								rightSprite: Sprites.DragonAngry,
+								text: '...',
+							},
+							{
+								character: LEFT,
+								leftSprite: Sprites.Princess,
+								rightSprite: Sprites.DragonAngry,
+								text: 'Pretty pleeease~!',
+							},
+							{
+								character: RIGHT,
+								rightSprite: Sprites.DragonAngry,
+								text: '...',
+							},
+							{
+								character: RIGHT,
+								text: "Fine... I'll see what I can do.",
+							},
+						],
+					},
+				],
+			},
+		],
 	},
 	[DialogueKey.PrincessCaughtEscaping]: {
 		leftCharacter: Characters.Princess,
@@ -207,25 +256,39 @@ const conversations: { [key in any]: Conversation } = {
 		messages: [
 			{
 				character: LEFT,
-				text: 'Whoopsie!',
+				rightSprite: Sprites.DragonAngry,
+				text: 'Whoopsie! You caught me.',
 			},
 			{
 				character: LEFT,
+				rightSprite: Sprites.DragonAngry,
 				text: 'I was just... stretching my calves.',
 			},
 			{
 				character: RIGHT,
+				rightSprite: Sprites.DragonAngry,
 				text: 'What are you doing?!',
 			},
 			{
 				character: LEFT,
 				leftSprite: Sprites.PrincessPout,
-				text: "I'm just so bored! I thought this would be more exciting.",
+				rightSprite: Sprites.DragonAngry,
+				text: "... I'm bored!",
+			},
+			{
+				character: LEFT,
+				leftSprite: Sprites.PrincessPout,
+				text: 'I thought being captured would be more exciting.',
+			},
+
+			{
+				character: RIGHT,
+				rightSprite: Sprites.Dragon,
+				text: '...',
 			},
 			{
 				character: RIGHT,
-				rightSprite: Sprites.DragonTalk,
-				text: 'What are you doing?!',
+				text: "I'll try not to ignore you.",
 			},
 		],
 	},
@@ -1151,10 +1214,6 @@ const conversations: { [key in any]: Conversation } = {
 			{
 				character: LEFT,
 				text: "It's not for me! It's for a princess!",
-			},
-			{
-				character: RIGHT,
-				text: "Oh you can't just have one! You need two of these to play with!",
 				choice: [
 					{
 						text: 'Refuse',
