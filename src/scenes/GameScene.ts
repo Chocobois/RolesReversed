@@ -78,8 +78,6 @@ export class GameScene extends BaseScene {
 		this.princessRoom.setRoomButton(this.uiOverlay.princessButton);
 		this.heroRoom.setRoomButton(this.uiOverlay.heroButton);
 		this.treasureRoom.setRoomButton(this.uiOverlay.treasureButton);
-		this.shopRoom.setRoomButton(this.uiOverlay.shopButton);
-		this.townRoom.setRoomButton(this.uiOverlay.townButton);
 		this.overworldRoom.setRoomButton(this.uiOverlay.overworldButton);
 
 		/* Music */
