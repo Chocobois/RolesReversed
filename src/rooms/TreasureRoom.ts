@@ -13,6 +13,7 @@ export class TreasureRoom extends Room {
 	public particlesPhaser: Phaser.GameObjects.Particles.ParticleEmitter;
 	private spawnTimer: Phaser.Time.TimerEvent;
 
+	private firstTimeClicking: boolean;
 	private firstTimePanicAttack: boolean;
 
 	constructor(scene: GameScene) {
@@ -57,6 +58,13 @@ export class TreasureRoom extends Room {
 		this.dragonButton.bindInteractive(this.dragonImage);
 		this.dragonButton.on('click', () => {
 			this.scene.addEnergy(1);
+
+			if (!this.firstTimeClicking) {
+				this.firstTimeClicking = true;
+				this.scene.startDialogue(DialogueKey.GoldIntroduction, () => {
+					this.scene.uiOverlay.unlockPrincess();
+				});
+			}
 		});
 
 		this.breathTime = 0;

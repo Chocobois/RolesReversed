@@ -6,6 +6,7 @@ import State from '@/components/State';
 export class OverworldRoom extends Room {
 	private background: Phaser.GameObjects.Image;
 	private foreground: Phaser.GameObjects.Image;
+	private dragon: Phaser.GameObjects.Image;
 
 	private shopButton: Button;
 	private shopImage: Phaser.GameObjects.Image;
@@ -44,6 +45,10 @@ export class OverworldRoom extends Room {
 		this.foreground = scene.add.image(scene.CX, scene.CY, 'room_overworld_fg');
 		this.add(this.foreground);
 		scene.fitToScreen(this.foreground);
+
+		this.dragon = scene.add.image(scene.CX, scene.CY, 'dragon_peek_flip');
+		this.add(this.dragon);
+		scene.fitToScreen(this.dragon);
 	}
 
 	update(time: number, delta: number) {

@@ -21,13 +21,13 @@ export class GameScene extends BaseScene {
 	public maxEnergy: number;
 	public energy: number;
 
-	private princessRoom: PrincessRoom;
-	private heroRoom: HeroRoom;
-	private treasureRoom: TreasureRoom;
+	public princessRoom: PrincessRoom;
+	public heroRoom: HeroRoom;
+	public treasureRoom: TreasureRoom;
 	public shopRoom: ShopRoom;
-	private townRoom: TownRoom;
-	private overworldRoom: OverworldRoom;
-	private gameOverRoom: GameOverRoom;
+	public townRoom: TownRoom;
+	public overworldRoom: OverworldRoom;
+	public gameOverRoom: GameOverRoom;
 
 	public uiOverlay: UIOverlay;
 	public dialogueOverlay: DialogueOverlay;
@@ -217,8 +217,13 @@ export class GameScene extends BaseScene {
 	}
 
 	endGame() {
-		this.setRoom(State.GAMEOVER);
 		this.uiOverlay.setVisible(false);
+
+		this.fade(true, 2000, 0x000000);
+		this.addEvent(2000, () => {
+			this.setRoom(State.GAMEOVER);
+			this.fade(false, 500, 0x000000);
+		});
 	}
 
 	setMusicMuted(muted: boolean) {

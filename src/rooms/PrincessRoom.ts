@@ -29,16 +29,20 @@ export class PrincessRoom extends Room {
 	private princessState: PrincessState;
 	private timer: Phaser.Time.TimerEvent;
 
-	private energy: number;
-	private happiness: number;
-	private hunger: number;
-	private patience: number;
-	private wantedItem: ItemData | null; // Item the princess requests
-	private heldItem: ItemData | null; // Item the dragon is holding
-	private activeItem: ItemData | null; // Item the princess is using
+	public energy: number;
+	public happiness: number;
+	public hunger: number;
+	public patience: number;
+	public wantedItem: ItemData | null; // Item the princess requests
+	public heldItem: ItemData | null; // Item the dragon is holding
+	public activeItem: ItemData | null; // Item the princess is using
 
+	private firstTimeClicked: boolean;
 	private firstTimeBeingCaught: boolean;
 	private firstTimeWantingItem: boolean;
+
+	private escapeTimer: number;
+	private escapeTimes: number[];
 
 	constructor(scene: GameScene) {
 		super(scene);
@@ -83,17 +87,23 @@ export class PrincessRoom extends Room {
 		});
 
 		this.energy = 80;
-		this.happiness = 20;
-		this.hunger = 100;
+		this.happiness = 60;
+		this.hunger = 80;
 		this.patience = 100;
 		this.wantedItem = null;
 		this.heldItem = null;
 		this.activeItem = null;
+		this.escapeTimes = [20000, 10000, 7500];
+		this.escapeTimer = this.escapeTimes.shift() || 5000;
 
 		this.setPrincessState(PrincessState.Idle);
 	}
 
 	update(time: number, delta: number) {
+		if (!this.roomButton.enabled) {
+			return;
+		}
+
 		const princessHoldX = 1.0 + 0.15 * this.princessButton.holdSmooth;
 		const princessHoldY = 1.0 - 0.1 * this.princessButton.holdSmooth;
 		const princessSquish = this.princessState != PrincessState.Dead ? 0.02 : 0;
@@ -117,9 +127,9 @@ export class PrincessRoom extends Room {
 		if (!this.visible) {
 			// Energy
 			if (this.princessState == PrincessState.Sleeping) {
-				this.addEnergy(3 * (delta / 1000));
+				this.addEnergy(7 * (delta / 1000));
 			} else {
-				this.addEnergy(-2 * (delta / 1000));
+				this.addEnergy(-3 * (delta / 1000));
 			}
 			if (this.princessState == PrincessState.Idle && this.energy == 0) {
 				this.setPrincessState(PrincessState.Sleeping);
@@ -130,7 +140,7 @@ export class PrincessRoom extends Room {
 
 			// Happiness
 			if (this.princessState == PrincessState.Playing) {
-				this.addHappiness(3 * (delta / 1000));
+				this.addHappiness(4 * (delta / 1000));
 			} else {
 				if (this.princessState == PrincessState.Sleeping) {
 					this.addHappiness(-0.25 * (delta / 1000));
@@ -143,7 +153,7 @@ export class PrincessRoom extends Room {
 				this.roomButton.setHeldItem(null);
 				this.setPrincessState(PrincessState.Idle);
 			}
-			if (this.princessState == PrincessState.Idle && this.happiness == 0) {
+			if (this.princessState == PrincessState.Idle && this.happiness == 0 && this.firstTimeClicked) {
 				this.makePrincessBeg();
 			}
 
@@ -152,7 +162,7 @@ export class PrincessRoom extends Room {
 				this.addHunger(4 * (delta / 1000));
 			} else {
 				if (this.princessState == PrincessState.Sleeping) {
-					this.addHunger(-1.0 * (delta / 1000));
+					this.addHunger(-4 * (delta / 1000));
 				} else {
 					this.addHunger(-0.5 * (delta / 1000));
 				}
@@ -168,7 +178,7 @@ export class PrincessRoom extends Room {
 
 			// Patience
 			if (this.princessState == PrincessState.Begging) {
-				this.addPatience(-2.0 * (delta / 1000));
+				this.addPatience(-3 * (delta / 1000));
 				if (this.patience == 0 && this.happiness == 0) {
 					this.setPrincessState(PrincessState.Escaping);
 				}
@@ -176,7 +186,7 @@ export class PrincessRoom extends Room {
 					this.setPrincessState(PrincessState.Dead);
 				}
 			} else if (this.princessState == PrincessState.Escaping) {
-				this.patience = 50;
+				this.patience = 30;
 			} else {
 				this.patience = 100;
 			}
@@ -187,6 +197,10 @@ export class PrincessRoom extends Room {
 		if (isShown) {
 			if (this.timer) {
 				this.timer.paused = true;
+			}
+
+			if (this.princessState == PrincessState.Dead || this.princessState == PrincessState.Fled) {
+				this.scene.addEnergy(-100);
 			}
 		} else {
 			if (this.timer.paused) {
@@ -286,7 +300,8 @@ export class PrincessRoom extends Room {
 			case PrincessState.Escaping:
 				this.princessImage.setTexture('princess_escape_1');
 				this.princessButton.setPosition(1080, 500);
-				this.setTimer(5000 + 5000 / (1 + this.scene.difficulty));
+				this.setTimer(this.escapeTimer);
+				this.escapeTimer = this.escapeTimes.shift() || 6000;
 				break;
 			case PrincessState.Fled:
 				this.princessButton.setVisible(false);
@@ -323,6 +338,22 @@ export class PrincessRoom extends Room {
 	}
 
 	onPrincessClick() {
+		if (this.princessState == PrincessState.Idle || this.princessState == PrincessState.Sleeping) {
+			if (!this.firstTimeClicked) {
+				this.firstTimeClicked = true;
+				this.scene.startDialogue(DialogueKey.PrincessIntroduction, () => {
+					this.scene.uiOverlay.unlockHero();
+				});
+			}
+		}
+
+		if (this.princessState == PrincessState.Dead || this.princessState == PrincessState.Fled) {
+			this.scene.startDialogue(DialogueKey.PrincessFoundDead, () => {
+				this.scene.endGame();
+			});
+			return;
+		}
+
 		if (this.princessState == PrincessState.Escaping) {
 			this.setPrincessState(PrincessState.Idle);
 			this.scene.sound.play('CAPTURE_SOUND', { volume: 0.2 });

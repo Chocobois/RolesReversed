@@ -7,6 +7,7 @@ export enum DialogueKey {
 	PrincessIntroduction,
 	PrincessWantItem,
 	PrincessCaughtEscaping,
+	PrincessFoundDead,
 
 	HeroIntroduction,
 	HeroShout,
@@ -49,6 +50,8 @@ enum Colors {
 }
 
 enum Sprites {
+	Empty = 'dialogue_empty',
+
 	Dragon = 'dialogue_dragon',
 	DragonAngry = 'dialogue_dragon_angry',
 	DragonTalk = 'dialogue_dragon_talk',
@@ -211,24 +214,36 @@ const conversations: { [key in any]: Conversation } = {
 		leftCharacter: Characters.Gold,
 		rightCharacter: Characters.Dragon,
 		messages: [
-			// {
-			// 	character: RIGHT,
-			// 	rightSprite: Sprites.DragonBlush,
-			// 	text: 'Gold',
-			// },
-			// {
-			// 	character: LEFT,
-			// 	text: '*gold noises*',
-			// },
-			// {
-			// 	character: RIGHT,
-			// 	rightSprite: Sprites.DragonBlush,
-			// 	text: 'Gold',
-			// },
-			// {
-			// 	character: LEFT,
-			// 	text: '*gold noises*',
-			// },
+			{
+				character: RIGHT,
+				text: '...',
+			},
+			{
+				character: RIGHT,
+				text: 'Gold... My precious gold.',
+			},
+			{
+				character: RIGHT,
+				rightSprite: Sprites.DragonBlush,
+				text: 'How could I live without you?',
+			},
+			{
+				character: LEFT,
+				rightSprite: Sprites.DragonBlush,
+				text: '*gold noises*',
+			},
+			{
+				character: RIGHT,
+				text: '...',
+			},
+			{
+				character: RIGHT,
+				text: 'Better check on the princess.',
+			},
+			{
+				character: LEFT,
+				text: '*gold noises*',
+			},
 		],
 	},
 	[DialogueKey.GoldPanicAttack]: {
@@ -276,22 +291,34 @@ const conversations: { [key in any]: Conversation } = {
 		messages: [
 			{
 				character: LEFT,
-				text: 'Omg hiii dragon-kun~ <3',
+				text: "Oh, you're back~!",
 			},
 			{
 				character: RIGHT,
-				rightSprite: Sprites.DragonAngry,
-				text: 'What the fuck...',
+				text: '*sigh*',
 			},
 			{
 				character: LEFT,
-				rightSprite: Sprites.Dragon,
-				text: "uwu please capture me I've been a NAUGHTY girl! yeah that's right this is a pretty long message.",
+				text: "I'm so excited to meet my prince charming.",
+			},
+			{
+				character: LEFT,
+				text: "Will you go talk to him for me? Does he want to rescue me? I'm so nervous.",
 			},
 			{
 				character: RIGHT,
+				text: "... But you're the one who came here to get kidnapped.",
+			},
+			{
+				character: LEFT,
+				leftSprite: Sprites.PrincessPout,
+				text: '...',
+			},
+			{
+				character: RIGHT,
+				leftSprite: Sprites.PrincessPout,
 				rightSprite: Sprites.DragonTalk,
-				text: 'Ok fine come on in gurrrl',
+				text: "I won't make any promises.",
 			},
 		],
 	},
@@ -392,6 +419,32 @@ const conversations: { [key in any]: Conversation } = {
 			},
 		],
 	},
+	[DialogueKey.PrincessFoundDead]: {
+		leftCharacter: {
+			sprite: Sprites.Empty,
+			color: Colors.Dragon,
+			voice: Voices.Dragon,
+		},
+		rightCharacter: Characters.Dragon,
+		messages: [
+			{
+				character: LEFT,
+				rightSprite: Sprites.DragonAngry,
+				text: '...!',
+			},
+			{
+				character: LEFT,
+				rightSprite: Sprites.DragonAngry,
+				text: 'Princess? PRINCESS?!',
+			},
+			{
+				character: LEFT,
+				rightSprite: Sprites.DragonAngry,
+				text: 'Curses! How could I be so careless?',
+			},
+		],
+	},
+
 	[DialogueKey.HeroIntroduction]: {
 		leftCharacter: {
 			sprite: Sprites.HeroBig,
@@ -780,7 +833,7 @@ const conversations: { [key in any]: Conversation } = {
 			},
 			{
 				character: LEFT,
-				text: "Nah, riches and bitches' all that matters.",
+				text: 'Nah, dames and dimes all that matters.',
 			},
 			{
 				character: RIGHT,

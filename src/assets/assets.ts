@@ -103,6 +103,7 @@ const images: Asset[] = [
 	image('sprites/dragon-peek', 'dragon_peek'),
 	image('sprites/dragon-peek-flip', 'dragon_peek_flip'),
 	//dialogue
+	image('sprites/dialogue-empty', 'dialogue_empty'),
 	image('sprites/dialogue-dragon', 'dialogue_dragon'),
 	image('sprites/dialogue-dragon-angry', 'dialogue_dragon_angry'),
 	image('sprites/dialogue-dragon-talk', 'dialogue_dragon_talk'),

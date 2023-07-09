@@ -77,7 +77,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 			this.scene.sound.play('s_button', { volume: 0.3 });
 			this.emit('changeRoom', State.Hero);
 		});
-		this.heroButton.setVisible(false);
+		this.heroButton.enabled = false;
 		this.homeButtons.add(this.heroButton);
 
 		this.princessButton = new RoomButton(scene, x2, 0, 'button_princess', State.Princess, 'Bedroom');
@@ -85,7 +85,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 			this.scene.sound.play('s_button', { volume: 0.3 });
 			this.emit('changeRoom', State.Princess);
 		});
-		this.princessButton.setVisible(false);
+		this.princessButton.enabled = false;
 		this.homeButtons.add(this.princessButton);
 
 		this.treasureButton = new RoomButton(scene, x3, 0, 'button_sleep', State.Treasure, 'Gold pile');
@@ -93,7 +93,7 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 			this.scene.sound.play('s_button', { volume: 0.3 });
 			this.emit('changeRoom', State.Treasure);
 		});
-		this.treasureButton.setVisible(false);
+		this.treasureButton.enabled = false;
 		this.homeButtons.add(this.treasureButton);
 
 		this.overworldButton = new RoomButton(scene, x4, 0, 'button_overworld', State.Overworld, 'Overworld');
@@ -120,8 +120,6 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 
 		this.homeButtons.bringToTop(this.treasureButton);
 
-		this.unlockHero();
-		this.unlockPrincess();
 		this.unlockTreasure();
 	}
 
@@ -178,15 +176,18 @@ export class UIOverlay extends Phaser.GameObjects.Container {
 	}
 
 	unlockPrincess() {
-		this.princessButton.setVisible(true);
+		this.princessButton.enabled = true;
+		this.princessButton.makeBouncy();
 	}
 	unlockHero() {
-		this.heroButton.setVisible(true);
+		this.heroButton.enabled = true;
+		this.heroButton.makeBouncy();
 	}
 	unlockTreasure() {
-		this.treasureButton.setVisible(true);
+		this.treasureButton.enabled = true;
 	}
 	unlockOverworld() {
+		console.warn('what');
 		this.overworldButton.enabled = true;
 		this.overworldButton.makeBouncy();
 		this.scene.sound.play('s_sparkle', { volume: 0.3 });
