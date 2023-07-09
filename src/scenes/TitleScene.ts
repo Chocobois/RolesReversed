@@ -65,7 +65,7 @@ export class TitleScene extends BaseScene {
 		this.background.setAlpha(0);
 		this.background.y += 500;
 		this.foreground.x += 3000;
-		this.foreground2.y += 6000;
+		this.foreground2.y += 4000;
 
 		// this.title = this.createText(0.25*this.W, 0.7*this.H, 160, "#000", "Game Title");
 		// this.title.setOrigin(0.5);
@@ -145,20 +145,20 @@ export class TitleScene extends BaseScene {
 	update(time: number, delta: number) {
 		if (this.background.visible) {
 			this.background.y += 0.025 * (this.H - this.background.y);
-			this.foreground.x += 0.02 * (this.CX - this.foreground.x);
-			this.foreground2.y += 0.015 * (this.CY - this.foreground2.y);
+			this.foreground.x += 0.019 * (this.CX - this.foreground.x);
+			this.foreground2.y += 0.019 * (this.CY - this.foreground2.y);
 
 			this.background.alpha += 0.03 * (1 - this.background.alpha);
 
-			this.title.alpha += 0.02 * ((this.title.visible ? 1 : 0) - this.title.alpha);
-			this.subtitle.alpha += 0.02 * ((this.subtitle.visible ? 1 : 0) - this.subtitle.alpha);
-			// this.version.alpha += 0.02 * ((this.version.visible ? 1 : 0) - this.version.alpha);
+			this.title.alpha += 0.06 * ((this.title.visible ? 1 : 0) - this.title.alpha);
+			this.subtitle.alpha += 0.2 * ((this.subtitle.visible ? 1 : 0) - this.subtitle.alpha);
+			// this.version.alpha += 0.06 * ((this.version.visible ? 1 : 0) - this.version.alpha);
 
 			if (this.credits.visible) {
-				this.credits.alpha += 0.02 * (1 - this.credits.alpha);
+				this.credits.alpha += 0.06 * (1 - this.credits.alpha);
 			}
 			if (this.version.visible) {
-				this.version.alpha += 0.02 * (1 - this.version.alpha);
+				this.version.alpha += 0.06 * (1 - this.version.alpha);
 			}
 		} else {
 			this.tap.alpha += 0.01 * (1 - this.tap.alpha);
@@ -204,13 +204,16 @@ export class TitleScene extends BaseScene {
 	}
 
 	onBar(bar: number) {
-		if (bar >= 3) {
+		console.log(bar);
+		if (bar >= 8) {
 			this.title.setVisible(true);
 		}
-		if (bar >= 4) {
-			this.subtitle.setVisible(true);
+		if (bar >= 12) {
 			this.credits.setVisible(true);
 			this.version.setVisible(true);
+		}
+		if (bar >= 14) {
+			this.subtitle.setVisible(true);
 		}
 	}
 
