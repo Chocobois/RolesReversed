@@ -106,7 +106,7 @@ export class TitleScene extends BaseScene {
 		credits2.setLineSpacing(-18);
 		this.credits.add(credits2);
 
-		this.version = this.createText(0, this.H, 20, "#000", version);
+		this.version = this.createText(4, this.H, 30, '#000', version);
 		this.version.setOrigin(0, 1);
 		this.version.setAlpha(0);
 		this.version.setStroke('#FFF', 6);
