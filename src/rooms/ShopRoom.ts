@@ -178,7 +178,7 @@ export class ShopRoom extends Room {
 	}
 
 	selectItem(itemData: ItemData | null) {
-		if (itemData) {
+		if (itemData && this.scene.energy > 0) {
 			this.scene.startDialogue(itemData.bought ? itemData.default : itemData.init, (flags) => {
 				if (flags.wantToBuy) {
 					this.scene.addEnergy(-100);

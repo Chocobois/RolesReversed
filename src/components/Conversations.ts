@@ -211,15 +211,24 @@ const conversations: { [key in any]: Conversation } = {
 		leftCharacter: Characters.Gold,
 		rightCharacter: Characters.Dragon,
 		messages: [
-			{
-				character: RIGHT,
-				rightSprite: Sprites.DragonBlush,
-				text: 'Gold, omg, I love you.',
-			},
-			{
-				character: LEFT,
-				text: '...',
-			},
+			// {
+			// 	character: RIGHT,
+			// 	rightSprite: Sprites.DragonBlush,
+			// 	text: 'Gold',
+			// },
+			// {
+			// 	character: LEFT,
+			// 	text: '*gold noises*',
+			// },
+			// {
+			// 	character: RIGHT,
+			// 	rightSprite: Sprites.DragonBlush,
+			// 	text: 'Gold',
+			// },
+			// {
+			// 	character: LEFT,
+			// 	text: '*gold noises*',
+			// },
 		],
 	},
 	[DialogueKey.GoldPanicAttack]: {
@@ -248,7 +257,7 @@ const conversations: { [key in any]: Conversation } = {
 			},
 			{
 				character: RIGHT,
-				text: 'Huff...',
+				text: 'Phew...',
 			},
 			{
 				character: RIGHT,
@@ -350,35 +359,36 @@ const conversations: { [key in any]: Conversation } = {
 				text: 'Whoopsie! You caught me.',
 			},
 			{
-				character: LEFT,
-				rightSprite: Sprites.DragonAngry,
-				text: 'I was just... stretching my calves.',
-			},
-			{
 				character: RIGHT,
 				rightSprite: Sprites.DragonAngry,
 				text: 'What are you doing?!',
 			},
 			{
 				character: LEFT,
+				rightSprite: Sprites.DragonAngry,
+				text: 'I was just... stretching my calves.',
+			},
+			{
+				character: LEFT,
 				leftSprite: Sprites.PrincessPout,
 				rightSprite: Sprites.DragonAngry,
-				text: "... I'm bored!",
+				text: "No... Really, I'm bored!",
 			},
 			{
 				character: LEFT,
 				leftSprite: Sprites.PrincessPout,
 				text: 'I thought being captured would be more exciting.',
 			},
-
 			{
 				character: RIGHT,
+				leftSprite: Sprites.PrincessPout,
 				rightSprite: Sprites.Dragon,
 				text: '...',
 			},
 			{
 				character: RIGHT,
-				text: "I'll try not to ignore you.",
+				leftSprite: Sprites.PrincessPout,
+				text: "I'll try to entertain you more.",
 			},
 		],
 	},
