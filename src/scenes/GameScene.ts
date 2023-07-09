@@ -220,8 +220,13 @@ export class GameScene extends BaseScene {
 	}
 
 	endGame() {
-		this.setRoom(State.GAMEOVER);
 		this.uiOverlay.setVisible(false);
+
+		this.fade(true, 2000, 0x000000);
+		this.addEvent(2000, () => {
+			this.setRoom(State.GAMEOVER);
+			this.fade(false, 500, 0x000000);
+		});
 	}
 
 	setMusicMuted(muted: boolean) {

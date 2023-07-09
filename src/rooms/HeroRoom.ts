@@ -93,6 +93,10 @@ export class HeroRoom extends Room {
 	}
 
 	update(time: number, delta: number) {
+		if (!this.roomButton.enabled) {
+			return;
+		}
+
 		if (this.scene.dialogueFlag) {
 			return;
 		}
@@ -156,7 +160,7 @@ export class HeroRoom extends Room {
 		this.queueFlag = queueState.CLEARING;
 		this.heroList.push(new Hero(this.scene, 0.13 * this.scene.W, 0.75 * this.scene.H, 'hero_big', 999));
 		this.heroList[0].myState = HeroState.QUEUED;
-		this.setManualTimer(3000);
+		this.setManualTimer(100);
 		this.pausefx = false;
 	}
 
@@ -226,7 +230,7 @@ export class HeroRoom extends Room {
 					this.setManualTimer(1000 + 6000 / (1 + this.scene.difficulty));
 					return;
 				} else if (this.heroList[0].myState == HeroState.SELECTED) {
-					this.scene.endGame();
+					// this.scene.endGame();
 				}
 				return;
 		}
@@ -271,7 +275,7 @@ export class HeroRoom extends Room {
 				this.tutorialRead = true;
 			}
 			if (flags.talkFailure) {
-				this.scene.endGame();
+				// this.scene.endGame();
 				return;
 			} else if (flags.fried) {
 				this.fryDifficulty = true;
