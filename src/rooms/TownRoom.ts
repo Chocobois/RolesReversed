@@ -148,7 +148,7 @@ export class TownRoom extends Room {
 		if (this.buildingHP[index] > 0) {
 			this.exploder[0].x = reference.x;
 			this.exploder[0].y = reference.y;
-			this.scene.sound.play('EXPL_SOUND');
+			this.scene.sound.play('EXPL_SOUND', { volume: 0.2 });
 			this.exploder[0].explode(25);
 			this.buildingHP[index]--;
 			if (this.buildingHP[index] <= 0) {
@@ -159,7 +159,7 @@ export class TownRoom extends Room {
 				this.stretchRate[index] = 10;
 				this.scene.addEnergy(this.defaultBuildingHP[index] * 25);
 				this.buildingCooldown[index] = this.defaultBuildingHP[index] * 6000;
-				this.scene.sound.play('DEMO_SOUND');
+				this.scene.sound.play('DEMO_SOUND', { volume: 0.05 });
 			}
 		}
 	}
