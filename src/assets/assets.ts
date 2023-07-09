@@ -87,6 +87,8 @@ const images: Asset[] = [
 	image('sprites/dragon-sleep', 'dragon_sleep'),
 	image('sprites/dragon-sleep-low', 'dragon_sleep_low'),
 	image('sprites/dragon-sleep-high', 'dragon_sleep_high'),
+	image('sprites/dragon-peek', 'dragon_peek'),
+	image('sprites/dragon-peek-flip', 'dragon_peek_flip'),
 	//dialogue
 	image('sprites/dialogue-dragon', 'dialogue_dragon'),
 	image('sprites/dialogue-dragon-angry', 'dialogue_dragon_angry'),
