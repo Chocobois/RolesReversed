@@ -108,12 +108,9 @@ export class DialogueOverlay extends Phaser.GameObjects.Container {
 	}
 
 	addSpeechBubble(message: Message) {
-		if (message.leftSprite) {
-			this.leftSprite.setTexture(message.leftSprite);
-		}
-		if (message.rightSprite) {
-			this.rightSprite.setTexture(message.rightSprite);
-		}
+		this.leftSprite.setTexture(message.leftSprite ? message.leftSprite : this.currentConversation.leftCharacter.sprite);
+		this.rightSprite.setTexture(message.rightSprite ? message.rightSprite : this.currentConversation.rightCharacter.sprite);
+				
 		if (!message.color) {
 			if (message.character == LEFT) {
 				message.color = this.currentConversation.leftCharacter.color;

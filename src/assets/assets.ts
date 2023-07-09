@@ -27,7 +27,7 @@ const images: Asset[] = [
 	image('background/town_rubble_2', 'town_rubble_2'),
 	image('background/town_rubble_3', 'town_rubble_3'),
 	image('background/buttons_background', 'buttons_background'),
-	
+
 	//gameover
 	image('background/game-over', 'game_over'),
 	image('background/game-over-dragon', 'game_over_dragon'),
@@ -84,9 +84,12 @@ const images: Asset[] = [
 	//hero
 	image('sprites/hero-princess', 'hero_princess'),
 	image('sprites/hero-normal', 'hero_normal'),
+	image('sprites/hero-normal-burnt', 'hero_normal_burnt'),
 	image('sprites/hero-bigger-sword', 'hero_bigger-sword'),
 	image('sprites/hero-sk8r', 'hero_skater'),
+	image('sprites/hero-sk8r-burnt', 'hero_skater_burnt'),
 	image('sprites/hero-charming', 'hero_charming'),
+	image('sprites/hero-charming-burnt', 'hero_charming_burnt'),
 	image('sprites/hero-kobold', 'hero_kobold'),
 	//dragon
 	image('sprites/dragon-shop', 'dragon_shop'),

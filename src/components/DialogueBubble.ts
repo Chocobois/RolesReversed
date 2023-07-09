@@ -97,17 +97,17 @@ export class DialogueBubble extends Button {
 
 		const currSprite = message.character == LEFT ? this.scene.dialogueOverlay.leftSprite : this.scene.dialogueOverlay.rightSprite;
 
-		if (currChar.spriteTalk) {
+		if (currChar.spriteTalk && !(message.leftSprite || message.rightSprite)) {
 			const blahDuration = 350;
 			const blahCount = Math.ceil((message.text.match(wordSpeechCounter)?.join('').length ?? 0) / 9);
 			for (let i = 0; i < blahCount; i++) {
 				setTimeout(() => {
 					// const timeOffset = this.scene.time.now;
-					if (this.active && currChar.spriteTalk) {
+					if (this.active && this.isLatestMessage && currChar.spriteTalk) {
 						// console.debug(this.scene.time.now - timeOffset, `talk ${i} ON`);
 						currSprite.setTexture(currChar.spriteTalk);
 						setTimeout(() => {
-							if (this.active) currSprite.setTexture(currChar.sprite);
+							if (this.active && this.isLatestMessage) currSprite.setTexture(currChar.sprite);
 							// console.debug(this.scene.time.now - timeOffset, `talk ${i} OFF`);
 						}, blahDuration / 2);
 					}

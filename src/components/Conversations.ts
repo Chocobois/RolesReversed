@@ -370,7 +370,6 @@ const conversations: { [key in any]: Conversation } = {
 			{
 				character: RIGHT,
 				text: '...',
-				voice: Voices.Shopkeeper,
 				choice: [
 					{
 						text: 'Intimidate',
@@ -437,10 +436,13 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
+								rightSprite: 'dialogue_dragon_angry',
 								text: 'Fry, you buffoon.',
 							},
 							{
 								character: LEFT,
+								leftSprite: 'hero_charming_burnt',
+								rightSprite: 'dialogue_dragon_angry',
 								text: 'My flesh- it burns, it burns!',
 								flags: {
 									fried: true,
@@ -546,14 +548,18 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
+								rightSprite: 'dialogue_dragon_angry',
 								text: 'Burn, pest.',
 							},
 							{
 								character: LEFT,
+								leftSprite: 'hero_skater_burnt',
+								rightSprite: 'dialogue_dragon_angry',
 								text: 'Aaaaugh! N-not cool...',
 							},
 							{
 								character: RIGHT,
+								leftSprite: 'hero_skater_burnt',
 								text: 'I hate children.',
 								flags: {
 									fried: true,
@@ -676,14 +682,18 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
+								rightSprite: 'dialogue_dragon_angry',
 								text: "I decided I'm in the mood for some barbecue.",
 							},
 							{
 								character: LEFT,
+								leftSprite: 'hero_normal_burnt',
+								rightSprite: 'dialogue_dragon_angry',
 								text: 'W-wait. N-no, please- aaah! W-water, somebody- AAAAUUUGH!',
 							},
 							{
 								character: RIGHT,
+								leftSprite: 'hero_normal_burnt',
 								text: 'Almost feel bad for him.',
 								flags: {
 									fried: true,
@@ -749,7 +759,7 @@ const conversations: { [key in any]: Conversation } = {
 								color: Colors.Valentine,
 							},
 							{
-								character: LEFT,
+								character: RIGHT,
 								text: 'Huh? Uuuuuuorgh!',
 								color: Colors.Dragon,
 								flags: {
@@ -766,11 +776,6 @@ const conversations: { [key in any]: Conversation } = {
 								character: RIGHT,
 								text: "You look like you'll have no trouble finding a different princess. How about some gold for the inevitable honeymoon instead?",
 								color: Colors.Dragon,
-							},
-							{
-								character: LEFT,
-								text: 'My passion is richer than any jewel, and I have no need of your coffers.',
-								color: Colors.Valentine,
 							},
 							{
 								character: LEFT,
@@ -829,16 +834,20 @@ const conversations: { [key in any]: Conversation } = {
 						messages: [
 							{
 								character: RIGHT,
+								rightSprite: 'dialogue_dragon_angry',
 								text: 'Time for some real fire, Romeo.',
 								color: Colors.Dragon,
 							},
 							{
 								character: LEFT,
+								leftSprite: 'hero_charming_burnt',
+								rightSprite: 'dialogue_dragon_angry',
 								text: 'Aaaah! The flames of ecstasy~!',
 								color: Colors.Valentine,
 							},
 							{
 								character: RIGHT,
+								leftSprite: 'hero_charming_burnt',
 								text: 'Ew.',
 								color: Colors.Dragon,
 								flags: {
