@@ -34,12 +34,15 @@ export class GameScene extends BaseScene {
 	private debugText: Phaser.GameObjects.Text;
 
 	// Music
-	public musicPrincess: Music;
-	public musicInvader: Music;
-	public musicTreasure: Music;
-	public musicShop: Music;
-	public musicTown: Music;
-	public musicOverworld: Music;
+	public musicBacking: Music;
+	public musicGoldPile: Music;
+	public musicHighEnergy: Music;
+	public musicDrumLoop: Music;
+	public musicDanger: Music;
+	public musicStrings: Music;
+	public musicPiano: Music;
+	public musicGuitar: Music;
+
 	public musicVolume: number;
 
 	//placeholder for now
@@ -82,22 +85,27 @@ export class GameScene extends BaseScene {
 
 		/* Music */
 
-		this.musicPrincess = new Music(this, 'm_princess', { volume: 0 });
-		this.musicInvader = new Music(this, 'm_invader', { volume: 0 });
-		this.musicTreasure = new Music(this, 'm_treasure', { volume: 0 });
-		this.musicShop = new Music(this, 'm_shop', { volume: 0 });
-		this.musicTown = new Music(this, 'm_town', { volume: 0 });
-		this.musicOverworld = new Music(this, 'm_overworld', { volume: 0 });
+		const baseVolume = 0.3;
+		this.musicBacking = new Music(this, 'm_backing', { volume: baseVolume });
+		this.musicGoldPile = new Music(this, 'm_goldpile', { volume: baseVolume });
+		this.musicHighEnergy = new Music(this, 'm_highenergy', { volume: baseVolume });
+		this.musicDrumLoop = new Music(this, 'm_drumloop', { volume: baseVolume });
+		this.musicDanger = new Music(this, 'm_danger', { volume: baseVolume });
+		this.musicStrings = new Music(this, 'm_strings', { volume: baseVolume });
+		this.musicPiano = new Music(this, 'm_piano', { volume: baseVolume });
+		this.musicGuitar = new Music(this, 'm_guitar', { volume: baseVolume });
 
 		this.uiOverlay.on('muteMusic', this.setMusicMuted, this);
 		this.uiOverlay.on('muteSound', this.setSoundMuted, this);
 
-		this.musicPrincess.play();
-		this.musicInvader.play();
-		this.musicTreasure.play();
-		this.musicShop.play();
-		this.musicTown.play();
-		this.musicOverworld.play();
+		this.musicBacking.play();
+		this.musicGoldPile.play();
+		this.musicHighEnergy.play();
+		this.musicDrumLoop.play();
+		this.musicDanger.play();
+		this.musicStrings.play();
+		this.musicPiano.play();
+		this.musicGuitar.play();
 
 		/* Setup */
 
@@ -173,12 +181,14 @@ export class GameScene extends BaseScene {
 	}
 
 	setMusicMuted(muted: boolean) {
-		this.musicPrincess.mute = muted;
-		this.musicInvader.mute = muted;
-		this.musicTreasure.mute = muted;
-		this.musicShop.mute = muted;
-		this.musicTown.mute = muted;
-		this.musicOverworld.mute = muted;
+		this.musicBacking.mute = muted;
+		this.musicGoldPile.mute = muted;
+		this.musicHighEnergy.mute = muted;
+		this.musicDrumLoop.mute = muted;
+		this.musicDanger.mute = muted;
+		this.musicStrings.mute = muted;
+		this.musicPiano.mute = muted;
+		this.musicGuitar.mute = muted;
 	}
 
 	setSoundMuted(muted: boolean) {

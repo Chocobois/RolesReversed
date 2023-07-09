@@ -10,12 +10,16 @@ const images: Asset[] = [
 
 	// Background images, static
 	image('background/outside-room', 'room_outside'),
-	image('background/overworld-room', 'room_overworld'),
+	image('background/bg_lol', 'room_overworld_bg'),
+	image('background/bg_lol_1', 'overworld_shop'),
+	image('background/bg_lol_2', 'overworld_town'),
+	image('background/bg_lol_3', 'room_overworld_fg'),
 	image('background/princess-room', 'room_princess'),
-	image('background/princess-room-escaped', 'room_princess-escaped'),
+	image('background/princess-room-escaped', 'room_princess_escaped'),
 	image('background/shop-room', 'room_shop'),
 	image('background/sleep-room', 'room_sleep'),
 	image('background/town-room', 'room_town'),
+	image('background/buttons_background', 'buttons_background'),
 	image('placeholder/gameover', 'game_over'),
 
 	// UI
@@ -76,9 +80,6 @@ const images: Asset[] = [
 	image('sprites/dragon-sleep', 'dragon_sleep'),
 	image('sprites/dragon-sleep-low', 'dragon_sleep_low'),
 	image('sprites/dragon-sleep-high', 'dragon_sleep_high'),
-	//overworld
-	image('sprites/overworld-shop', 'overworld_shop'),
-	image('sprites/overworld-town', 'overworld_town'),
 	//dialogue
 	image('sprites/dialogue-dragon', 'dialogue_dragon'),
 	image('sprites/dialogue-dragon-angry', 'dialogue_dragon_angry'),
@@ -119,13 +120,14 @@ const spritesheets: SpriteSheet[] = [
 const audios: Audio[] = [
 	// Music
 	music('title', 'm_main_menu'),
-	music('first', 'm_first'),
-	music('princess', 'm_princess'),
-	music('invader', 'm_invader'),
-	music('treasure', 'm_treasure'),
-	music('shop', 'm_shop'),
-	music('town', 'm_town'),
-	music('overworld', 'm_overworld'),
+	music('bgm_always', 'm_backing'),
+	music('bgm_eepy', 'm_goldpile'),
+	music('bgm_drumkit', 'm_highenergy'),
+	music('bgm_drumloop', 'm_drumloop'),
+	music('bgm_watchout', 'm_danger'),
+	music('bgm_strings', 'm_strings'),
+	music('bgm_piano', 'm_piano'),
+	music('bgm_guitar', 'm_guitar'),
 
 	// Sounds
 	sound('tree/rustle', 't_rustle', 0.1),

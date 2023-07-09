@@ -119,15 +119,15 @@ export class ShopRoom extends Room {
 		// Items
 		this.items = [];
 
-		const itemLeft = 340;
+		const itemLeft = 260;
 		const itemTop = 320;
-		const itemWidth = 360;
-		const itemHeight = 320;
-		const itemSize = 400;
+		const itemWidth = 450;
+		const itemHeight = 290;
+		const itemSize = 350;
 
 		for (let j = 0; j < 2; j++) {
 			for (let i = 0; i < 2; i++) {
-				const x = itemLeft + i * itemWidth + (j * itemWidth) / 2;
+				const x = itemLeft + i * itemWidth + j * (itemWidth / 2);
 				const y = itemTop + j * itemHeight;
 
 				let item = new ShopItem(this.scene, x, y, itemSize);

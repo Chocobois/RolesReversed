@@ -18,6 +18,7 @@ enum PrincessState {
 
 export class PrincessRoom extends Room {
 	public background: Phaser.GameObjects.Image;
+	public escapedForeground: Phaser.GameObjects.Image;
 	public princessButton: Button;
 	public princessImage: Phaser.GameObjects.Image;
 
@@ -46,6 +47,11 @@ export class PrincessRoom extends Room {
 		this.background = scene.add.image(scene.CX, scene.CY, 'room_princess');
 		this.add(this.background);
 		scene.fitToScreen(this.background);
+
+		this.escapedForeground = scene.add.image(scene.CX, scene.CY, 'room_princess_escaped');
+		this.add(this.escapedForeground);
+		this.escapedForeground.setVisible(false);
+		scene.fitToScreen(this.escapedForeground);
 
 		this.princessButton = new Button(scene, scene.CX, scene.CY);
 		this.add(this.princessButton);
@@ -283,6 +289,7 @@ export class PrincessRoom extends Room {
 			case PrincessState.Fled:
 				this.princessButton.setVisible(false);
 				this.princessImage.setVisible(false);
+				this.escapedForeground.setVisible(true);
 				break;
 			case PrincessState.Dead:
 				this.princessImage.setTexture('princess_laying');
