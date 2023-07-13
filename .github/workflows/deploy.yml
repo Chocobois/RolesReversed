@@ -54,19 +54,3 @@ jobs:
             ./dist/game-win.zip
             ./dist/game-mac.dmg
             ./dist/game-linux.zip
-
-      - name: Upload to Itch
-        uses: Ayowel/butler-to-itch@v1.0.0
-        with:
-          butler_key: ${{ secrets.BUTLER_CREDENTIALS }}
-          itch_user: ${{ env.game_itch_user }}
-          itch_game: ${{ env.game_itch_game }}
-          files: |
-            ./dist/game-web.zip
-            ./dist/game-win.zip
-            ./dist/game-mac.dmg
-            ./dist/game-linux.zip
-          auto_channel: true
-          butler_version: "latest"
-          # unsupported
-          check_signature: false
