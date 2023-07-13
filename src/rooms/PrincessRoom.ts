@@ -57,6 +57,7 @@ export class PrincessRoom extends Room {
 		this.add(this.escapedForeground);
 		this.escapedForeground.setVisible(false);
 		scene.fitToScreen(this.escapedForeground);
+		this.escapedForeground.setInteractive({ useHandCursor: true }).on('pointerdown', this.onPrincessClick, this);
 
 		this.princessButton = new Button(scene, scene.CX, scene.CY);
 		this.add(this.princessButton);
@@ -124,7 +125,7 @@ export class PrincessRoom extends Room {
 			}
 		}
 
-		if (!this.visible) {
+		if (!this.visible && !this.scene.dialogueOverlay.visible) {
 			// Energy
 			if (this.princessState == PrincessState.Sleeping) {
 				this.addEnergy(7 * (delta / 1000));
@@ -229,11 +230,15 @@ export class PrincessRoom extends Room {
 		switch (this.princessState) {
 			case PrincessState.Idle:
 				console.log(this.scene.difficulty, 0.05 * (1 + this.scene.difficulty));
-				if (chance(0.02 * (1 + this.scene.difficulty))) {
+				if (chance(0.04 * (1 + this.scene.difficulty))) {
 					this.setPrincessState(PrincessState.Escaping);
 				} else {
 					this.setPrincessState(PrincessState.Idle); // Resets timer and image
 				}
+				break;
+
+			case PrincessState.Begging:
+				this.setPrincessState(PrincessState.Begging); // Resets timer and image
 				break;
 
 			case PrincessState.Sleeping:
@@ -267,6 +272,7 @@ export class PrincessRoom extends Room {
 				this.princessButton.setPosition(960, 800);
 				this.princessImage.setTexture('princess_plead');
 				this.speechBubble.setVisible(true);
+				this.setTimer(5000);
 				break;
 			case PrincessState.Sleeping:
 				this.princessImage.setTexture(Phaser.Math.RND.pick(['princess_laying', 'princess_laying_2', 'princess_laying_3']));
