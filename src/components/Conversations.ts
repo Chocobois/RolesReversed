@@ -428,17 +428,17 @@ const conversations: { [key in any]: Conversation } = {
 		rightCharacter: Characters.Dragon,
 		messages: [
 			{
-				character: LEFT,
+				character: RIGHT,
 				rightSprite: Sprites.DragonAngry,
 				text: '...!',
 			},
 			{
-				character: LEFT,
+				character: RIGHT,
 				rightSprite: Sprites.DragonAngry,
 				text: 'Princess? PRINCESS?!',
 			},
 			{
-				character: LEFT,
+				character: RIGHT,
 				rightSprite: Sprites.DragonAngry,
 				text: 'Curses! How could I be so careless?',
 			},

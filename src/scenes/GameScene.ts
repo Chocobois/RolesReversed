@@ -56,7 +56,7 @@ export class GameScene extends BaseScene {
 	}
 
 	create(): void {
-		this.fade(false, 200, 0x000000);
+		this.fade(false, 500, 0x000000);
 
 		/* Rooms */
 
@@ -127,7 +127,7 @@ export class GameScene extends BaseScene {
 	update(time: number, delta: number) {
 		if (!this.dialogueOverlay.visible) {
 			if (this.state == State.Treasure) {
-				this.addEnergy(4 * (delta / 1000));
+				this.addEnergy(3 * (delta / 1000));
 			} else {
 				this.addEnergy(-1 * (delta / 1000));
 			}

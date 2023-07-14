@@ -57,7 +57,7 @@ export class TreasureRoom extends Room {
 
 		this.dragonButton.bindInteractive(this.dragonImage);
 		this.dragonButton.on('click', () => {
-			this.scene.addEnergy(1);
+			this.scene.addEnergy(0.4);
 
 			if (!this.firstTimeClicking) {
 				this.firstTimeClicking = true;
