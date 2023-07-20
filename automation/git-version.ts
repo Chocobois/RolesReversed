@@ -1,17 +1,20 @@
 import { PluginOption } from 'vite';
-import { execSync } from 'child_process';
 import { writeFileSync } from 'fs';
+import { git_count, git_short, git_version, title, team } from './util/constants';
 
 const WriteGitVersion = () => {
-    const count = execSync('git rev-list --count HEAD').toString().trim();
-    const short = execSync('git rev-parse --short HEAD').toString().trim();
-    const version = `v${count}.${short}`;
-    writeFileSync('./src/version.json', JSON.stringify({count, short, version}));
+	writeFileSync('./src/version.json', JSON.stringify({
+		title,
+		team,
+		count: git_count,
+		short: git_short,
+		version: git_version
+	}));
 }
 
-export default function getGitVersion() {
-    return {
-        name: 'Write Git short version',
-        buildStart: WriteGitVersion
-    } as PluginOption;
+export default function writeGitVersion() {
+	return {
+		name: 'write-version-json',
+		buildStart: WriteGitVersion
+	} as PluginOption;
 }

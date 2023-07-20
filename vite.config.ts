@@ -9,7 +9,7 @@ import buildWinApp from './automation/win-bundle';
 import buildMacApp from './automation/mac-bundle';
 import buildLinuxApp from './automation/linux-bundle';
 
-import { title, team, description } from './game.json';
+import { title, team, description } from './game.config.json';
 import buildCleanup from './automation/build-cleanup';
 
 const CheckerConfig = {

@@ -21,16 +21,13 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install genisoimage
-        run: sudo apt install genisoimage
-
       - name: Install dependencies
-        run: npm install
+        run: npm install && sudo apt install genisoimage
 
-      - name: Load game.json
+      - name: Load game.config.json
         uses: antifree/json-to-variables@v1.0.1
         with:
-          filename: 'game.json'
+          filename: 'game.config.json'
           prefix: game
 
       - name: Build project
@@ -48,9 +45,25 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: false
-          title: "Game latest build"
+          title: "${{ env.game_title }} latest build"
           files: |
             ./dist/game-web.zip
             ./dist/game-win.zip
             ./dist/game-mac.dmg
             ./dist/game-linux.zip
+
+      - name: Upload to Itch
+        if: ${{env.game_itch_upload  == 'true'}}
+        uses: Ayowel/butler-to-itch@v1.0.0
+        with:
+          butler_key: ${{ secrets.BUTLER_CREDENTIALS }}
+          itch_user: ${{ env.game_itch_username }}
+          itch_game: ${{ env.game_itch_game }}
+          files: |
+            ./dist/game-web.zip
+            ./dist/game-win.zip
+            ./dist/game-mac.dmg
+            ./dist/game-linux.zip
+          auto_channel: true
+          butler_version: "latest"
+          check_signature: false

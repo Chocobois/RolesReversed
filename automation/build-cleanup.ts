@@ -1,16 +1,14 @@
 import { PluginOption } from 'vite';
 import { rimrafSync } from 'rimraf';
-import { team, title } from '../game.json';
+import { build_path } from './util/constants';
 
 export default function buildCleanup() {
 	return {
 		name: 'build-cleanup',
 		apply: 'build',
+		enforce: 'post',
 		closeBundle: () => {
-			const teamId = team.toLowerCase().replace(/\s/gi, '-');
-			const appId = title.toLowerCase().replace(/\s/gi, '-');
-			const buildName = `${teamId}-${appId}`;
-			rimrafSync(`./dist/${buildName}`);
+			rimrafSync(build_path);
 		},
 	} as PluginOption;
 }

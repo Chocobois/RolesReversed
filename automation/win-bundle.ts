@@ -1,24 +1,44 @@
 import { PluginOption } from 'vite';
-import { team, title } from '../game.json';
-import { mkdirSync, copyFileSync } from 'fs';
+import { title, title_dashed, game_dir, build_path } from './util/constants';
+import { mkdirSync, copyFileSync, readFileSync, writeFileSync } from 'fs';
+import { NtExecutable, NtExecutableResource, Data, Resource } from 'resedit';
+import pngToIco from 'png-to-ico';
 
-const BuildMacApp = () => {
-	const teamId = team.toLowerCase().replace(/\s/gi, '-');
-	const appId = title.toLowerCase().replace(/\s/gi, '-');
-	const buildName = `${teamId}-${appId}`;
+const BuildWinApp = async () => {
+	console.log(`Packaging Windows exe...`);
 
-	const winDir = `./dist/win/${title}`;
-	const buildPath = `./dist/${buildName}/`;
+	const out_dir = `./dist/win/${title_dashed}`;
 
 	mkdirSync('./dist/win');
-	mkdirSync(winDir);
-	copyFileSync(`${buildPath}/${buildName}-win_x64.exe`, `${winDir}/${title}.exe`);
-	copyFileSync(`${buildPath}/resources.neu`, `${winDir}/resources.neu`);
+	mkdirSync(out_dir);
+	copyFileSync(`${build_path}/resources.neu`, `${out_dir}/resources.neu`);
+
+	const data = readFileSync(`${build_path}/${game_dir}-win_x64.exe`);
+	const exe = NtExecutable.from(data);
+	const res = NtExecutableResource.from(exe);
+	const pngData = readFileSync('./src/public/icon.png');
+	const iconData = await pngToIco(pngData);
+	const iconFile = Data.IconFile.from(iconData);
+
+	Resource.IconGroupEntry.replaceIconsForResource(
+		res.entries,
+		101,
+		1003,
+		iconFile.icons.map((item) => item.data)
+	)
+	res.outputResource(exe);
+
+	writeFileSync(`${out_dir}/${title}.exe`, Buffer.from(exe.generate()));
 };
 
 export default function buildWinApp() {
 	return {
 		name: 'build-windows-bundle',
-		closeBundle: BuildMacApp,
+		apply: 'build',
+		enforce: 'pre',
+		closeBundle: {
+			handler: BuildWinApp,
+			sequential: true
+		},
 	} as PluginOption;
 }
