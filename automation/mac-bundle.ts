@@ -1,6 +1,6 @@
 import { PluginOption } from 'vite';
-import { team, title, git_count, git_version, team_dashed, 
-		 title_dashed, game_dir, build_path } from './util/constants';
+import { team, title, git_count, git_version, team_dashed,
+		title_dashed, game_dir, build_path, year_copyright } from './util/constants';
 import { execSync } from 'child_process';
 import { mkdirSync, writeFileSync, copyFileSync, renameSync } from 'fs';
 
@@ -12,7 +12,7 @@ const BuildMacApp = () => {
 <plist version="1.0">
 <dict>
   <key>NSHumanReadableCopyright</key>
-  <string>${title} ${git_version} © ${team}</string>
+  <string>${title} ${git_version} © ${team} ${year_copyright}</string>
   <key>CFBundleExecutable</key>
   <string>game</string>
   <key>CFBundleIdentifier</key>
@@ -33,7 +33,6 @@ const BuildMacApp = () => {
   <integer>${git_count}</integer>
 </dict>
 </plist>`;
-
 
 	const out_dir = `./dist/mac/${title}`;
 

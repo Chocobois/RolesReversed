@@ -1,5 +1,6 @@
 import { PluginOption } from 'vite';
-import { title, title_dashed, game_dir, build_path, git_count, description, git_version, team } from './util/constants';
+import { title, title_dashed, game_dir, build_path, git_count, 
+		description, git_version, team, year_copyright } from './util/constants';
 import { mkdirSync, copyFileSync, readFileSync, writeFileSync } from 'fs';
 import { NtExecutable, NtExecutableResource, Data, Resource } from 'resedit';
 import pngToIco from 'png-to-ico';
@@ -30,9 +31,10 @@ const BuildWinApp = async () => {
 		{ lang: 1033, codepage: 1200 },
 		{
 			FileDescription: description,
-			ProductName: `${title} by ${team}`,
+			ProductName: title,
 			ProductVersion: git_version,
 			CompanyName: team,
+			LegalCopyright: `© ${team} ${year_copyright}`,
 		}
 	);
 	vi.outputToResourceEntries(res.entries);
