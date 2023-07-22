@@ -5,8 +5,7 @@ import { BlurPostFilter } from '@/pipelines/BlurPostFilter';
 import BendWaves from '@/pipelines/BendWavesPostFX';
 import BendWaves2 from '@/pipelines/BendWavesPostFX2';
 
-import { version } from '@/version.json';
-import { title } from 'game.json';
+import { title, version } from '@/version.json';
 
 export class PreloadScene extends BaseScene {
 	constructor() {

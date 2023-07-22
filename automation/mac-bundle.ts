@@ -49,7 +49,7 @@ const BuildMacApp = () => {
 	renameSync(out_dir, `${out_dir}.app`);
 
 	try {
-		execSync(`mkisofs -J -R -o ./dist/game-mac.dmg -mac-name -V "${title}" -apple -v -dir-mode 777 -file-mode 777 "./dist/mac/"`);
+		execSync(`mkisofs -J -R -o ./dist/${title_dashed}-mac.dmg -mac-name -V "${title}" -apple -v -dir-mode 777 -file-mode 777 "./dist/mac/"`);
 	} catch (err) {
 		console.log(`Failed to build dmg`);
 	}
